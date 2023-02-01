@@ -1,0 +1,8 @@
+[map "b99d0d02-046e-3150-aea0-c0541992a357"]
+	object = 52ce3de3cf5216f46a85444e3f3ce5fc8f64244e
+	subtree = airbyte-protocol
+	type = expand tree
+[map "ea5746e7-e7d6-3ca0-84ce-8e2d697aefb6"]
+	object = 75bc3e9d52029ce8b00cbed5104b3c26f92d1be2
+	path = src
+	type = expand module

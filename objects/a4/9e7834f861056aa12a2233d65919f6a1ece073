@@ -1,0 +1,4 @@
+[map "aac36b39-37e1-3071-9f8a-f930b585142c"]
+	object = 83ff459db33a3ff6c8b485112da112e61d4cd33e
+	subtree = airbyte-protocol
+	type = extract tree

@@ -1,0 +1,13 @@
+[module "e47a00a1-b19d-357d-834b-f4df583141c8"]
+	conflict = request-pull
+	path = src
+	pull = merge subtree
+	pull = squash never
+	ref = if refs/heads/main sync refs/heads/master
+	subtree = airbyte-protocol
+	url = agnostic://gh/283046497
+[map "7c394093-b0ac-3953-9d88-c757ec31ffba"]
+	object = 25c61a38bf23a33f8e79fef03c12e671be8e1575
+	path = src
+	stage = sync
+	type = extract module
