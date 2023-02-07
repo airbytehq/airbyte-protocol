@@ -15,7 +15,7 @@ README = (HERE / "README.md").read_text()
 VERSION = '0.1.0'
 
 setup(
-    name='airbyte_protocol_protocol_models',
+    name='airbyte_protocol_models',
     version=VERSION,
     description="Declares the Airbyte Protocol.",
     long_description=README,
@@ -42,7 +42,7 @@ setup(
         "Source": "https://github.com/airbytehq/airbyte-protocol",
         "Tracker": "https://github.com/airbytehq/airbyte-protocol/issues",
     },
-    packages=['airbyte_protocol.protocol_models'],
+    packages=['airbyte_protocol.models'],
     install_requires=[
         "pydantic~=1.9.2",
     ],

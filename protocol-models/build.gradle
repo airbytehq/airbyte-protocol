@@ -28,7 +28,7 @@ Task publishArtifactsTask = getPublishArtifactsTask("$rootProject.ext.version", 
 task generateProtocolClassFiles(type: Exec) {
     inputs.dir 'src/main/resources/airbyte_protocol'
     inputs.dir 'bin'
-    outputs.dir 'python/airbyte_protocol/protocol_models'
+    outputs.dir 'python/airbyte_protocol/models'
 
     commandLine 'bin/generate-python-classes-docker.sh'
 }
