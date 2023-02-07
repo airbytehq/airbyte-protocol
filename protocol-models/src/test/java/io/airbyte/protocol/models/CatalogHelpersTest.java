@@ -16,15 +16,11 @@ import io.airbyte.protocol.models.transform_models.StreamTransformType;
 import io.airbyte.protocol.models.transform_models.UpdateFieldSchemaTransform;
 import io.airbyte.protocol.models.transform_models.UpdateStreamTransform;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 import lombok.val;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
-import org.elasticsearch.common.collect.Map;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
