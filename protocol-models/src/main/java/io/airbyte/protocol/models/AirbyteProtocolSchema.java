@@ -4,7 +4,6 @@
 
 package io.airbyte.protocol.models;
 
-import io.airbyte.commons.json.JsonSchemas;
 import java.io.File;
 import java.nio.file.Path;
 

@@ -7,7 +7,6 @@ package io.airbyte.protocol.models;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import io.airbyte.commons.json.Jsons;
 import java.util.Map;
 import java.util.Set;
 
