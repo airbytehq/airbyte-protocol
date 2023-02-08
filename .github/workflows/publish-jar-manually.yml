@@ -22,7 +22,6 @@ jobs:
       cancel-in-progress: false
     name: "Gradle Build and Publish"
     runs-on: ubuntu-latest
-    environment: more-secrets
     steps:
       - name: Checkout Airbyte
         uses: actions/checkout@v3
