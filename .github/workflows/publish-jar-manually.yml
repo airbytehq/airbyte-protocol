@@ -1,0 +1,44 @@
+name: Publish Airbyte-Protocol jar
+
+env:
+  # enable gradle remote build cache
+  S3_BUILD_CACHE_ACCESS_KEY_ID: ${{ secrets.SELF_RUNNER_AWS_ACCESS_KEY_ID }}
+  S3_BUILD_CACHE_SECRET_KEY: ${{ secrets.SELF_RUNNER_AWS_SECRET_ACCESS_KEY }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      jar_version:
+        description: "Publish jar with specified version (defaults to VERSION in .env):"
+        required: false
+
+jobs:
+  publish-jar:
+    concurrency:
+      # only allow one workflow run at a time for a given SHA
+      # to prevent multiple runs from pushing artifacts for the same SHA at the same time
+      # note: using inputs in the group expression only works when specifying concurrency at the job level
+      group: ${{ github.workflow }}-${{ github.sha }}
+      cancel-in-progress: false
+    name: "Gradle Build and Publish"
+    runs-on: ubuntu-latest
+    environment: more-secrets
+    steps:
+      - name: Checkout Airbyte
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Gradle Build
+        run: ./gradlew build --scan
+
+      - name: Publish Jar
+        env:
+          CLOUDREPO_USER: ${{ secrets.CLOUDREPO_USER }}
+          CLOUDREPO_PASSWORD: ${{ secrets.CLOUDREPO_PASSWORD }}
+          VERSION: ${{ inputs.jar_version }}
+        run: ./gradlew publish
