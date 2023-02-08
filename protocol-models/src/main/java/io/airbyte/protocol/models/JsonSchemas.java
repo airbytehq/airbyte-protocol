@@ -9,9 +9,14 @@ package io.airbyte.protocol.models;
  */
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
+import com.google.common.io.Resources;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -22,11 +27,13 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import lombok.extern.slf4j.Slf4j;
 
 // todo (cgardens) - we need the ability to identify jsonschemas that Airbyte considers invalid for
@@ -51,20 +58,6 @@ public class JsonSchemas {
   private static final Set<String> COMPOSITE_KEYWORDS = Set.of(ONE_OF_TYPE, ALL_OF_TYPE,
       ANY_OF_TYPE);
 
-  /**
-   * JsonSchema supports to ways of declaring type. `type: "string"` and `type: ["null", "string"]`.
-   * This method will mutate a JsonNode with a type field so that the output type is the array
-   * version.
-   *
-   * @param jsonNode - a json object with children that contain types.
-   */
-  public static void mutateTypeToArrayStandard(final JsonNode jsonNode) {
-    if (jsonNode.get(JSON_SCHEMA_TYPE_KEY) != null && !jsonNode.get(JSON_SCHEMA_TYPE_KEY).isArray()) {
-      final JsonNode type = jsonNode.get(JSON_SCHEMA_TYPE_KEY);
-      ((ObjectNode) jsonNode).putArray(JSON_SCHEMA_TYPE_KEY).add(type);
-    }
-  }
-
   /*
    * JsonReferenceProcessor relies on all the json in consumes being in a file system (not in a jar).
    * This method copies all the json configs out of the jar into a temporary directory so that
@@ -73,7 +66,7 @@ public class JsonSchemas {
   public static <T> Path prepareSchemas(final String resourceDir, final Class<T> klass) {
     try {
       final List<String> filenames;
-      try (final Stream<Path> resources = MoreResources.listResources(klass, resourceDir)) {
+      try (final Stream<Path> resources = listResources(klass, resourceDir)) {
         filenames = resources.map(p -> p.getFileName().toString())
             .filter(p -> p.endsWith(".yaml"))
             .collect(Collectors.toList());
@@ -81,12 +74,11 @@ public class JsonSchemas {
 
       final Path configRoot = Files.createTempDirectory("schemas");
       for (final String filename : filenames) {
-        IOs.writeFile(
-            configRoot,
-            filename,
-            MoreResources.readResource(String.format("%s/%s", resourceDir, filename)));
-      }
+        final var resource = Resources.getResource(String.format("%s/%s", resourceDir, filename));
+        final var resourceContents = Resources.toString(resource, StandardCharsets.UTF_8);
 
+        Files.writeString(configRoot.resolve(filename), resourceContents, StandardCharsets.UTF_8);
+      }
       return configRoot;
     } catch (final IOException e) {
       throw new RuntimeException(e);
@@ -139,25 +131,6 @@ public class JsonSchemas {
     traverseJsonSchema(jsonSchema,
         (node, path) -> mapper.apply(node, path).ifPresent(collector::add));
     return collector.stream().toList(); // make list unmodifiable
-  }
-
-  /**
-   * Traverses a JsonSchema object. It returns the path to each node that meet the provided condition.
-   * The paths are return in JsonPath format. The traversal is depth-first search preoorder and values
-   * are returned in that order.
-   *
-   * @param obj - JsonSchema object to traverse
-   * @param predicate - predicate to determine if the path for a node should be collected.
-   * @return - collection of all paths that were collected during the traversal.
-   */
-  public static List<List<FieldNameOrList>> collectPathsThatMeetCondition(final JsonNode obj, final Predicate<JsonNode> predicate) {
-    return traverseJsonSchemaWithFilteredCollector(obj, (node, path) -> {
-      if (predicate.test(node)) {
-        return Optional.of(path);
-      } else {
-        return Optional.empty();
-      }
-    });
   }
 
   /**
@@ -260,10 +233,10 @@ public class JsonSchemas {
   public static List<String> getType(final JsonNode jsonSchema) {
     if (jsonSchema.has(JSON_SCHEMA_TYPE_KEY)) {
       if (jsonSchema.get(JSON_SCHEMA_TYPE_KEY).isArray()) {
-        return MoreIterators.toList(jsonSchema.get(JSON_SCHEMA_TYPE_KEY).iterator())
-            .stream()
+        final var iter = jsonSchema.get(JSON_SCHEMA_TYPE_KEY).iterator();
+        return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, Spliterator.ORDERED), false)
             .map(JsonNode::asText)
-            .collect(Collectors.toList());
+            .toList();
       } else {
         return List.of(jsonSchema.get(JSON_SCHEMA_TYPE_KEY).asText());
       }
@@ -272,6 +245,39 @@ public class JsonSchemas {
       return List.of(STRING_TYPE);
     }
     return Collections.emptyList();
+  }
+
+  private static Stream<Path> listResources(final Class<?> klass, final String name) throws IOException {
+    Preconditions.checkNotNull(klass);
+    Preconditions.checkNotNull(name);
+    Preconditions.checkArgument(!name.isBlank());
+
+    try {
+      final String rootedResourceDir = !name.startsWith("/") ? String.format("/%s", name) : name;
+      final URL url = klass.getResource(rootedResourceDir);
+      // noinspection ConstantConditions
+      Preconditions.checkNotNull(url, "Could not find resource.");
+
+      final Path searchPath;
+      if (url.toString().startsWith("jar")) {
+        final FileSystem fileSystem = FileSystems.newFileSystem(url.toURI(), Collections.emptyMap());
+        searchPath = fileSystem.getPath(rootedResourceDir);
+
+        return Files.walk(searchPath, 1)
+            .onClose(() -> {
+              try {
+                fileSystem.close();
+              } catch (IOException e) {
+                throw new RuntimeException(e);
+              }
+            });
+      } else {
+        searchPath = Path.of(url.toURI());
+        return Files.walk(searchPath, 1);
+      }
+    } catch (final URISyntaxException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**

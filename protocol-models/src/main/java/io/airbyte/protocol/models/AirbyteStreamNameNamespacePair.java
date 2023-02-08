@@ -4,9 +4,7 @@
 
 package io.airbyte.protocol.models;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Wraps an {@link io.airbyte.protocol.models.AirbyteStream}'s name and namespace fields to simplify
@@ -79,29 +77,6 @@ public class AirbyteStreamNameNamespacePair implements Comparable<AirbyteStreamN
       return 1;
     }
     return namespace.compareTo(o.getNamespace());
-  }
-
-  public static AirbyteStreamNameNamespacePair fromRecordMessage(final AirbyteRecordMessage msg) {
-    return new AirbyteStreamNameNamespacePair(msg.getStream(), msg.getNamespace());
-  }
-
-  public static AirbyteStreamNameNamespacePair fromAirbyteStream(final AirbyteStream stream) {
-    return new AirbyteStreamNameNamespacePair(stream.getName(), stream.getNamespace());
-  }
-
-  public static AirbyteStreamNameNamespacePair fromConfiguredAirbyteSteam(final ConfiguredAirbyteStream stream) {
-    return fromAirbyteStream(stream.getStream());
-  }
-
-  public static Set<AirbyteStreamNameNamespacePair> fromConfiguredCatalog(final ConfiguredAirbyteCatalog catalog) {
-    final var pairs = new HashSet<AirbyteStreamNameNamespacePair>();
-
-    for (final ConfiguredAirbyteStream stream : catalog.getStreams()) {
-      final var pair = fromAirbyteStream(stream.getStream());
-      pairs.add(pair);
-    }
-
-    return pairs;
   }
 
 }
