@@ -8,23 +8,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Sets;
-import io.airbyte.commons.json.Jsons;
-import io.airbyte.commons.resources.MoreResources;
+import com.google.common.io.Resources;
 import io.airbyte.protocol.models.transform_models.FieldTransform;
 import io.airbyte.protocol.models.transform_models.StreamTransform;
 import io.airbyte.protocol.models.transform_models.StreamTransformType;
 import io.airbyte.protocol.models.transform_models.UpdateFieldSchemaTransform;
 import io.airbyte.protocol.models.transform_models.UpdateStreamTransform;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.stream.Stream;
 import lombok.val;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
-import org.elasticsearch.common.collect.Map;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
@@ -43,6 +40,12 @@ class CatalogHelpersTest {
   private static final String COMPANIES_VALID = "companies_schema.json";
   private static final String COMPANIES_INVALID = "companies_schema_invalid.json";
   private static final String VALID_SCHEMA_JSON = "valid_schema.json";
+
+  @SuppressWarnings("UnstableApiUsage")
+  private String readResource(final String name) throws IOException {
+    final URL resource = Resources.getResource(name);
+    return Resources.toString(resource, StandardCharsets.UTF_8);
+  }
 
   @Test
   void testFieldToJsonSchema() {
@@ -96,7 +99,7 @@ class CatalogHelpersTest {
 
   @Test
   void testGetFieldNames() throws IOException {
-    final JsonNode node = Jsons.deserialize(MoreResources.readResource(VALID_SCHEMA_JSON));
+    final JsonNode node = Jsons.deserialize(readResource(VALID_SCHEMA_JSON));
     final Set<String> actualFieldNames = CatalogHelpers.getAllFieldNames(node);
     final List<String> expectedFieldNames =
         List.of("id", CAD, "DKK", "HKD", "HUF", "ISK", "PHP", DATE, "nestedkey", "somekey", "something", "something2", "文", SOME_ARRAY, ITEMS,
@@ -108,8 +111,8 @@ class CatalogHelpersTest {
 
   @Test
   void testGetCatalogDiff() throws IOException {
-    final JsonNode schema1 = Jsons.deserialize(MoreResources.readResource(VALID_SCHEMA_JSON));
-    final JsonNode schema2 = Jsons.deserialize(MoreResources.readResource("valid_schema2.json"));
+    final JsonNode schema1 = Jsons.deserialize(readResource(VALID_SCHEMA_JSON));
+    final JsonNode schema2 = Jsons.deserialize(readResource("valid_schema2.json"));
     final AirbyteCatalog catalog1 = new AirbyteCatalog().withStreams(List.of(
         new AirbyteStream().withName(USERS).withJsonSchema(schema1),
         new AirbyteStream().withName("accounts").withJsonSchema(Jsons.emptyObject())));
@@ -173,7 +176,7 @@ class CatalogHelpersTest {
   @Test
   void testGetFullyQualifiedFieldNamesWithTypes() throws IOException {
     CatalogHelpers.getFullyQualifiedFieldNamesWithTypes(
-        Jsons.deserialize(MoreResources.readResource(COMPANIES_VALID))).stream().collect(
+        Jsons.deserialize(readResource(COMPANIES_VALID))).stream().collect(
             () -> new HashMap<>(),
             CatalogHelpers::collectInHashMap,
             CatalogHelpers::combineAccumulator);
@@ -182,7 +185,7 @@ class CatalogHelpersTest {
   @Test
   void testGetFullyQualifiedFieldNamesWithTypesOnInvalidSchema() throws IOException {
     val resultField = CatalogHelpers.getFullyQualifiedFieldNamesWithTypes(
-        Jsons.deserialize(MoreResources.readResource(COMPANIES_INVALID))).stream().collect(
+        Jsons.deserialize(readResource(COMPANIES_INVALID))).stream().collect(
             () -> new HashMap<>(),
             CatalogHelpers::collectInHashMap,
             CatalogHelpers::combineAccumulator);
@@ -196,8 +199,8 @@ class CatalogHelpersTest {
 
   @Test
   void testGetCatalogDiffWithInvalidSchema() throws IOException {
-    final JsonNode schema1 = Jsons.deserialize(MoreResources.readResource(COMPANIES_INVALID));
-    final JsonNode schema2 = Jsons.deserialize(MoreResources.readResource(COMPANIES_VALID));
+    final JsonNode schema1 = Jsons.deserialize(readResource(COMPANIES_INVALID));
+    final JsonNode schema2 = Jsons.deserialize(readResource(COMPANIES_VALID));
     final AirbyteCatalog catalog1 = new AirbyteCatalog().withStreams(List.of(
         new AirbyteStream().withName(USERS).withJsonSchema(schema1)));
     final AirbyteCatalog catalog2 = new AirbyteCatalog().withStreams(List.of(
@@ -218,8 +221,8 @@ class CatalogHelpersTest {
 
   @Test
   void testGetCatalogDiffWithBothInvalidSchema() throws IOException {
-    final JsonNode schema1 = Jsons.deserialize(MoreResources.readResource(COMPANIES_INVALID));
-    final JsonNode schema2 = Jsons.deserialize(MoreResources.readResource(COMPANIES_INVALID));
+    final JsonNode schema1 = Jsons.deserialize(readResource(COMPANIES_INVALID));
+    final JsonNode schema2 = Jsons.deserialize(readResource(COMPANIES_INVALID));
     final AirbyteCatalog catalog1 = new AirbyteCatalog().withStreams(List.of(
         new AirbyteStream().withName(USERS).withJsonSchema(schema1)));
     final AirbyteCatalog catalog2 = new AirbyteCatalog().withStreams(List.of(
@@ -237,8 +240,8 @@ class CatalogHelpersTest {
 
   @Test
   void testCatalogDiffWithBreakingChanges() throws IOException {
-    final JsonNode schema1 = Jsons.deserialize(MoreResources.readResource(VALID_SCHEMA_JSON));
-    final JsonNode breakingSchema = Jsons.deserialize(MoreResources.readResource("breaking_change_schema.json"));
+    final JsonNode schema1 = Jsons.deserialize(readResource(VALID_SCHEMA_JSON));
+    final JsonNode breakingSchema = Jsons.deserialize(readResource("breaking_change_schema.json"));
     final AirbyteCatalog catalog1 = new AirbyteCatalog().withStreams(List.of(
         new AirbyteStream().withName(USERS).withJsonSchema(schema1)));
     final AirbyteCatalog catalog2 = new AirbyteCatalog().withStreams(List.of(
@@ -261,8 +264,8 @@ class CatalogHelpersTest {
 
   @Test
   void testCatalogDiffWithoutStreamConfig() throws IOException {
-    final JsonNode schema1 = Jsons.deserialize(MoreResources.readResource(VALID_SCHEMA_JSON));
-    final JsonNode breakingSchema = Jsons.deserialize(MoreResources.readResource("breaking_change_schema.json"));
+    final JsonNode schema1 = Jsons.deserialize(readResource(VALID_SCHEMA_JSON));
+    final JsonNode breakingSchema = Jsons.deserialize(readResource("breaking_change_schema.json"));
     final AirbyteCatalog catalog1 = new AirbyteCatalog().withStreams(List.of(
         new AirbyteStream().withName(USERS).withJsonSchema(schema1)));
     final AirbyteCatalog catalog2 = new AirbyteCatalog().withStreams(List.of(

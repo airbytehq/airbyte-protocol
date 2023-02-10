@@ -1,0 +1,411 @@
+import com.github.spotbugs.snom.SpotBugsTask
+
+// The buildscript block defines dependencies in order for .gradle file evaluation.
+// This is separate from application dependencies.
+// See https://stackoverflow.com/questions/17773817/purpose-of-buildscript-block-in-gradle.
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+}
+
+plugins {
+    id 'base'
+    id 'pmd'
+    id 'com.diffplug.spotless' version '6.12.0'
+    id 'com.github.hierynomus.license' version '0.16.1'
+    id 'com.github.spotbugs' version '5.0.13'
+    // The distribution plugin has been added to address the an issue with the copyGeneratedTar
+    // task depending on "distTar". When that dependency has been refactored away, this plugin
+    // can be removed.
+    id 'distribution'
+    id 'version-catalog'
+    id 'maven-publish'
+}
+
+apply from: "$rootDir/publish-repositories.gradle"
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://airbyte.mycloudrepo.io/public/repositories/airbyte-public-jars/'
+    }
+}
+
+Properties env = new Properties()
+rootProject.file('.env').withInputStream { env.load(it) }
+
+if (!env.containsKey('VERSION')) {
+    throw new Exception('Version not specified in .env file...')
+}
+
+// `version` is used as the application build version for artifacts like jars
+// `image_tag` is used as the docker tag applied to built images.
+// These values are the same for building an specific Airbyte release or branch via the 'VERSION' environment variable.
+// For local development builds, the 'VERSION' environment variable is unset, and built images are tagged with 'dev'.
+ext {
+    version = System.getenv("VERSION") ?: env.VERSION
+    image_tag = System.getenv("VERSION") ?: 'dev'
+}
+
+def createLicenseWith = { File license, String startComment, String endComment, String lineComment, boolean isPython ->
+    /*
+    In java, we don't have a second linter/styling tool other than spotless so it doesn't really
+    matter if we write a newline or not for startComment/endComment.
+
+    However, in python, we are using black that double-checks and reformats the code.
+    Thus, writing an extra empty newline (not removed by trimTrailingWhitespace() is actually a
+    big deal and would be reformatted (removed) because of black's specs.
+    */
+    def tmp = File.createTempFile('tmp', '.tmp')
+    tmp.withWriter {
+        def w = it
+        if (startComment.length() > 0 || !isPython) {
+            w.writeLine(startComment)
+        }
+        license.eachLine {
+            w << lineComment
+            w.writeLine(it)
+        }
+        if (endComment.length() > 0 || !isPython) {
+            w.writeLine(endComment)
+        }
+        w.writeLine("")
+        if (isPython) {
+            w.writeLine("")
+        }
+    }
+    return tmp
+}
+
+def createPythonLicenseWith = { license ->
+    return createLicenseWith(license, '', '', '', true)
+}
+
+def createJavaLicenseWith = { license ->
+    return createLicenseWith(license, '/*', ' */', ' * ', false)
+}
+
+// We are the spotless exclusions rules using file tree. It seems the excludeTarget option is super finicky in a
+// monorepo setup and it doesn't actually exclude directories reliably. This code makes the behavior predictable.
+def createSpotlessTarget = { pattern ->
+    def excludes = [
+            '.gradle',
+            'node_modules',
+            '.eggs',
+            '.mypy_cache',
+            '.venv',
+            '*.egg-info',
+            'build'
+    ]
+
+
+    return fileTree(dir: rootDir, include: pattern, exclude: excludes.collect { "**/${it}" })
+}
+
+spotless {
+    java {
+        target createSpotlessTarget('**/*.java')
+
+        importOrder()
+
+        eclipse('4.21.0').configFile(rootProject.file('tools/gradle/codestyle/java-google-style.xml'))
+
+        licenseHeaderFile createJavaLicenseWith(rootProject.file('LICENSE_SHORT'))
+        removeUnusedImports()
+        trimTrailingWhitespace()
+    }
+    groovyGradle {
+        target createSpotlessTarget('**/*.gradle')
+    }
+    format 'styling', {
+        target createSpotlessTarget(['**/*.yaml', '**/*.json'])
+
+        prettier()
+    }
+}
+check.dependsOn 'spotlessApply'
+
+@SuppressWarnings('GroovyAssignabilityCheck')
+def Task getPublishArtifactsTask(String buildVersion, Project subproject) {
+    // generate a unique task name based on the directory name.
+    return task("publishArtifact-$subproject.name" {
+        apply plugin: 'maven-publish'
+        publishing {
+            repositories {
+                publications {
+                    "$subproject.name"(MavenPublication) {
+                        from subproject.components.java
+
+                        // use the subproject group and name with the assumption there are no identical subproject
+                        // names, group names or subproject group/name combination.
+                        groupId = "$subproject.group"
+                        artifactId = "$subproject.name"
+                        version = "$buildVersion"
+                        repositories.add(rootProject.repositories.getByName('cloudrepo'))
+                    }
+                }
+            }
+        }
+    })
+}
+
+allprojects {
+    apply plugin: 'base'
+
+    // by default gradle uses directory as the project name. That works very well in a single project environment but
+    // projects clobber each other in an environments with subprojects when projects are in directories named identically.
+    def sub = rootDir.relativePath(projectDir.parentFile).replace('/', '.')
+    group = "io.airbyte.${rootProject.name}${sub.isEmpty() ? '' : ".$sub"}"
+    project.archivesBaseName = "${project.group}-${project.name}"
+
+    version = rootProject.ext.version
+}
+
+// Java projects common configurations
+subprojects { subproj ->
+
+
+    configurations {
+        runtimeClasspath
+    }
+
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'com.github.spotbugs'
+    apply plugin: 'pmd'
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://jitpack.io'
+        }
+        maven {
+            url 'https://airbyte.mycloudrepo.io/public/repositories/airbyte-public-jars/'
+        }
+    }
+
+    pmd {
+        consoleOutput = true
+        ignoreFailures = false
+        rulesMinimumPriority = 5
+        ruleSets = []
+        ruleSetFiles = files(rootProject.file('tools/gradle/pmd/rules.xml'))
+        toolVersion = '6.51.0'
+    }
+
+    jacoco {
+        toolVersion = "0.8.8"
+    }
+
+    jacocoTestReport {
+        dependsOn test
+        reports {
+            html.required = true
+            xml.required = true
+            csv.required = false
+        }
+    }
+
+    jacocoTestCoverageVerification {
+        violationRules {
+            failOnViolation = false
+            rule {
+                element = 'CLASS'
+                excludes = ['**/*Test*', '**/generated*']
+                limit {
+                    counter = 'BRANCH'
+                    minimum = 0.8
+                }
+                limit {
+                    counter = 'INSTRUCTION'
+                    minimum = 0.8
+                }
+            }
+        }
+    }
+
+    def integrationTagName = 'platform-integration'
+    def slowIntegrationTagName = 'platform-slow-integration'
+    // make tag accessible in submodules.
+    ext {
+        cloudStorageTestTagName = 'cloud-storage'
+    }
+
+    spotbugs {
+        ignoreFailures = false
+        effort = 'max'
+        excludeFilter = rootProject.file('spotbugs-exclude-filter-file.xml')
+        reportLevel = 'high'
+        showProgress = false
+        toolVersion = '4.7.3'
+    }
+
+    test {
+        jacoco {
+            enabled = true
+            excludes = ['**/*Test*', '**/generated*']
+        }
+        useJUnitPlatform {
+            excludeTags(integrationTagName, slowIntegrationTagName, cloudStorageTestTagName)
+        }
+        testLogging() {
+            events "passed", "skipped", "failed"
+            exceptionFormat 'full'
+            // uncomment to get the full log output
+            // showStandardStreams = true
+        }
+        finalizedBy jacocoTestReport
+    }
+
+    task newIntegrationTests(type: Test) {
+        useJUnitPlatform {
+            includeTags integrationTagName
+        }
+        testLogging() {
+            events "passed", "failed", "started"
+            exceptionFormat 'full'
+            // uncomment to get the full log output
+            // showStandardStreams = true
+        }
+        finalizedBy jacocoTestReport
+    }
+
+    task slowIntegrationTests(type: Test) {
+        useJUnitPlatform {
+            includeTags slowIntegrationTagName
+        }
+        testLogging() {
+            events "passed", "failed", "started"
+            exceptionFormat 'full'
+            // uncomment to get the full log output
+            // showStandardStreams = true
+        }
+        finalizedBy jacocoTestReport
+    }
+
+    task allTests(type: Test) {
+        useJUnitPlatform()
+        testLogging() {
+            events "passed", "failed", "started"
+            exceptionFormat 'full'
+            // uncomment to get the full log output
+            // showStandardStreams = true
+        }
+        finalizedBy jacocoTestReport
+    }
+
+    dependencies {
+
+        implementation(platform("com.fasterxml.jackson:jackson-bom:2.13.0"))
+        implementation(platform("org.glassfish.jersey:jersey-bom:2.31"))
+
+
+        // version is handled by "com.fasterxml.jackson:jackson-bom:2.10.4", so we do not explicitly set it here.
+        implementation libs.bundles.jackson
+
+        implementation libs.guava
+
+
+        implementation libs.bundles.apache
+
+        implementation libs.slf4j.api
+
+        implementation libs.jsonpath
+
+        implementation libs.commons.io
+
+        implementation libs.google.api.client
+
+        // SLF4J as a facade over Log4j2 required dependencies
+        implementation libs.bundles.log4j
+
+        // Bridges from other logging implementations to SLF4J
+        implementation libs.bundles.slf4j
+
+        // Lombok dependencies
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+
+        testCompileOnly libs.lombok
+        testAnnotationProcessor libs.lombok
+
+        testRuntimeOnly libs.junit.jupiter.engine
+        testImplementation libs.bundles.junit
+        testImplementation libs.assertj.core
+
+        testImplementation libs.junit.pioneer
+
+        // adds owasp plugin
+        spotbugsPlugins libs.findsecbugs.plugin
+        implementation libs.spotbugs.annotations
+    }
+
+    tasks.withType(Tar) {
+        duplicatesStrategy DuplicatesStrategy.INCLUDE
+    }
+
+    tasks.withType(Zip) {
+        duplicatesStrategy DuplicatesStrategy.INCLUDE
+    }
+
+    tasks.withType(SpotBugsTask) {
+        // Reports can be found under each subproject in build/spotbugs/
+        reports {
+            xml.required = false
+            html.required = true
+        }
+    }
+
+    tasks.withType(Pmd) {
+        exclude '**/generated/**'
+        exclude '**/jooq/**'
+    }
+
+    javadoc.options.addStringOption('Xdoclint:none', '-quiet')
+    check.dependsOn 'jacocoTestCoverageVerification'
+}
+
+task('generate') {
+    dependsOn subprojects.collect { it.getTasksByName('generateProtocolClassFiles', true) }
+    dependsOn subprojects.collect { it.getTasksByName('generateJsonSchema2Pojo', true) }
+}
+
+task('format') {
+    dependsOn generate
+    dependsOn spotlessApply
+}
+
+// produce reproducible archives
+// (see https://docs.gradle.org/current/userguide/working_with_files.html#sec:reproducible_archives)
+tasks.withType(AbstractArchiveTask) {
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+
+// definition for publishing
+catalog {
+    versionCatalog {
+        from(files("deps.toml"))
+    }
+}
+
+publishing {
+    publications {
+        // This block is present for dependency catalog publishing.
+        maven(MavenPublication) {
+            groupId = 'io.airbyte'
+            artifactId = 'oss-catalog'
+
+            from components.versionCatalog
+            // Gradle will by default use the subproject path as the group id and the subproject name as the artifact id.
+            // e.g. the subproject :airbyte-example:example-models is imported at io.airbyte.airbyte-config:config-persistence:<version-number>.
+        }
+    }
+    repositories.add(rootProject.repositories.getByName('cloudrepo'))
+}

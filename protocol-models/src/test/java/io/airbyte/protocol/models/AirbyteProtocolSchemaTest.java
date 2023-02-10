@@ -7,7 +7,6 @@ package io.airbyte.protocol.models;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.airbyte.commons.json.Jsons;
 import io.airbyte.protocol.models.AirbyteMessage.Type;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

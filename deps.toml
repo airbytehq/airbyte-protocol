@@ -1,0 +1,46 @@
+[versions]
+fasterxml_version = "2.14.0"
+junit-jupiter = "5.9.1"
+log4j = "2.17.2"
+lombok = "1.18.24"
+slf4j = "1.7.36"
+
+[libraries]
+apache-commons = { module = "org.apache.commons:commons-compress", version = "1.20" }
+apache-commons-lang = { module = "org.apache.commons:commons-lang3", version = "3.11" }
+appender-log4j2 = { module = "com.therealvan:appender-log4j2", version = "3.6.0" }
+assertj-core = { module = "org.assertj:assertj-core", version = "3.21.0" }
+commons-io = { module = "commons-io:commons-io", version = "2.11.0"}
+fasterxml = { module = "com.fasterxml.jackson:jackson-bom", version.ref = "fasterxml_version" }
+findsecbugs-plugin = { module = "com.h3xstream.findsecbugs:findsecbugs-plugin", version = "1.12.0" }
+google-api-client = { module = "com.google.api-client:google-api-client", version="2.2.0"}
+guava = { module = "com.google.guava:guava", version = "31.1-jre" }
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "fasterxml_version" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "fasterxml_version" }
+jackson-dataformat = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "fasterxml_version" }
+jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "fasterxml_version" }
+jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "fasterxml_version" }
+jsonpath = { module = "com.jayway.jsonpath:json-path", version = "2.7.0"} # this might need to be pinned to same version as fasterxml
+jcl-over-slf4j = { module = "org.slf4j:jcl-over-slf4j", version.ref = "slf4j" }
+jul-to-slf4j = { module = "org.slf4j:jul-to-slf4j", version.ref = "slf4j" }
+junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit-jupiter" }
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-jupiter" }
+junit-jupiter-params = { module = "org.junit.jupiter:junit-jupiter-params", version.ref = "junit-jupiter" }
+junit-jupiter-system-stubs = { module = "uk.org.webcompere:system-stubs-jupiter", version = "2.0.1" }
+junit-pioneer = { module = "org.junit-pioneer:junit-pioneer", version = "1.7.1" }
+log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j" }
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+log4j-impl = { module = "org.apache.logging.log4j:log4j-slf4j-impl", version.ref = "log4j" }
+log4j-over-slf4j = { module = "org.slf4j:log4j-over-slf4j", version.ref = "slf4j" }
+log4j-web = { module = "org.apache.logging.log4j:log4j-web", version.ref = "log4j" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter", version = "4.6.1" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+spotbugs-annotations = { module = "com.github.spotbugs:spotbugs-annotations", version = "4.7.3" }
+
+[bundles]
+apache = ["apache-commons", "apache-commons-lang"]
+jackson = ["jackson-databind", "jackson-annotations", "jackson-dataformat", "jackson-datatype"]
+junit = ["junit-jupiter-api", "junit-jupiter-params", "mockito-junit-jupiter"]
+log4j = ["log4j-api", "log4j-core", "log4j-impl", "log4j-web"]
+slf4j = ["jul-to-slf4j", "jcl-over-slf4j", "log4j-over-slf4j"]

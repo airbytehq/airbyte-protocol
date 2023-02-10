@@ -9,9 +9,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import io.airbyte.commons.json.JsonSchemas;
-import io.airbyte.commons.json.Jsons;
-import io.airbyte.commons.util.MoreIterators;
 import io.airbyte.protocol.models.transform_models.FieldTransform;
 import io.airbyte.protocol.models.transform_models.StreamTransform;
 import io.airbyte.protocol.models.transform_models.UpdateFieldSchemaTransform;
@@ -25,7 +22,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Spliterator;
+import java.util.Spliterators;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
@@ -323,7 +323,8 @@ public class CatalogHelpers {
   }
 
   private static boolean isOneOfField(final JsonNode schema) {
-    return !MoreIterators.toSet(schema.fieldNames()).contains("type");
+    return StreamSupport.stream(Spliterators.spliteratorUnknownSize(schema.fieldNames(), Spliterator.ORDERED), false)
+        .noneMatch(name -> name.contains("type"));
   }
 
   private static boolean isObjectWithSubFields(final Field field) {
