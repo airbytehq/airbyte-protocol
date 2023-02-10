@@ -400,7 +400,7 @@ publishing {
         // This block is present for dependency catalog publishing.
         maven(MavenPublication) {
             groupId = 'io.airbyte'
-            artifactId = 'oss-catalog'
+            artifactId = 'airbyte-protocol'
 
             from components.versionCatalog
             // Gradle will by default use the subproject path as the group id and the subproject name as the artifact id.
