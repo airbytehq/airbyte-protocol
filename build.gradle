@@ -27,9 +27,6 @@ plugins {
 
 apply from: "$rootDir/publish-repositories.gradle"
 
-sourceCompatibility = JavaVersion.VERSION_17
-targetCompatibility = JavaVersion.VERSION_17
-
 repositories {
     mavenCentral()
     maven {
@@ -404,6 +401,8 @@ publishing {
         maven(MavenPublication) {
             groupId = 'io.airbyte'
             artifactId = 'airbyte-protocol'
+            sourceCompatibility = JavaVersion.VERSION_17
+            targetCompatibility = JavaVersion.VERSION_17
 
             from components.versionCatalog
             // Gradle will by default use the subproject path as the group id and the subproject name as the artifact id.
