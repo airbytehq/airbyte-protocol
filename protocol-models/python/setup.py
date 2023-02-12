@@ -1,18 +1,30 @@
 #
 # Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
+import pip
+pip.main(['install', 'python-dotenv']) 
 
+import os
 import pathlib
 
 from setuptools import setup
+from dotenv import load_dotenv
+
+
 
 # The directory containing this file
-HERE = pathlib.Path(__file__).parent.parent
+HERE = pathlib.Path(__file__).parent.parent.parent
+
+
+
+print(sorted(HERE.iterdir()))
 
 # The text of the README file
-README = (HERE / "README.md").read_text()
+README = (HERE / "readme.md").read_text()
 
-VERSION = '0.1.0'
+load_dotenv(HERE / ".env")
+
+VERSION = os.getenv("VERSION") # use version declared in top level .env file
 
 setup(
     name='airbyte_protocol_models',
@@ -43,6 +55,7 @@ setup(
         "Tracker": "https://github.com/airbytehq/airbyte-protocol/issues",
     },
     packages=['airbyte_protocol.models'],
+    setup_requires=['python-dotenv'],
     install_requires=[
         "pydantic~=1.9.2",
     ],

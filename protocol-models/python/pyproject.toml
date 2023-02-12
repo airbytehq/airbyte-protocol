@@ -1,6 +1,7 @@
 # Defines Python build system settings.
 [build-system]
 requires = [
+    "python-dotenv",
     "setuptools>=42",
     "wheel"
 ]
