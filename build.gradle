@@ -177,6 +177,9 @@ subprojects { subproj ->
     apply plugin: 'com.github.spotbugs'
     apply plugin: 'pmd'
 
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
     repositories {
         mavenCentral()
         maven {
