@@ -41,6 +41,11 @@ jobs:
       - name: Gradle Build
         run: ./gradlew build --scan
 
+      - name: Determine Version
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo $SHORT_SHA
+
       - name: Publish Jar
         if: false # disabled
         env:
