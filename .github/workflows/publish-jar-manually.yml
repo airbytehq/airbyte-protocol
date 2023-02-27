@@ -42,6 +42,7 @@ jobs:
         run: ./gradlew build --scan
 
       - name: Publish Jar
+        if: false # disabled
         env:
           CLOUDREPO_USER: ${{ secrets.CLOUDREPO_USER }}
           CLOUDREPO_PASSWORD: ${{ secrets.CLOUDREPO_PASSWORD }}
