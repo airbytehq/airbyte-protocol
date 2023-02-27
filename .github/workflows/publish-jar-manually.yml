@@ -6,6 +6,12 @@ env:
   S3_BUILD_CACHE_SECRET_KEY: ${{ secrets.SELF_RUNNER_AWS_SECRET_ACCESS_KEY }}
 
 on:
+  pull_request:
+
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
     inputs:
       jar_version:
