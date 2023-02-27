@@ -8,6 +8,8 @@ import static io.airbyte.protocol.models.JsonSchemaPrimitiveUtil.PRIMITIVE_TO_RE
 
 import com.google.common.collect.ImmutableMap;
 import io.airbyte.protocol.models.JsonSchemaPrimitiveUtil.JsonSchemaPrimitive;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,6 +43,7 @@ public class JsonSchemaType {
   public static final String BASE_64 = "base64";
   public static final String LEGACY_AIRBYTE_TYPE_PROPERTY = "airbyte_type";
   public static final String ITEMS = "items";
+  public static final String ONE_OF = "oneOf";
 
   public static final JsonSchemaType STRING_V1 = JsonSchemaType.builder(JsonSchemaPrimitive.STRING_V1).build();
   public static final JsonSchemaType BINARY_DATA_V1 = JsonSchemaType.builder(JsonSchemaPrimitive.BINARY_DATA_V1).build();
@@ -87,6 +90,8 @@ public class JsonSchemaType {
       JsonSchemaType.builder(JsonSchemaPrimitive.STRING)
           .withLegacyAirbyteTypeProperty("big_integer")
           .build();
+  public static final JsonSchemaType JSONB =
+          JsonSchemaType.builder(JsonSchemaPrimitive.JSONB).withLegacyAirbyteTypeProperty("json").build();
 
   private final Map<String, Object> jsonSchemaTypeMap;
 
@@ -109,13 +114,26 @@ public class JsonSchemaType {
     private Builder(final JsonSchemaPrimitive type) {
       typeMapBuilder = ImmutableMap.builder();
       if (JsonSchemaPrimitiveUtil.isV0Schema(type)) {
-        typeMapBuilder.put(TYPE, type.name().toLowerCase());
+        if (type.equals(JsonSchemaPrimitive.JSONB)) {
+          buildJsonbSchema();
+        } else {
+          typeMapBuilder.put(TYPE, type.name().toLowerCase());
+        }
       } else {
         typeMapBuilder.put(REF, PRIMITIVE_TO_REFERENCE_BIMAP.get(type));
       }
     }
 
-    public Builder withFormat(final String value) {
+    private void buildJsonbSchema() {
+      final List<JsonSchemaPrimitive> schemaPrimitives = List.of(JsonSchemaPrimitive.ARRAY, JsonSchemaPrimitive.OBJECT, JsonSchemaPrimitive.NUMBER,
+              JsonSchemaPrimitive.STRING, JsonSchemaPrimitive.BOOLEAN);
+      final List<ImmutableMap<Object, Object>> typeList = new ArrayList<>();
+      schemaPrimitives.forEach(x -> typeList.add(ImmutableMap.builder().put(TYPE, x.name().toLowerCase()).build()));
+      typeMapBuilder.put(TYPE, JsonSchemaPrimitive.OBJECT.name().toLowerCase());
+      typeMapBuilder.put(ONE_OF, typeList);
+    }
+
+      public Builder withFormat(final String value) {
       typeMapBuilder.put(FORMAT, value);
       return this;
     }

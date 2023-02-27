@@ -29,6 +29,7 @@ public class JsonSchemaPrimitiveUtil {
     OBJECT,
     ARRAY,
     BOOLEAN,
+    JSONB,
     NULL,
     // V1 schema primitives
     STRING_V1,
@@ -50,6 +51,7 @@ public class JsonSchemaPrimitiveUtil {
           JsonSchemaPrimitive.OBJECT,
           JsonSchemaPrimitive.ARRAY,
           JsonSchemaPrimitive.BOOLEAN,
+          JsonSchemaPrimitive.JSONB,
           JsonSchemaPrimitive.NULL);
 
   public static final boolean isV0Schema(final JsonSchemaPrimitive type) {
