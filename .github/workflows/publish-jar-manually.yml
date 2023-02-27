@@ -6,6 +6,12 @@ env:
   S3_BUILD_CACHE_SECRET_KEY: ${{ secrets.SELF_RUNNER_AWS_SECRET_ACCESS_KEY }}
 
 on:
+  pull_request:
+
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
     inputs:
       jar_version:
@@ -33,9 +39,19 @@ jobs:
           java-version: "17"
 
       - name: Gradle Build
+        if: false # disabled
         run: ./gradlew build --scan
 
+      - name: Determine Version
+        env:
+          IS_MERGED_PULL_REQUEST: ${{ github.event.pull_request.merged }}
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo $SHORT_SHA
+          echo $IS_MERGED_PULL_REQUEST
+
       - name: Publish Jar
+        if: false # disabled
         env:
           CLOUDREPO_USER: ${{ secrets.CLOUDREPO_USER }}
           CLOUDREPO_PASSWORD: ${{ secrets.CLOUDREPO_PASSWORD }}
