@@ -6,6 +6,12 @@ env:
   S3_BUILD_CACHE_SECRET_KEY: ${{ secrets.SELF_RUNNER_AWS_SECRET_ACCESS_KEY }}
 
 on:
+  pull_request:
+
+  push:
+    branches:
+      - main
+
   workflow_dispatch:
     inputs:
       jar_version:
@@ -35,7 +41,13 @@ jobs:
       - name: Gradle Build
         run: ./gradlew build --scan
 
+      - name: Determine Version
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          echo $SHORT_SHA
+
       - name: Publish Jar
+        if: false # disabled
         env:
           CLOUDREPO_USER: ${{ secrets.CLOUDREPO_USER }}
           CLOUDREPO_PASSWORD: ${{ secrets.CLOUDREPO_PASSWORD }}
