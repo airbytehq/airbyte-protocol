@@ -1,0 +1,145 @@
+name: Publish Java and Python Artifacts
+
+env:
+  # enable gradle remote build cache
+  S3_BUILD_CACHE_ACCESS_KEY_ID: ${{ secrets.SELF_RUNNER_AWS_ACCESS_KEY_ID }}
+  S3_BUILD_CACHE_SECRET_KEY: ${{ secrets.SELF_RUNNER_AWS_SECRET_ACCESS_KEY }}
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - closed
+
+  workflow_dispatch:
+    inputs:
+      partToBump:
+        description: "Please choose the type of version upgrade : major|minor|patch"
+        required: true
+        default: "patch"
+
+jobs:
+  pull-request-publish:
+    if: ${{ github.event.pull_request.merged != true }}
+    concurrency:
+      # only allow one workflow run at a time for a given SHA
+      # to prevent multiple runs from pushing artifacts for the same SHA at the same time
+      # note: using inputs in the group expression only works when specifying concurrency at the job level
+      group: ${{ github.workflow }}-${{ github.sha }}
+      cancel-in-progress: false
+    name: Publish Development Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Airbyte Protocol
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Generate Development Version
+        run: |
+            export DEV_VERSION=.dev$(date +%s)
+            echo $DEV_VERSION
+            ./tools/bin/bump_version.sh
+
+      # java
+      - name: Gradle Build
+        run: ./gradlew build --scan
+
+      - name: Publish Jar
+        if: false # disabled
+        env:
+          CLOUDREPO_USER: ${{ secrets.CLOUDREPO_USER }}
+          CLOUDREPO_PASSWORD: ${{ secrets.CLOUDREPO_PASSWORD }}
+          # will use the version in .env
+        run: ./gradlew publish
+
+      # python
+      - name: Generate Protocol Classes
+        run: protocol-models/bin/generate-python-classes-docker.sh
+
+      - name: Publish Python Package to test.pypi.org
+        uses: mariamrf/py-package-publish-action@v1.1.0
+        with:
+          # specify the same version as in ~/.python-version
+          python_version: "3.9.11"
+          pip_version: "21.1"
+          subdir: "protocol-models/python/"
+        env:
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
+
+  merged-pull-request-publish:
+    if: ${{ github.event.pull_request.merged == true }}
+    concurrency:
+      # only allow one workflow run at a time for a given SHA
+      # to prevent multiple runs from pushing artifacts for the same SHA at the same time
+      # note: using inputs in the group expression only works when specifying concurrency at the job level
+      group: ${{ github.workflow }}-${{ github.sha }}
+      cancel-in-progress: false
+    name: Publish from Main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Generate Release Version
+        id: generate_release_version
+        env:
+           PART_TO_BUMP: ${{ github.event.inputs.partToBump || 'patch' }}
+        run: |
+            ./tools/bin/bump_version.sh
+
+      # java
+      - name: Gradle Build
+        run: ./gradlew build --scan
+
+      - name: Publish Jar
+        env:
+          CLOUDREPO_USER: ${{ secrets.CLOUDREPO_USER }}
+          CLOUDREPO_PASSWORD: ${{ secrets.CLOUDREPO_PASSWORD }}
+          # will use the version in .env
+        run: ./gradlew publish
+
+      # python
+      - name: Generate Protocol Classes
+        run: protocol-models/bin/generate-python-classes-docker.sh
+
+      - name: Publish Python Package
+        uses: mariamrf/py-package-publish-action@v1.1.0
+        with:
+          # specify the same version as in ~/.python-version
+          python_version: "3.9.11"
+          pip_version: "21.1"
+          subdir: "protocol-models/python/"
+        env:
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+
+      - name: Auto Commit Version
+        if: ${{ github.event.pull_request.merged == true }}
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: main
+          commit_message: Bump Airbyte version from ${{ steps.generate_release_version.outputs.PREV_VERSION }} to ${{ steps.generate_release_version.outputs.NEW_VERSION }}
