@@ -1,0 +1,92 @@
+name: Publish Java and Python Artifacts
+
+env:
+  # enable gradle remote build cache
+  S3_BUILD_CACHE_ACCESS_KEY_ID: ${{ secrets.SELF_RUNNER_AWS_ACCESS_KEY_ID }}
+  S3_BUILD_CACHE_SECRET_KEY: ${{ secrets.SELF_RUNNER_AWS_SECRET_ACCESS_KEY }}
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - closed
+
+  workflow_dispatch:
+    inputs:
+      partToBump:
+        description: "Please choose the type of version upgrade : major|minor|patch"
+        required: true
+        default: "patch"
+
+jobs:
+
+  pull-request-publish:
+    if: ${{ github.event.pull_request.merged != true }}
+    concurrency:
+      # only allow one workflow run at a time for a given SHA
+      # to prevent multiple runs from pushing artifacts for the same SHA at the same time
+      # note: using inputs in the group expression only works when specifying concurrency at the job level
+      group: ${{ github.workflow }}-${{ github.sha }}
+      cancel-in-progress: false
+    name: Publish Development Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Airbyte Protocol
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Generate Development Version
+        run: |
+            export SHORT_SHA=$(git rev-parse --short HEAD)
+            echo $SHORT_SHA
+            ./tools/bin/bump_version.sh
+
+      - name: Gradle Build
+        run: ./gradlew build --scan
+
+      - name: Publish Jar
+        if: false # disabled
+        env:
+          CLOUDREPO_USER: ${{ secrets.CLOUDREPO_USER }}
+          CLOUDREPO_PASSWORD: ${{ secrets.CLOUDREPO_PASSWORD }}
+        run: ./gradlew publish
+
+  merged-pull-request-publish:
+    if: ${{ github.event.pull_request.merged == true }}
+    concurrency:
+      # only allow one workflow run at a time for a given SHA
+      # to prevent multiple runs from pushing artifacts for the same SHA at the same time
+      # note: using inputs in the group expression only works when specifying concurrency at the job level
+      group: ${{ github.workflow }}-${{ github.sha }}
+      cancel-in-progress: false
+    name: Publish from Main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Generate Release Version
+        id: generate_release_version
+        env:
+           PART_TO_BUMP: ${{ github.event.inputs.partToBump || 'patch' }}
+        run: |
+            ./tools/bin/bump_version.sh
+
+      - name: Auto Commit Version
+        if: ${{ github.event.pull_request.merged == true }}
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: main
+          commit_message: Bump Airbyte version from ${{ steps.generate_release_version.outputs.PREV_VERSION }} to ${{ steps.generate_release_version.outputs.NEW_VERSION }}
