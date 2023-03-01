@@ -1,0 +1,53 @@
+name: CD - Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: simple
+          extra-files: |
+            .env
+
+      - name: Checkout
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      # java
+      - name: Gradle Build
+        if: ${{ steps.release.outputs.release_created }}
+        run: ./gradlew build --scan
+
+      - name: Publish Jar
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          CLOUDREPO_USER: ${{ secrets.CLOUDREPO_USER }}
+          CLOUDREPO_PASSWORD: ${{ secrets.CLOUDREPO_PASSWORD }}
+          # will use the version in .env
+        run: ./gradlew publish
+
+      # python
+      - name: Generate Protocol Classes
+        if: ${{ steps.release.outputs.release_created }}
+        run: protocol-models/bin/generate-python-classes-docker.sh
+
+      - name: Publish Python Package
+        if: ${{ steps.release.outputs.release_created }}
+        uses: mariamrf/py-package-publish-action@v1.1.0
+        with:
+          # specify the same version as in ~/.python-version
+          python_version: "3.9.11"
+          pip_version: "21.1"
+          subdir: "protocol-models/python/"
+        env:
+          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
