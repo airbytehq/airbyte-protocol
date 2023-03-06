@@ -15,6 +15,35 @@ jobs:
           release-type: simple
           extra-files: |
             .env
+          changelog-types: |
+            [
+              {
+                "type": "feat",
+                "section": "Features",
+                "hidden": false
+              },
+              {
+                "type": "fix",
+                "section": "Bug Fixes",
+                "hidden": false
+              },
+              {
+                "type": "chore",
+                "section": "Miscellaneous",
+                "hidden": false
+              },
+              {
+                "type": "ci",
+                "section": "Miscellaneous",
+                "hidden": false
+              },
+              {
+                "type": "docs",
+                "section": "Miscellaneous",
+                "hidden": false
+              }
+            ]
+
 
       - name: Checkout
         if: ${{ steps.release.outputs.release_created }}
