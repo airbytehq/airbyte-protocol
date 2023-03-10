@@ -38,3 +38,6 @@ coverage.xml
 .pytest_cache/
 cover/
 
+# JS / TS / Node
+node_modules
+dist

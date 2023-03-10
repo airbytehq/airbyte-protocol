@@ -37,6 +37,12 @@ jobs:
           distribution: "zulu"
           java-version: "17"
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          registry-url: "https://registry.npmjs.org"
+
       - name: Generate Development Version
         run: |
           cat .env
@@ -56,7 +62,7 @@ jobs:
         run: ./gradlew publish
 
       # python
-      - name: Generate Protocol Classes
+      - name: Generate Python Protocol Classes
         run: protocol-models/bin/generate-python-classes-docker.sh
 
       - name: Publish Python Package to test.pypi.org
@@ -70,3 +76,11 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
+
+      # node
+      - name: Generate Typescript Protocol Classes
+        run: protocol-models/bin/generate-typescript-classes-docker.sh
+
+      - run: cd protocol-models/typescript && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
