@@ -81,4 +81,4 @@ jobs:
       - name: Generate Typescript Protocol Classes
         run: protocol-models/bin/generate-typescript-classes.sh
 
-      # not
+      # no node publish on PR
