@@ -18,5 +18,6 @@ cd protocol-models/typescript
 jq ".version=\"$VERSION\"" package.json > package.json.tmp
 mv package.json.tmp package.json
 
-npm install
-npm run build
+npm install -g pnpm
+pnpm install
+pnpm run build
