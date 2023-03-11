@@ -80,16 +80,10 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
 
-      # node
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18.x"
-          registry-url: "https://registry.npmjs.org"
-
       - name: Generate Typescript Protocol Classes
-        run: protocol-models/bin/generate-typescript-classes.sh
+        run: protocol-models/bin/generate-typescript-classes-docker.sh
 
+      # github runners already come with NPM and node
       - run: cd protocol-models/typescript && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -25,10 +25,18 @@ jsonSchema2Pojo {
 
 Task publishArtifactsTask = getPublishArtifactsTask("$rootProject.ext.version", project)
 
-task generateProtocolClassFiles(type: Exec) {
+task generatePythonProtocolClassFiles(type: Exec) {
     inputs.dir 'src/main/resources/airbyte_protocol'
     inputs.dir 'bin'
     outputs.dir 'python/airbyte_protocol/models'
 
     commandLine 'bin/generate-python-classes-docker.sh'
+}
+
+task generateTypescriptProtocolClassFiles(type: Exec) {
+    inputs.dir 'src/main/resources/airbyte_protocol'
+    inputs.dir 'bin'
+    outputs.dir 'typescript/dist'
+
+    commandLine 'bin/generate-typescript-classes-docker.sh'
 }
