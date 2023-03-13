@@ -87,7 +87,7 @@ jobs:
       - name: Generate Typescript Protocol Classes
         run: protocol-models/bin/generate-typescript-classes-docker.sh
 
-      - name: Test npm publish
+      - name: npm publish
         run: cd protocol-models/typescript && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
