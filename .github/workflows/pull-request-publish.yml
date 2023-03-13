@@ -27,10 +27,6 @@ jobs:
       - name: Checkout Airbyte Protocol
         uses: actions/checkout@v3
 
-      - uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -56,7 +52,7 @@ jobs:
         run: ./gradlew publish
 
       # python
-      - name: Generate Protocol Classes
+      - name: Generate Python Protocol Classes
         run: protocol-models/bin/generate-python-classes-docker.sh
 
       - name: Publish Python Package to test.pypi.org
@@ -70,3 +66,10 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
+
+      # node
+      - name: Generate Typescript Protocol Classes
+        run: protocol-models/bin/generate-typescript-classes-docker.sh
+
+      - name: Test npm publish
+        run: cd protocol-models/typescript && npm publish --dry-run
