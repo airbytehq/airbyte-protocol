@@ -1,5 +1,5 @@
 {
-  "name": "@airbyte/airbyte-protocol",
+  "name": "airbyte-protocol-tmp",
   "version": "0.3.2",
   "description": "",
   "type": "module",
