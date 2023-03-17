@@ -26,24 +26,8 @@ jobs:
                 "type": "fix",
                 "section": "Bug Fixes",
                 "hidden": false
-              },
-              {
-                "type": "chore",
-                "section": "Miscellaneous",
-                "hidden": false
-              },
-              {
-                "type": "ci",
-                "section": "Miscellaneous",
-                "hidden": false
-              },
-              {
-                "type": "docs",
-                "section": "Miscellaneous",
-                "hidden": false
               }
             ]
-
 
       - name: Checkout
         if: ${{ steps.release.outputs.release_created }}
@@ -65,7 +49,7 @@ jobs:
         run: ./gradlew publish
 
       # python
-      - name: Generate Protocol Classes
+      - name: Generate Python Protocol Classes
         if: ${{ steps.release.outputs.release_created }}
         run: protocol-models/bin/generate-python-classes-docker.sh
 
@@ -80,3 +64,11 @@ jobs:
         env:
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+
+      - name: Generate Typescript Protocol Classes
+        run: protocol-models/bin/generate-typescript-classes-docker.sh
+
+      # github runners already come with NPM and node
+      - run: cd protocol-models/typescript && npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
