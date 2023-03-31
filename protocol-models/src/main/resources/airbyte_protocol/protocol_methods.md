@@ -1,5 +1,8 @@
 # Protocol Methods
 
+The purpose of this doc is to define the interface on the docker containers that implement the Airbyte Protocol. It is purposefully lean, as we describe the protocol at length in [our docs](https://docs.airbyte.com/understanding-airbyte/airbyte-protocol). We just want to define the interface here, so that as it evolves, we can version the change as part of the protocol version.
+
+## Method Interfaces
 
 We describe these interfaces in pseudocode for clarity. Clarifications on the pseudocode semantics:
 * Any `Stream~ that is mentioned as input arg, is passed to the docker contained via STDIN. 
