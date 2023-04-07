@@ -250,7 +250,8 @@ definitions:
   AirbyteStreamStatusTraceMessage:
     type: object
     additionalProperties: true
-    required: stream_descriptor
+    required:
+      stream_descriptor
       status
       emitted_at
   properties:
