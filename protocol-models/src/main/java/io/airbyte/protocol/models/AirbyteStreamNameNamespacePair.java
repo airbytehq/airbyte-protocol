@@ -103,4 +103,5 @@ public class AirbyteStreamNameNamespacePair implements Comparable<AirbyteStreamN
 
     return pairs;
   }
+
 }
