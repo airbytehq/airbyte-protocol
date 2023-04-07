@@ -244,9 +244,9 @@ definitions:
     description: >
       The current status of a stream within the context of an executing synchronization job.
     enum:
-      - STARTED # Job has started executing, but no data read yet
-      - RUNNING # Job has read its first byte/message
-      - STOPPED # Job has stopped executing
+      - STARTED # Stream has started executing, but no data read yet
+      - RUNNING # Stream has read its first byte/message
+      - STOPPED # Stream has stopped executing
   AirbyteStreamStatusTraceMessage:
     type: object
     additionalProperties: true
