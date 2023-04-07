@@ -253,7 +253,6 @@ definitions:
     required:
       stream_descriptor
       status
-      emitted_at
   properties:
     stream_descriptor:
       "$ref": "#/definitions/StreamDescriptor"
@@ -262,9 +261,6 @@ definitions:
     success:
       description: "Additional flag used with the STOPPED status to indicate success or failure"
       type: boolean
-    emitted_at:
-      description: "the timestamp of the message in ms"
-      type: number
   AirbyteControlMessage:
     type: object
     additionalProperties: true
