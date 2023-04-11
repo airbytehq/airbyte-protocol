@@ -175,6 +175,7 @@ definitions:
         enum:
           - ERROR
           - ESTIMATE
+          - STREAM_STATUS
       emitted_at:
         description: "the time in ms that the message was emitted"
         type: number
@@ -184,6 +185,9 @@ definitions:
       estimate:
         description: "Estimate trace message: a guess at how much data will be produced in this sync"
         "$ref": "#/definitions/AirbyteEstimateTraceMessage"
+      stream_status:
+        description: "Stream status trace message:  the current status of a stream within a source"
+        "$ref": "#/definitions/AirbyteStreamStatusTraceMessage"
   AirbyteErrorTraceMessage:
     type: object
     additionalProperties: true
@@ -205,6 +209,8 @@ definitions:
         enum:
           - system_error
           - config_error
+      stream_descriptor:
+        "$ref": "#/definitions/StreamDescriptor"
   AirbyteEstimateTraceMessage:
     type: object
     additionalProperties: true
@@ -231,6 +237,46 @@ definitions:
       byte_estimate:
         description: The estimated number of bytes to be emitted by this sync for this stream
         type: integer
+  AirbyteControlMessage:
+    type: object
+    additionalProperties: true
+    required:
+      - type
+      - emitted_at
+    properties:
+      type:
+        title: orchestrator type
+        description: "the type of orchestrator message"
+        type: string
+        enum:
+          - CONNECTOR_CONFIG
+      emitted_at:
+        description: "the time in ms that the message was emitted"
+        type: number
+      connectorConfig:
+        description: "connector config orchestrator message: the updated config for the platform to store for this connector"
+        "$ref": "#/definitions/AirbyteControlConnectorConfigMessage"
+  AirbyteStreamStatus:
+    type: string
+    description: >
+      The current status of a stream within the context of an executing synchronization job.
+    enum:
+      - STARTED # Stream has started executing, but no data read yet
+      - RUNNING # Stream has read its first byte/message
+      - STOPPED # Stream has stopped executing
+  AirbyteStreamStatusTraceMessage:
+    type: object
+    additionalProperties: true
+    required: stream_descriptor
+      status
+  properties:
+    stream_descriptor:
+      "$ref": "#/definitions/StreamDescriptor"
+    status:
+      "$ref": "#/definitions/AirbyteStreamStatus"
+    success:
+      description: "Additional flag used with the STOPPED status to indicate success or failure"
+      type: boolean
   AirbyteControlMessage:
     type: object
     additionalProperties: true

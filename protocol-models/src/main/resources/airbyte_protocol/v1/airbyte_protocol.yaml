@@ -209,6 +209,8 @@ definitions:
         enum:
           - system_error
           - config_error
+      stream_descriptor:
+        "$ref": "#/definitions/StreamDescriptor"
   AirbyteEstimateTraceMessage:
     type: object
     additionalProperties: true
