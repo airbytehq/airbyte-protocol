@@ -252,8 +252,9 @@ definitions:
   AirbyteStreamStatusTraceMessage:
     type: object
     additionalProperties: true
-    required: stream_descriptor
-      status
+    required:
+      - stream_descriptor
+      - status
   properties:
     stream_descriptor:
       "$ref": "#/definitions/StreamDescriptor"
