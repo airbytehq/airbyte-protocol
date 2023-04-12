@@ -91,7 +91,7 @@ public class JsonSchemaType {
           .withLegacyAirbyteTypeProperty("big_integer")
           .build();
   public static final JsonSchemaType JSONB =
-          JsonSchemaType.builder(JsonSchemaPrimitive.JSONB).withLegacyAirbyteTypeProperty("json").build();
+      JsonSchemaType.builder(JsonSchemaPrimitive.JSONB).withLegacyAirbyteTypeProperty("json").build();
 
   private final Map<String, Object> jsonSchemaTypeMap;
 
@@ -126,14 +126,14 @@ public class JsonSchemaType {
 
     private void buildJsonbSchema() {
       final List<JsonSchemaPrimitive> schemaPrimitives = List.of(JsonSchemaPrimitive.ARRAY, JsonSchemaPrimitive.OBJECT, JsonSchemaPrimitive.NUMBER,
-              JsonSchemaPrimitive.STRING, JsonSchemaPrimitive.BOOLEAN);
+          JsonSchemaPrimitive.STRING, JsonSchemaPrimitive.BOOLEAN);
       final List<ImmutableMap<Object, Object>> typeList = new ArrayList<>();
       schemaPrimitives.forEach(x -> typeList.add(ImmutableMap.builder().put(TYPE, x.name().toLowerCase()).build()));
       typeMapBuilder.put(TYPE, JsonSchemaPrimitive.OBJECT.name().toLowerCase());
       typeMapBuilder.put(ONE_OF, typeList);
     }
 
-      public Builder withFormat(final String value) {
+    public Builder withFormat(final String value) {
       typeMapBuilder.put(FORMAT, value);
       return this;
     }
