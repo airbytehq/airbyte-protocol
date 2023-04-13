@@ -24,3 +24,7 @@ on the commit history sinced last release. It updates this PR appropriately ever
 would approve and merge this PR.
 
 The PR looks something like this. ![example-release-please-pr](https://github.com/google-github-actions/release-please-action/raw/main/screen.png)
+
+## Publishing Errors
+
+If there is a publishing error on merge to master, the [manual publishing workflow](https://github.com/airbytehq/airbyte-protocol/actions/workflows/manual-publish.yml) is an escape hatch for manually republishing artifacts for a specific version.
