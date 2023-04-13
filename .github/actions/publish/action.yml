@@ -57,6 +57,9 @@ runs:
 
     - name: npm publish
       shell: bash
-      run: cd protocol-models/typescript && npm publish
+      working-directory: protocol-models/typescript
+      run: |
+        npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+        npm publish
       env:
         NPM_TOKEN: ${{ inputs.npm_token }}
