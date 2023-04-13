@@ -33,7 +33,7 @@ To release:
 * If the conventional commit convention is followed, CI will create a bump version PR with release notes and the new version. The new version follows conventional commit semantics.
 * Double check the new version by looking at the .env file.
 * Merge the bump version PR in.
-* On merge to master, CI will detect the version change and publish a Java JAR, a PyPi package and an NPM package.
+* On merge to master, CI will detect the version change and publish a Java JAR, a PyPi package and an NPM package. A Github release is also created.
 
 ## Release Errors
 
