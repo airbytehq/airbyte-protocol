@@ -1,0 +1,40 @@
+name: CD - Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: simple
+          extra-files: |
+            .env
+          changelog-types: |
+            [
+              {
+                "type": "feat",
+                "section": "Features",
+                "hidden": false
+              },
+              {
+                "type": "fix",
+                "section": "Bug Fixes",
+                "hidden": false
+              }
+            ]
+
+      - name: Publish Prod Artifacts
+        if: ${{ steps.release.outputs.release_created }}
+        uses: ./.github/actions/publish
+        with:
+          cloudrepo_user: ${{ secrets.CLOUDREPO_USER }}
+          cloudrepo_password: ${{ secrets.CLOUDREPO_PASSWORD }}
+          twine_password: ${{ secrets.TWINE_PASSWORD }}
+          twine_username: ${{ secrets.TWINE_USERNAME }}
+          npm_token: ${{ secrets.NPM_TOKEN }}
