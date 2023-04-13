@@ -22,33 +22,33 @@ runs:
         java-version: "17"
 
     # java
-    - name: Gradle Build
-      shell: bash
-      run: ./gradlew build --scan
+#     - name: Gradle Build
+#       shell: bash
+#       run: ./gradlew build --scan
 
-    - name: Publish Jar
-      env:
-        CLOUDREPO_USER: ${{ inputs.cloudrepo_user }}
-        CLOUDREPO_PASSWORD: ${{ inputs.cloudrepo_password }}
-        # will use the version in .env
-      shell: bash
-      run: ./gradlew publish
+#     - name: Publish Jar
+#       env:
+#         CLOUDREPO_USER: ${{ inputs.cloudrepo_user }}
+#         CLOUDREPO_PASSWORD: ${{ inputs.cloudrepo_password }}
+#         # will use the version in .env
+#       shell: bash
+#       run: ./gradlew publish
 
-    # python
-    - name: Generate Python Protocol Classes
-      shell: bash
-      run: protocol-models/bin/generate-python-classes-docker.sh
+#     # python
+#     - name: Generate Python Protocol Classes
+#       shell: bash
+#       run: protocol-models/bin/generate-python-classes-docker.sh
 
-    - name: Publish Python Package
-      uses: mariamrf/py-package-publish-action@v1.1.0
-      with:
-        # specify the same version as in ~/.python-version
-        python_version: "3.9.11"
-        pip_version: "21.1"
-        subdir: "protocol-models/python/"
-      env:
-        TWINE_PASSWORD: ${{ inputs.twine_password }}
-        TWINE_USERNAME: ${{ inputs.twine_username }}
+#     - name: Publish Python Package
+#       uses: mariamrf/py-package-publish-action@v1.1.0
+#       with:
+#         # specify the same version as in ~/.python-version
+#         python_version: "3.9.11"
+#         pip_version: "21.1"
+#         subdir: "protocol-models/python/"
+#       env:
+#         TWINE_PASSWORD: ${{ inputs.twine_password }}
+#         TWINE_USERNAME: ${{ inputs.twine_username }}
 
     # github runners already come with NPM and node
     - name: Generate Typescript Protocol Classes
