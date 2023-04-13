@@ -9,7 +9,7 @@ Declares the Airbyte Protocol.
 
 ## Pull Requests Titles Must Conform to Conventional Commits Convention
 We are leveraging the [Release Please Action](https://github.com/marketplace/actions/release-please-action) to manage our version bumping and releasing.
-This action relies on the use of the [convential commits convention](https://www.conventionalcommits.org/en/v1.0.0/) to determine whether to bump major, minor, or patch versions. Since we use squash merging, the only commits we see in our history are the titles of our pull requests. This is why we are following conventional commits for our pull request titling. Your actual commits do not need to follow this convention because they never show up in the git history.
+This action relies on the use of the [conventional commits convention](https://www.conventionalcommits.org/en/v1.0.0/) to determine whether to bump major, minor, or patch versions. Since we use squash merging, the only commits we see in our history are the titles of our pull requests. This is why we are following conventional commits for our pull request titling. Your actual commits do not need to follow this convention because they never show up in the git history.
 
 Here is a summary of what Release Please looks for in your pull request title.
 
@@ -30,7 +30,8 @@ The PR looks something like this. ![example-release-please-pr](https://github.co
 To release:
 * Create a PR following the conventions stated in the above section.
 * Merge this PR in.
-* If the conventional commit convention is followed, CI will create a bump version PR with release notes. The bumped version follows the conventional commit keywords.
+* If the conventional commit convention is followed, CI will create a bump version PR with release notes and the new version. The new version follows conventional commit semantics.
+* Double check the new version by looking at the .env file.
 * Merge the bump version PR in.
 * On merge to master, CI will detect the version change and publish a Java JAR, a PyPi package and an NPM package.
 
