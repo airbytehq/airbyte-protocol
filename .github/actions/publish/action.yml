@@ -59,4 +59,4 @@ runs:
       shell: bash
       run: cd protocol-models/typescript && npm publish
       env:
-        NODE_AUTH_TOKEN: ${{ inputs.npm_token }}
+        NPM_TOKEN: ${{ inputs.npm_token }}
