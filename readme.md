@@ -13,11 +13,10 @@ This action relies on the use of the [conventional commits convention](https://w
 
 Here is a summary of what Release Please looks for in your pull request title.
 
-> The most important prefixes you should have in mind are:
->
-> fix: which represents bug fixes, and correlates to a SemVer patch.
-> feat: which represents a new feature, and correlates to a SemVer minor.
-> feat!:, or fix!:, refactor!:, etc., which represent a breaking change (indicated by the !) and will result in a SemVer major.
+The most important prefixes you should have in mind are:
+* fix: which represents bug fixes, and correlates to a SemVer patch.
+* feat: which represents a new feature, and correlates to a SemVer minor.
+* feat!:, or fix!:, refactor!:, etc., which represent a breaking change (indicated by the !) and will result in a SemVer major.
 
 Release Please will create a pull request when it believes there is a potential new version to be released. It compiles a change log based
 on the commit history sinced last release. It updates this PR appropriately everytime a PR is merged. If you desire to release a new version, you
