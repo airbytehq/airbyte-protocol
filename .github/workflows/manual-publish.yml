@@ -1,0 +1,17 @@
+name: Manually Republish Artifacts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Prod Artifacts
+        uses: ./.github/actions/publish
+        with:
+          cloudrepo_user: ${{ secrets.CLOUDREPO_USER }}
+          cloudrepo_password: ${{ secrets.CLOUDREPO_PASSWORD }}
+          twine_password: ${{ secrets.TWINE_PASSWORD }}
+          twine_username: ${{ secrets.TWINE_USERNAME }}
+          npm_token: ${{ secrets.NPM_TOKEN }}

@@ -1,0 +1,62 @@
+name: "Publish Artifacts"
+description: "Publish Prod Artifacts"
+inputs:
+  cloudrepo_user:
+    required: true
+  cloudrepo_password:
+    required: true
+  twine_password:
+    required: true
+  twine_username:
+    required: true
+  npm_token:
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: "zulu"
+        java-version: "17"
+
+    # java
+    - name: Gradle Build
+      run: ./gradlew build --scan
+
+    - name: Publish Jar
+      env:
+        CLOUDREPO_USER: ${{ inputs.cloudrepo_user }}
+        CLOUDREPO_PASSWORD: ${{ inputs.cloudrepo_password }}
+        # will use the version in .env
+      run: ./gradlew publish
+
+    # python
+    - name: Generate Python Protocol Classes
+      run: protocol-models/bin/generate-python-classes-docker.sh
+
+    - name: Publish Python Package
+      uses: mariamrf/py-package-publish-action@v1.1.0
+      with:
+        # specify the same version as in ~/.python-version
+        python_version: "3.9.11"
+        pip_version: "21.1"
+        subdir: "protocol-models/python/"
+      env:
+        TWINE_PASSWORD: ${{ inputs.twine_password }}
+        TWINE_USERNAME: ${{ inputs.twine_username }}
+
+    # github runners already come with NPM and node
+    - name: Generate Typescript Protocol Classes
+      run: protocol-models/bin/generate-typescript-classes-docker.sh
+
+    - name: npm publish
+      run: cd protocol-models/typescript && npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.npm_token }}
