@@ -256,14 +256,16 @@ definitions:
     required:
       - stream_descriptor
       - status
-  properties:
-    stream_descriptor:
-      "$ref": "#/definitions/StreamDescriptor"
-    status:
-      "$ref": "#/definitions/AirbyteStreamStatus"
-    success:
-      description: "Additional flag used with the STOPPED status to indicate success or failure"
-      type: boolean
+    properties:
+      stream_descriptor:
+        description: "The stream associated with the status"
+        "$ref": "#/definitions/StreamDescriptor"
+      status:
+        description: "The current status of the stream"
+        "$ref": "#/definitions/AirbyteStreamStatus"
+      success:
+        description: "Additional flag used with the STOPPED status to indicate success or failure"
+        type: boolean
   AirbyteControlMessage:
     type: object
     additionalProperties: true
