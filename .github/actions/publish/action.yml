@@ -23,6 +23,7 @@ runs:
 
     # java
     - name: Gradle Build
+      shell: bash
       run: ./gradlew build --scan
 
     - name: Publish Jar
@@ -30,10 +31,12 @@ runs:
         CLOUDREPO_USER: ${{ inputs.cloudrepo_user }}
         CLOUDREPO_PASSWORD: ${{ inputs.cloudrepo_password }}
         # will use the version in .env
+      shell: bash
       run: ./gradlew publish
 
     # python
     - name: Generate Python Protocol Classes
+      shell: bash
       run: protocol-models/bin/generate-python-classes-docker.sh
 
     - name: Publish Python Package
@@ -49,9 +52,11 @@ runs:
 
     # github runners already come with NPM and node
     - name: Generate Typescript Protocol Classes
+      shell: bash
       run: protocol-models/bin/generate-typescript-classes-docker.sh
 
     - name: npm publish
+      shell: bash
       run: cd protocol-models/typescript && npm publish
       env:
         NODE_AUTH_TOKEN: ${{ inputs.npm_token }}
