@@ -28,7 +28,9 @@ jobs:
                 "hidden": false
               }
             ]
-
+      - name: Checkout
+        if: ${{ steps.release.outputs.release_created }}
+        uses: actions/checkout@v3
       - name: Publish Prod Artifacts
         if: ${{ steps.release.outputs.release_created }}
         uses: ./.github/actions/publish

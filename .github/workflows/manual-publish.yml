@@ -7,6 +7,8 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Publish Prod Artifacts
         uses: ./.github/actions/publish
         with:
