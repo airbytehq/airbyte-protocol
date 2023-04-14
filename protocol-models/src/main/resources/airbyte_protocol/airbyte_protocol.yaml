@@ -173,9 +173,13 @@ definitions:
         description: "the type of trace message"
         type: string
         enum:
+          - DEBUG
           - ERROR
           - ESTIMATE
           - STREAM_STATUS
+      debug:
+        description: "Debug trace message: extra debugging data"
+        "$ref": "#/definitions/AirbyteDebugTraceMessage"
       emitted_at:
         description: "the time in ms that the message was emitted"
         type: number
@@ -212,6 +216,21 @@ definitions:
       stream_descriptor:
         description: "The stream associated with the error, if known (optional)"
         "$ref": "#/definitions/StreamDescriptor"
+  AirbyteDebugTraceMessage:
+    type: object
+    required:
+      - type
+      - data
+    properties:
+      type:
+        description: The Type of debug message
+        type: string
+      data:
+        description: The Data
+        type: string
+      stream_descriptor:
+        description: The StreamDescriptor for this data
+        “$ref”: "#/definitions/StreamDescriptor"
   AirbyteEstimateTraceMessage:
     type: object
     additionalProperties: true

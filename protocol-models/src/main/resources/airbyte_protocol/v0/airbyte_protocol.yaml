@@ -4,7 +4,7 @@
 title: AirbyteProtocol
 type: object
 description: AirbyteProtocol structs
-version: 0.3.2
+version: 0.3.3
 properties:
   airbyte_message:
     "$ref": "#/definitions/AirbyteMessage"
@@ -173,9 +173,13 @@ definitions:
         description: "the type of trace message"
         type: string
         enum:
+          - DEBUG
           - ERROR
           - ESTIMATE
           - STREAM_STATUS
+      debug:
+        description: "Debug trace message: extra debugging data"
+        "$ref": "#/definitions/AirbyteDebugTraceMessage"
       emitted_at:
         description: "the time in ms that the message was emitted"
         type: number
@@ -188,6 +192,21 @@ definitions:
       stream_status:
         description: "Stream status trace message:  the current status of a stream within a source"
         "$ref": "#/definitions/AirbyteStreamStatusTraceMessage"
+  AirbyteDebugTraceMessage:
+    type: object
+    required:
+      - type
+      - data
+    properties:
+      type:
+        description: The Type of debug message
+        type: string
+      data:
+        description: The Data
+        type: string
+      stream_descriptor:
+        description: The StreamDescriptor for this data
+        “$ref”: "#/definitions/StreamDescriptor"
   AirbyteErrorTraceMessage:
     type: object
     additionalProperties: true
