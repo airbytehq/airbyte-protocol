@@ -249,7 +249,8 @@ definitions:
     enum:
       - STARTED # Stream has started executing, but no data read yet
       - RUNNING # Stream has read its first byte/message
-      - STOPPED # Stream has stopped executing
+      - COMPLETE # Stream has completed executing without interruption or error
+      - INCOMPLETE # Stream has stopped due to an interruption or error
   AirbyteStreamStatusTraceMessage:
     type: object
     additionalProperties: true
@@ -263,9 +264,6 @@ definitions:
       status:
         description: "The current status of the stream"
         "$ref": "#/definitions/AirbyteStreamStatus"
-      success:
-        description: "Additional flag used with the STOPPED status to indicate success or failure"
-        type: boolean
   AirbyteControlMessage:
     type: object
     additionalProperties: true
