@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.6](https://github.com/airbytehq/airbyte-protocol/compare/v0.3.5...v0.3.6) (2023-04-20)
+
+
+### Bug Fixes
+
+* Remove success in favor of explicit status enum values ([#34](https://github.com/airbytehq/airbyte-protocol/issues/34)) ([046c4e2](https://github.com/airbytehq/airbyte-protocol/commit/046c4e21b7e687bed64d2303a6c71d1137aed3a9))
+
 ## [0.3.5](https://github.com/airbytehq/airbyte-protocol/compare/v0.3.4...v0.3.5) (2023-04-13)
 
 
