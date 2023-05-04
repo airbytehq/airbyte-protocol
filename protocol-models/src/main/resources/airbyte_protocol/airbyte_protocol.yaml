@@ -526,6 +526,10 @@ definitions:
           predicate_value:
             description: Value of the predicate_key fields for the advanced auth to be applicable.
             type: string
+          supports_revoking_tokens:
+            description: If the connector OAuth flow supports revoking tokens or not.
+            type: boolean
+            default: false
           oauth_config_specification:
             "$ref": "#/definitions/OAuthConfigSpecification"
       protocol_version:
