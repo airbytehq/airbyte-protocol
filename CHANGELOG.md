@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.4.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.3.6...v0.4.0) (2023-08-01)
+
+
+### Bug Fixes
+
+* Python package - relax pydantic dependency version requirement ([#41](https://github.com/airbytehq/airbyte-protocol/issues/41)) ([69bf066](https://github.com/airbytehq/airbyte-protocol/commit/69bf066050ff8081bc8fcafcb5410773867df896))
+
+### Refactors
+
+* Remove deprecated authSpecification from connector specification ([#39](https://github.com/airbytehq/airbyte-protocol/issues/39)) ([029148b](https://github.com/airbytehq/airbyte-protocol/commit/029148b42d35ab441c11a8845927f44ef118b8c0))
+
 ## [0.3.6](https://github.com/airbytehq/airbyte-protocol/compare/v0.3.5...v0.3.6) (2023-04-20)
 
 
