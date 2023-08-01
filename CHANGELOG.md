@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.3.7](https://github.com/airbytehq/airbyte-protocol/compare/v0.3.6...v0.3.7) (2023-08-01)
+## [0.4.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.3.6...v0.4.0) (2023-08-01)
 
 
 ### Bug Fixes
