@@ -5,7 +5,7 @@
 
 ### Bug Fixes
 
-* Python package - relax pydantic depenency version requirement ([#41](https://github.com/airbytehq/airbyte-protocol/issues/41)) ([69bf066](https://github.com/airbytehq/airbyte-protocol/commit/69bf066050ff8081bc8fcafcb5410773867df896))
+* Python package - relax pydantic dependency version requirement ([#41](https://github.com/airbytehq/airbyte-protocol/issues/41)) ([69bf066](https://github.com/airbytehq/airbyte-protocol/commit/69bf066050ff8081bc8fcafcb5410773867df896))
 
 ### Refactors
 
