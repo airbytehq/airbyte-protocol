@@ -147,9 +147,10 @@ public class JsonSchemas {
                                                  final List<FieldNameOrList> path,
                                                  final BiConsumer<JsonNode, List<FieldNameOrList>> consumer) {
     if (!jsonSchemaNode.isObject()) {
-      throw new IllegalArgumentException(
-          String.format("json schema nodes should always be object nodes. path: %s actual: %s", path, jsonSchemaNode));
+      log.warn("Skipping Invalid node: json schema nodes should always be object nodes. path: {} actual: {}", path, jsonSchemaNode);
+      return;
     }
+
     consumer.accept(jsonSchemaNode, path);
     // if type is missing assume object. not official JsonSchema, but it seems to be a common
     // compromise.
