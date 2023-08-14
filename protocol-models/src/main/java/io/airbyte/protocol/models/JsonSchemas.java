@@ -146,11 +146,12 @@ public class JsonSchemas {
   private static void traverseJsonSchemaInternal(final JsonNode jsonSchemaNode,
                                                  final List<FieldNameOrList> path,
                                                  final BiConsumer<JsonNode, List<FieldNameOrList>> consumer) {
-    if (!jsonSchemaNode.isObject()) {
-      log.warn("Skipping Invalid node: json schema nodes should always be object nodes. path: {} actual: {}", path, jsonSchemaNode);
+    final boolean isTraversable = jsonSchemaNode.isObject();
+    if (!isTraversable) {
+      log.warn("json schema nodes should always be object nodes. path: {} actual: {}",
+          path, jsonSchemaNode);
       return;
     }
-
     consumer.accept(jsonSchemaNode, path);
     // if type is missing assume object. not official JsonSchema, but it seems to be a common
     // compromise.

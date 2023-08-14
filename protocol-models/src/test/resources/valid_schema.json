@@ -10,6 +10,7 @@
     "DKK": { "type": ["null", "number"] },
     "HUF": { "type": ["null", "number"] },
     "文": { "type": ["null", "number"] },
+    "somePreviouslyInvalidField": [null, "integer"],
     "something": {
       "type": ["null", "object"],
       "properties": {
