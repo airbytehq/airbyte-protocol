@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.4.0...v0.4.1) (2023-08-14)
+
+
+### Bug Fixes
+
+* Python package - relax pydantic depenency version requirement ([#41](https://github.com/airbytehq/airbyte-protocol/issues/41)) ([69bf066](https://github.com/airbytehq/airbyte-protocol/commit/69bf066050ff8081bc8fcafcb5410773867df896))
+* Skip dont error when invalid jsonSchemaNode is found during traversal ([#44](https://github.com/airbytehq/airbyte-protocol/issues/44)) ([e1fa4b7](https://github.com/airbytehq/airbyte-protocol/commit/e1fa4b78873f59f4cb04b127df0944b89ce88b24))
+
 ## [0.4.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.3.6...v0.4.0) (2023-08-01)
 
 
