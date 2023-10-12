@@ -176,6 +176,7 @@ definitions:
           - ERROR
           - ESTIMATE
           - STREAM_STATUS
+          - ANALYTICS
       emitted_at:
         description: "the time in ms that the message was emitted"
         type: number
@@ -188,6 +189,8 @@ definitions:
       stream_status:
         description: "Stream status trace message:  the current status of a stream within a source"
         "$ref": "#/definitions/AirbyteStreamStatusTraceMessage"
+      analytics:
+        "$ref": "#/definitions/AirbyteAnalyticsTraceMessage"
   AirbyteErrorTraceMessage:
     type: object
     additionalProperties: true
@@ -259,6 +262,18 @@ definitions:
       status:
         description: "The current status of the stream"
         "$ref": "#/definitions/AirbyteStreamStatus"
+  AirbyteAnalyticsTraceMessage:
+    type: object
+    additionalProperties: true
+    required:
+      - type
+    properties:
+      type:
+        description: "the event type"
+        type: string
+      value:
+        type: string
+        description: "the value of the event"
   AirbyteControlMessage:
     type: object
     additionalProperties: true
