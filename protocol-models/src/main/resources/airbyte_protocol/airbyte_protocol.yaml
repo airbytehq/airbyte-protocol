@@ -270,6 +270,17 @@ definitions:
   AirbyteAnalyticsTraceMessage:
     type: object
     additionalProperties: true
+    description:
+      "A message to communicate usage information about the connector which is not captured by regular sync analytics because it's specific to the connector internals.
+      This is useful to understand how the connector is used and how to improve it.
+      Each message is an event with a type and an optional payload value (both of them being strings). The event types should not be dynamically generated but defined statically.
+      The payload value is optional and can contain arbitrary strings.
+      "
+    examples:
+      - type: "sql-source-used-cursor-count-indexed"
+        value: "2"
+      - type: "mongodb-cluster-version"
+        value: "6.5"
     required:
       - type
     properties:
