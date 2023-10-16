@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.2](https://github.com/airbytehq/airbyte-protocol/compare/v0.4.1...v0.4.2) (2023-10-16)
+
+
+### Bug Fixes
+
+* Add more documentation to analytics message ([#46](https://github.com/airbytehq/airbyte-protocol/issues/46)) ([c181fb4](https://github.com/airbytehq/airbyte-protocol/commit/c181fb42b72172dc3fcae85f6786fcb6d6153281))
+
 ## [0.4.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.4.0...v0.4.1) (2023-08-14)
 
 
