@@ -281,11 +281,11 @@ definitions:
       - type
     properties:
       type:
-        description: "the event type"
+        description: "The event type - should be a static string. Keep in mind that all strings are shared across all connectors."
         type: string
       value:
         type: string
-        description: "the value of the event"
+        description: "The value of the event - can be an arbitrary string. In case the value is numeric, it should be converted to a string. Casting for analytics purposes can happen in the warehouse."
   AirbyteControlMessage:
     type: object
     additionalProperties: true
