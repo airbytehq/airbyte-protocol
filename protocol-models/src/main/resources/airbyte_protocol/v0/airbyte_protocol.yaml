@@ -553,7 +553,7 @@ definitions:
       protocol_version:
         description: "the Airbyte Protocol version supported by the connector. Protocol versioning uses SemVer. "
         type: string
-      spec_migration_version:
+      spec_version:
         type: integer
         description: |-
           The version of the spec - if there is a change that requires to migrate the config of an actor, this number should be incremented.
