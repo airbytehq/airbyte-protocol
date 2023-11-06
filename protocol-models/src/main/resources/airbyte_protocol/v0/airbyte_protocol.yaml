@@ -1,10 +1,10 @@
 ---
 "$schema": http://json-schema.org/draft-07/schema#
-"$id": https://github.com/airbytehq/airbyte/blob/master/airbyte-protocol/models/src/main/resources/airbyte_protocol/airbyte_protocol.yaml
+"$id": https://github.com/airbytehq/airbyte/blob/master/airbyte-protocol/models/src/main/resources/airbyte_protocol/v1/airbyte_protocol.yaml
 title: AirbyteProtocol
 type: object
 description: AirbyteProtocol structs
-version: 0.3.2
+version: 1.0.0
 properties:
   airbyte_message:
     "$ref": "#/definitions/AirbyteMessage"
@@ -87,6 +87,10 @@ definitions:
         description: "(Deprecated) the state data"
         type: object
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      sourceStats:
+        "$ref": "#/definitions/AirbyteStateStats"
+      destinationStats:
+        "$ref": "#/definitions/AirbyteStateStats"
   AirbyteStateType:
     type: string
     description: >
@@ -138,6 +142,13 @@ definitions:
     additionalProperties: true
     description: "the state data"
     existingJavaType: com.fasterxml.jackson.databind.JsonNode
+  AirbyteStateStats:
+    type: object
+    additionalProperties: true
+    properties:
+      record_count:
+        description: "the number of records which were emitted for this state message, for this stream or global"
+        type: number
   AirbyteLogMessage:
     type: object
     additionalProperties: true
@@ -213,6 +224,7 @@ definitions:
           - system_error
           - config_error
       stream_descriptor:
+        description: "The stream associated with the error, if known (optional)"
         "$ref": "#/definitions/StreamDescriptor"
   AirbyteEstimateTraceMessage:
     type: object
@@ -226,7 +238,11 @@ definitions:
         type: string
       type:
         title: "estimate type" # this title is required to avoid python codegen conflicts with the "type" parameter in AirbyteMessage. See https://github.com/airbytehq/airbyte/pull/12581
-        description: The type of estimate
+        description: >
+          Estimates are either per-stream (STREAM) or for the entire sync (SYNC).
+          STREAM is preferred, and requires the source to count how many records are about to be emitted per-stream (e.g. there will be 100 rows from this table emitted).
+          For the rare source which cannot tell which stream a record belongs to before reading (e.g. CDC databases), SYNC estimates can be emitted.
+          Sources should not emit both STREAM and SOURCE estimates within a sync.
         type: string
         enum:
           - STREAM
@@ -430,52 +446,6 @@ definitions:
       - overwrite
       #- upsert_dedup # TODO chris: SCD Type 1 can be implemented later
       - append_dedup # SCD Type 1 & 2
-  OAuth2Specification:
-    type: object
-    additionalProperties: true
-    description: An object containing any metadata needed to describe this connector's Oauth flow. Deprecated, switching to advanced_auth instead
-    properties:
-      rootObject:
-        description:
-          "A list of strings representing a pointer to the root object which contains any oauth parameters in the ConnectorSpecification.
-
-          Examples:
-
-          if oauth parameters were contained inside the top level, rootObject=[]
-          If they were nested inside another object {'credentials': {'app_id' etc...}, rootObject=['credentials']
-          If they were inside a oneOf {'switch': {oneOf: [{client_id...}, {non_oauth_param]}},  rootObject=['switch', 0]
-          "
-        type: array
-        items:
-          oneOf:
-            - type: string
-            - type: integer
-
-      oauthFlowInitParameters:
-        description:
-          "Pointers to the fields in the rootObject needed to obtain the initial refresh/access tokens for the OAuth flow.
-          Each inner array represents the path in the rootObject of the referenced field.
-          For example.
-          Assume the rootObject contains params 'app_secret', 'app_id' which are needed to get the initial refresh token.
-          If they are not nested in the rootObject, then the array would look like this [['app_secret'], ['app_id']]
-          If they are nested inside an object called 'auth_params' then this array would be [['auth_params', 'app_secret'], ['auth_params', 'app_id']]"
-        type: array
-        items:
-          description: A list of strings denoting a pointer into the rootObject for where to find this property
-          type: array
-          items:
-            type: string
-      oauthFlowOutputParameters:
-        description:
-          "Pointers to the fields in the rootObject which can be populated from successfully completing the oauth flow using the init parameters.
-          This is typically a refresh/access token.
-          Each inner array represents the path in the rootObject of the referenced field."
-        type: array
-        items:
-          description: A list of strings denoting a pointer into the rootObject for where to find this property
-          type: array
-          items:
-            type: string
   ConnectorSpecification:
     type: object
     additionalProperties: true
@@ -518,16 +488,6 @@ definitions:
         type: array
         items:
           "$ref": "#/definitions/DestinationSyncMode"
-      authSpecification:
-        description: deprecated, switching to advanced_auth instead
-        type: object
-        properties:
-          auth_type:
-            type: string
-            enum: ["oauth2.0"] # Future auth types should be added here
-          oauth2Specification:
-            description: If the connector supports OAuth, this field should be non-null.
-            "$ref": "#/definitions/OAuth2Specification"
       advanced_auth:
         description: |-
           Additional and optional specification object to describe what an 'advanced' Auth flow would need to function.
