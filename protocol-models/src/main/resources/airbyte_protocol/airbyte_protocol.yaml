@@ -87,6 +87,10 @@ definitions:
         description: "(Deprecated) the state data"
         type: object
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      sourceStats:
+        "$ref": "#/definitions/AirbyteStateStats"
+      destinationStats:
+        "$ref": "#/definitions/AirbyteStateStats"
   AirbyteStateType:
     type: string
     description: >
@@ -138,6 +142,13 @@ definitions:
     additionalProperties: true
     description: "the state data"
     existingJavaType: com.fasterxml.jackson.databind.JsonNode
+  AirbyteStateStats:
+    type: object
+    additionalProperties: true
+    properties:
+      record_count:
+        description: "the number of records which were emitted for this state message, for this stream or global"
+        type: number
   AirbyteLogMessage:
     type: object
     additionalProperties: true
