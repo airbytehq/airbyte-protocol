@@ -146,7 +146,7 @@ definitions:
     type: object
     additionalProperties: true
     properties:
-      record_count:
+      recordCount:
         description: "the number of records which were emitted for this state message, for this stream or global"
         type: number
   AirbyteLogMessage:
