@@ -287,4 +287,27 @@ class CatalogHelpersTest {
     Assertions.assertThat(diff).containsAll(expectedDiff);
   }
 
+  @Test
+  void testCatalogDiffStreamChangeWithNoFieldTransform() throws IOException {
+    final JsonNode schema1 = Jsons.deserialize(readResource(VALID_SCHEMA_JSON));
+
+    final AirbyteCatalog catalog1 = new AirbyteCatalog().withStreams(List.of(
+        new AirbyteStream().withName(USERS).withJsonSchema(schema1),
+        new AirbyteStream().withName(SALES).withJsonSchema(schema1)));
+    final AirbyteCatalog catalog2 = new AirbyteCatalog().withStreams(List.of(
+        new AirbyteStream().withName(USERS).withJsonSchema(schema1).withSourceDefinedPrimaryKey(List.of(List.of("id")))));
+
+    final ConfiguredAirbyteCatalog configuredAirbyteCatalog = new ConfiguredAirbyteCatalog().withStreams(List.of(
+        new ConfiguredAirbyteStream().withStream(new AirbyteStream().withName(USERS).withJsonSchema(schema1)).withSyncMode(SyncMode.FULL_REFRESH),
+        new ConfiguredAirbyteStream().withStream(new AirbyteStream().withName(SALES).withJsonSchema(schema1))
+            .withSyncMode(SyncMode.FULL_REFRESH)));
+
+    final Set<StreamTransform> actualDiff = CatalogHelpers.getCatalogDiff(catalog1, catalog2, configuredAirbyteCatalog);
+
+    final List<StreamTransform> expectedDiff = Stream.of(
+        StreamTransform.createRemoveStreamTransform(new StreamDescriptor().withName(SALES)))
+        .toList();
+
+    Assertions.assertThat(actualDiff).containsExactlyInAnyOrderElementsOf(expectedDiff);
+  }
 }
