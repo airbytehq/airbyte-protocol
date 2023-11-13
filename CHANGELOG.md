@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.4.2...v0.5.0) (2023-11-13)
+
+
+### Features
+
+* add `AirbyteStateStats` ([#49](https://github.com/airbytehq/airbyte-protocol/issues/49)) ([a7ac0cf](https://github.com/airbytehq/airbyte-protocol/commit/a7ac0cf2e9b52bf1c8cc724464d9fb0e012e44c5))
+
 ## [0.4.2](https://github.com/airbytehq/airbyte-protocol/compare/v0.4.1...v0.4.2) (2023-10-16)
 
 
