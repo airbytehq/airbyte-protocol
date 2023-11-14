@@ -87,6 +87,10 @@ definitions:
         description: "(Deprecated) the state data"
         type: object
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      sourceStats:
+        "$ref": "#/definitions/AirbyteStateStats"
+      destinationStats:
+        "$ref": "#/definitions/AirbyteStateStats"
   AirbyteStateType:
     type: string
     description: >
@@ -138,6 +142,13 @@ definitions:
     additionalProperties: true
     description: "the state data"
     existingJavaType: com.fasterxml.jackson.databind.JsonNode
+  AirbyteStateStats:
+    type: object
+    additionalProperties: true
+    properties:
+      recordCount:
+        description: "the number of records which were emitted for this state message, for this stream or global"
+        type: number
   AirbyteLogMessage:
     type: object
     additionalProperties: true
@@ -213,6 +224,7 @@ definitions:
           - system_error
           - config_error
       stream_descriptor:
+        description: "The stream associated with the error, if known (optional)"
         "$ref": "#/definitions/StreamDescriptor"
   AirbyteEstimateTraceMessage:
     type: object
@@ -226,7 +238,11 @@ definitions:
         type: string
       type:
         title: "estimate type" # this title is required to avoid python codegen conflicts with the "type" parameter in AirbyteMessage. See https://github.com/airbytehq/airbyte/pull/12581
-        description: The type of estimate
+        description: >
+          Estimates are either per-stream (STREAM) or for the entire sync (SYNC).
+          STREAM is preferred, and requires the source to count how many records are about to be emitted per-stream (e.g. there will be 100 rows from this table emitted).
+          For the rare source which cannot tell which stream a record belongs to before reading (e.g. CDC databases), SYNC estimates can be emitted.
+          Sources should not emit both STREAM and SYNC estimates within a sync.
         type: string
         enum:
           - STREAM
@@ -438,9 +454,7 @@ definitions:
       rootObject:
         description:
           "A list of strings representing a pointer to the root object which contains any oauth parameters in the ConnectorSpecification.
-
           Examples:
-
           if oauth parameters were contained inside the top level, rootObject=[]
           If they were nested inside another object {'credentials': {'app_id' etc...}, rootObject=['credentials']
           If they were inside a oneOf {'switch': {oneOf: [{client_id...}, {non_oauth_param]}},  rootObject=['switch', 0]
