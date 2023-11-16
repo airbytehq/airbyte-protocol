@@ -378,8 +378,13 @@ public class CatalogHelpers {
               .findFirst();
 
           if (!streamOld.equals(streamNew)) {
-            streamTransforms.add(StreamTransform.createUpdateStreamTransform(descriptor,
-                getStreamDiff(streamOld, streamNew, stream)));
+            // getStreamDiff only checks for differences in the stream's field name or field type
+            // but there are a number of reasons the streams might be different (such as a source-defined
+            // primary key or cursor changing). These should not be expressed as "stream updates".
+            UpdateStreamTransform streamTransform = getStreamDiff(streamOld, streamNew, stream);
+            if (streamTransform.getFieldTransforms().size() > 0) {
+              streamTransforms.add(StreamTransform.createUpdateStreamTransform(descriptor, streamTransform));
+            }
           }
         });
 
