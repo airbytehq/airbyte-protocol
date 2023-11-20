@@ -50,7 +50,6 @@ protobuf {
     }
 
     generateProtoTasks {
-        ofSourceSet('main')*.protoPath = 'src/main/resources/airbyte_protocol_proto/v0'
-//    ofSourceSet('test')*.protoPath = 'src/test/proto'
+        ofSourceSet('main')
     }
 }
