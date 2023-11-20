@@ -1,6 +1,9 @@
 syntax = "proto3";
 
-package airbyte;
+package airbyte.protocol;
+
+option java_multiple_files = true;
+option java_package = "io.airbyte.protocol.protos";
 
 import "google/protobuf/any.proto";
 import "google/protobuf/timestamp.proto";
@@ -9,14 +12,12 @@ import "google/protobuf/timestamp.proto";
 enum SyncMode {
   FULL_REFRESH = 0;
   INCREMENTAL = 1;
-  // ... other sync modes
 }
 
 enum DestinationSyncMode {
   APPEND = 0;
   OVERWRITE = 1;
   APPEND_DEDUP = 2;
-  // ... other destination sync modes
 }
 
 enum AirbyteStreamStatus {
