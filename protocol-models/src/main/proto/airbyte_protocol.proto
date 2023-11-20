@@ -42,11 +42,13 @@ message AirbyteRecordMessage {
   string stream = 1;
   google.protobuf.Timestamp emitted_at = 2;
   ObjectData data = 3;
+  optional string namespace = 4;
   // ... other fields as necessary
 }
 
-message AirbyteStateMessage {
-  AirbyteStateBlob data = 1;
+message StreamDescriptor {
+  string name = 1;
+  string namespace = 2;
   // ... other fields as necessary
 }
 
@@ -67,35 +69,6 @@ message AirbyteTraceMessage {
   }
 }
 
-// Additional message definitions based on JSON schema
-message AirbyteStreamState {
-  StreamDescriptor stream_descriptor = 1;
-  AirbyteStateBlob stream_state = 2;
-  // ... other fields as necessary
-}
-
-message AirbyteGlobalState {
-  AirbyteStateBlob shared_state = 1;
-  repeated AirbyteStreamState stream_states = 2;
-  // ... other fields as necessary
-}
-
-message StreamDescriptor {
-  string name = 1;
-  string namespace = 2;
-  // ... other fields as necessary
-}
-
-message AirbyteStateBlob {
-  google.protobuf.Any data = 1;
-  // ... other fields as necessary
-}
-
-message AirbyteStateStats {
-  double recordCount = 1;
-  // ... other fields as necessary
-}
-
 message AirbyteErrorTraceMessage {
   string message = 1;
   string internal_message = 2;
@@ -105,36 +78,9 @@ message AirbyteErrorTraceMessage {
   // ... other fields as necessary
 }
 
-message AirbyteEstimateTraceMessage {
-  string name = 1;
-  string type = 2;
-  string namespace = 3;
-  int64 row_estimate = 4;
-  int64 byte_estimate = 5;
-  // ... other fields as necessary
-}
-
 message AirbyteStreamStatusTraceMessage {
   StreamDescriptor stream_descriptor = 1;
   AirbyteStreamStatus status = 2;
-  // ... other fields as necessary
-}
-
-message AirbyteAnalyticsTraceMessage {
-  string type = 1;
-  string value = 2;
-  // ... other fields as necessary
-}
-
-message AirbyteControlMessage {
-  string type = 1;
-  google.protobuf.Timestamp emitted_at = 2;
-  AirbyteControlConnectorConfigMessage connectorConfig = 3;
-  // ... other fields as necessary
-}
-
-message AirbyteControlConnectorConfigMessage {
-  map<string, google.protobuf.Any> config = 1;
   // ... other fields as necessary
 }
 
@@ -178,6 +124,10 @@ message ObjectData {
   map<string, Value> data = 1;
 }
 
+message ValueList {
+  repeated Value values = 1;
+}
+
 message Value {
   oneof kind {
     NullValue null_value = 1;
@@ -194,6 +144,57 @@ enum NullValue {
   NULL_VALUE = 0;
 }
 
-message ValueList {
-  repeated Value values = 1;
+// SKIP ALL THESE FOR NOW FOR HACKDAY //
+message AirbyteStateMessage {
+  AirbyteStateBlob data = 1;
+  // ... other fields as necessary
+}
+
+message AirbyteStreamState {
+  StreamDescriptor stream_descriptor = 1;
+  AirbyteStateBlob stream_state = 2;
+  // ... other fields as necessary
+}
+
+message AirbyteGlobalState {
+  AirbyteStateBlob shared_state = 1;
+  repeated AirbyteStreamState stream_states = 2;
+  // ... other fields as necessary
+}
+
+message AirbyteStateBlob {
+  google.protobuf.Any data = 1;
+  // ... other fields as necessary
+}
+
+message AirbyteStateStats {
+  double recordCount = 1;
+  // ... other fields as necessary
+}
+
+message AirbyteControlMessage {
+  string type = 1;
+  google.protobuf.Timestamp emitted_at = 2;
+  AirbyteControlConnectorConfigMessage connectorConfig = 3;
+  // ... other fields as necessary
+}
+
+message AirbyteControlConnectorConfigMessage {
+  map<string, google.protobuf.Any> config = 1;
+  // ... other fields as necessary
+}
+
+message AirbyteEstimateTraceMessage {
+  string name = 1;
+  string type = 2;
+  string namespace = 3;
+  int64 row_estimate = 4;
+  int64 byte_estimate = 5;
+  // ... other fields as necessary
+}
+
+message AirbyteAnalyticsTraceMessage {
+  string type = 1;
+  string value = 2;
+  // ... other fields as necessary
 }
