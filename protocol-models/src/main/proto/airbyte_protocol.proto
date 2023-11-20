@@ -41,7 +41,7 @@ message AirbyteMessage {
 message AirbyteRecordMessage {
   string stream = 1;
   google.protobuf.Timestamp emitted_at = 2;
-  google.protobuf.Any data = 3;
+  ObjectData data = 3;
   // ... other fields as necessary
 }
 
@@ -172,4 +172,28 @@ message ConfiguredAirbyteStream {
   DestinationSyncMode destination_sync_mode = 4;
   repeated string primary_key = 5;
   // ... other fields as necessary
+}
+
+message ObjectData {
+  map<string, Value> data = 1;
+}
+
+message Value {
+  oneof kind {
+    NullValue null_value = 1;
+    int64 int_value = 2;
+    double float_value = 3;
+    string string_value = 4;
+    bytes bytes_value = 5;
+    ObjectData object_value = 6;
+    ValueList list_value = 7;
+  }
+}
+
+enum NullValue {
+  NULL_VALUE = 0;
+}
+
+message ValueList {
+  repeated Value values = 1;
 }
