@@ -310,4 +310,5 @@ class CatalogHelpersTest {
 
     Assertions.assertThat(actualDiff).containsExactlyInAnyOrderElementsOf(expectedDiff);
   }
+
 }

@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package airbyte;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+// Enumerations
+enum SyncMode {
+  FULL_REFRESH = 0;
+  INCREMENTAL = 1;
+  // ... other sync modes
+}
+
+enum DestinationSyncMode {
+  APPEND = 0;
+  OVERWRITE = 1;
+  APPEND_DEDUP = 2;
+  // ... other destination sync modes
+}
+
+enum AirbyteStreamStatus {
+  ACTIVE = 0;
+  DEPRECATED = 1;
+  // ... other stream statuses
+}
+
+// Message Definitions
+message AirbyteMessage {
+  oneof message {
+    AirbyteRecordMessage record = 1;
+    AirbyteStateMessage state = 2;
+    AirbyteLogMessage log = 3;
+    AirbyteTraceMessage trace = 4;
+    AirbyteControlMessage control = 5;
+    // ... other message types
+  }
+}
+
+message AirbyteRecordMessage {
+  string stream = 1;
+  google.protobuf.Timestamp emitted_at = 2;
+  google.protobuf.Any data = 3;
+  // ... other fields as necessary
+}
+
+message AirbyteStateMessage {
+  AirbyteStateBlob data = 1;
+  // ... other fields as necessary
+}
+
+message AirbyteLogMessage {
+  string level = 1;
+  string message = 2;
+  google.protobuf.Timestamp emitted_at = 3;
+  // ... other fields as necessary
+}
+
+message AirbyteTraceMessage {
+  oneof trace_type {
+    AirbyteErrorTraceMessage error = 1;
+    AirbyteEstimateTraceMessage estimate = 2;
+    AirbyteStreamStatusTraceMessage stream_status = 3;
+    AirbyteAnalyticsTraceMessage analytics = 4;
+    // ... other trace types
+  }
+}
+
+// Additional message definitions based on JSON schema
+message AirbyteStreamState {
+  StreamDescriptor stream_descriptor = 1;
+  AirbyteStateBlob stream_state = 2;
+  // ... other fields as necessary
+}
+
+message AirbyteGlobalState {
+  AirbyteStateBlob shared_state = 1;
+  repeated AirbyteStreamState stream_states = 2;
+  // ... other fields as necessary
+}
+
+message StreamDescriptor {
+  string name = 1;
+  string namespace = 2;
+  // ... other fields as necessary
+}
+
+message AirbyteStateBlob {
+  google.protobuf.Any data = 1;
+  // ... other fields as necessary
+}
+
+message AirbyteStateStats {
+  double recordCount = 1;
+  // ... other fields as necessary
+}
+
+message AirbyteErrorTraceMessage {
+  string message = 1;
+  string internal_message = 2;
+  string stack_trace = 3;
+  string failure_type = 4;
+  StreamDescriptor stream_descriptor = 5;
+  // ... other fields as necessary
+}
+
+message AirbyteEstimateTraceMessage {
+  string name = 1;
+  string type = 2;
+  string namespace = 3;
+  int64 row_estimate = 4;
+  int64 byte_estimate = 5;
+  // ... other fields as necessary
+}
+
+message AirbyteStreamStatusTraceMessage {
+  StreamDescriptor stream_descriptor = 1;
+  AirbyteStreamStatus status = 2;
+  // ... other fields as necessary
+}
+
+message AirbyteAnalyticsTraceMessage {
+  string type = 1;
+  string value = 2;
+  // ... other fields as necessary
+}
+
+message AirbyteControlMessage {
+  string type = 1;
+  google.protobuf.Timestamp emitted_at = 2;
+  AirbyteControlConnectorConfigMessage connectorConfig = 3;
+  // ... other fields as necessary
+}
+
+message AirbyteControlConnectorConfigMessage {
+  map<string, google.protobuf.Any> config = 1;
+  // ... other fields as necessary
+}
+
+message AirbyteConnectionStatus {
+  string status = 1;
+  string message = 2;
+  // ... other fields as necessary
+}
+
+message AirbyteCatalog {
+  repeated AirbyteStream streams = 1;
+  // ... other fields as necessary
+}
+
+message AirbyteStream {
+  string name = 1;
+  google.protobuf.Any json_schema = 2;
+  repeated SyncMode supported_sync_modes = 3;
+  bool source_defined_cursor = 4;
+  repeated string default_cursor_field = 5;
+  repeated string source_defined_primary_key = 6;
+  string namespace = 7;
+  // ... other fields as necessary
+}
+
+message ConfiguredAirbyteCatalog {
+  repeated ConfiguredAirbyteStream streams = 1;
+  // ... other fields as necessary
+}
+
+message ConfiguredAirbyteStream {
+  AirbyteStream stream = 1;
+  SyncMode sync_mode = 2;
+  repeated string cursor_field = 3;
+  DestinationSyncMode destination_sync_mode = 4;
+  repeated string primary_key = 5;
+  // ... other fields as necessary
+}

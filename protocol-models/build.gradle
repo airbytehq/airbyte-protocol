@@ -1,12 +1,15 @@
 import org.jsonschema2pojo.SourceType
 
 plugins {
+    id 'com.google.protobuf' version '0.9.4'
     id 'com.github.eirnym.js2p' version '1.0'
 }
 
 dependencies {
     implementation 'javax.validation:validation-api:1.1.0.Final'
     implementation 'org.apache.commons:commons-lang3:3.11'
+
+    implementation 'com.google.protobuf:protobuf-java:3.25.1'
 }
 
 jsonSchema2Pojo {
@@ -39,4 +42,15 @@ task generateTypescriptProtocolClassFiles(type: Exec) {
     outputs.dir 'typescript/dist'
 
     commandLine 'bin/generate-typescript-classes-docker.sh'
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.25.1' // Use the appropriate version
+    }
+
+    generateProtoTasks {
+        ofSourceSet('main')*.protoPath = 'src/main/resources/airbyte_protocol_proto/v0'
+//    ofSourceSet('test')*.protoPath = 'src/test/proto'
+    }
 }
