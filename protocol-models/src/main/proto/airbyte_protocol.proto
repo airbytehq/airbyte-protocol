@@ -21,9 +21,10 @@ enum DestinationSyncMode {
 }
 
 enum AirbyteStreamStatus {
-  ACTIVE = 0;
-  DEPRECATED = 1;
-  // ... other stream statuses
+  STARTED = 0;
+  RUNNING = 1;
+  COMPLETE = 2;
+  INCOMPLETE = 3;
 }
 
 // Message Definitions
@@ -39,24 +40,54 @@ message AirbyteMessage {
 }
 
 message AirbyteRecordMessage {
-  string stream = 1;
-  google.protobuf.Timestamp emitted_at = 2;
-  ObjectData data = 3;
-  optional string namespace = 4;
-  // ... other fields as necessary
+  string stream = 1; // required
+  google.protobuf.Timestamp emitted_at = 2; // required
+  ObjectData data = 3; // required
+  string namespace = 4;
+}
+
+
+message ObjectData {
+  map<string, Value> data = 1;
+}
+
+message ValueList {
+  repeated Value values = 1;
+}
+
+message Value {
+  oneof kind {
+    NullValue null_value = 1;
+    int64 int_value = 2;
+    double float_value = 3;
+    string string_value = 4;
+    bytes bytes_value = 5;
+    ObjectData object_value = 6;
+    ValueList list_value = 7;
+  }
+}
+
+enum NullValue {
+  NULL_VALUE = 0;
 }
 
 message StreamDescriptor {
-  string name = 1;
+  string name = 1; // required
   string namespace = 2;
-  // ... other fields as necessary
 }
 
 message AirbyteLogMessage {
-  string level = 1;
-  string message = 2;
+  // ? Can enum have the same number as other fields ?
+  enum LEVEL {
+    INFO = 0;
+    WARN = 1;
+    ERROR = 2;
+    FATAL = 3;
+  }
+  LEVEL level = 1; // required
+  string message = 2; // required
   google.protobuf.Timestamp emitted_at = 3;
-  // ... other fields as necessary
+  string stack_trace = 4;
 }
 
 message AirbyteTraceMessage {
@@ -70,20 +101,24 @@ message AirbyteTraceMessage {
 }
 
 message AirbyteErrorTraceMessage {
-  string message = 1;
+  string message = 1; // required
   string internal_message = 2;
   string stack_trace = 3;
-  string failure_type = 4;
+
+  enum FAILURE_TYPE {
+    system_error = 0;
+    config_error = 1;
+  }
+  FAILURE_TYPE failure_type = 4;
   StreamDescriptor stream_descriptor = 5;
-  // ... other fields as necessary
 }
 
 message AirbyteStreamStatusTraceMessage {
-  StreamDescriptor stream_descriptor = 1;
-  AirbyteStreamStatus status = 2;
-  // ... other fields as necessary
+  StreamDescriptor stream_descriptor = 1; // required
+  AirbyteStreamStatus status = 2; // required
 }
 
+// CATALOG MESSAGES. SKIP FOR HACKDAY.
 message AirbyteConnectionStatus {
   string status = 1;
   string message = 2;
@@ -118,30 +153,6 @@ message ConfiguredAirbyteStream {
   DestinationSyncMode destination_sync_mode = 4;
   repeated string primary_key = 5;
   // ... other fields as necessary
-}
-
-message ObjectData {
-  map<string, Value> data = 1;
-}
-
-message ValueList {
-  repeated Value values = 1;
-}
-
-message Value {
-  oneof kind {
-    NullValue null_value = 1;
-    int64 int_value = 2;
-    double float_value = 3;
-    string string_value = 4;
-    bytes bytes_value = 5;
-    ObjectData object_value = 6;
-    ValueList list_value = 7;
-  }
-}
-
-enum NullValue {
-  NULL_VALUE = 0;
 }
 
 // SKIP ALL THESE FOR NOW FOR HACKDAY //
