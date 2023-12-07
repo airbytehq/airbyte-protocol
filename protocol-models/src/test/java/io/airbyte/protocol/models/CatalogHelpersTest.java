@@ -284,7 +284,8 @@ class CatalogHelpersTest {
             FieldTransform.createRemoveFieldTransform(List.of("id"), schema1.get(PROPERTIES).get("id"), false)))))
         .toList();
 
-    Assertions.assertThat(diff).containsAll(expectedDiff);
+    //configuredCatalog is for a different stream, so no diff should be found
+    Assertions.assertThat(diff).hasSize(0);
   }
 
   @Test
