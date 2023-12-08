@@ -63,8 +63,8 @@ jobs:
           pip_version: "21.1"
           subdir: "protocol-models/python/"
         env:
-          TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-          TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.TEST_TWINE_PASSWORD }}
+          TWINE_USERNAME: ${{ secrets.TEST_TWINE_USERNAME }}
           TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
 
       # node
