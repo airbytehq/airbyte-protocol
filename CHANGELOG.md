@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.0...v0.5.1) (2023-12-08)
+
+
+### Bug Fixes
+
+* only add user selected streams to the catalog diff ([#53](https://github.com/airbytehq/airbyte-protocol/issues/53)) ([5360c07](https://github.com/airbytehq/airbyte-protocol/commit/5360c073eca0130bd76c59f76ffd5ae4516e2c19))
+
 ## [0.5.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.4.2...v0.5.0) (2023-11-13)
 
 
