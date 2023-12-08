@@ -377,7 +377,7 @@ public class CatalogHelpers {
                   && s.getStream().getName().equals(descriptor.getName()))
               .findFirst();
 
-          if (!streamOld.equals(streamNew)) {
+          if (!streamOld.equals(streamNew) && stream.isPresent()) {
             // getStreamDiff only checks for differences in the stream's field name or field type
             // but there are a number of reasons the streams might be different (such as a source-defined
             // primary key or cursor changing). These should not be expressed as "stream updates".

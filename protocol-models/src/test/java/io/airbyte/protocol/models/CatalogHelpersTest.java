@@ -278,13 +278,8 @@ class CatalogHelpersTest {
 
     final Set<StreamTransform> diff = CatalogHelpers.getCatalogDiff(catalog1, catalog2, configuredAirbyteCatalog);
 
-    final List<StreamTransform> expectedDiff = Stream.of(
-        StreamTransform.createUpdateStreamTransform(new StreamDescriptor().withName(USERS), new UpdateStreamTransform(Set.of(
-            FieldTransform.createRemoveFieldTransform(List.of(DATE), schema1.get(PROPERTIES).get(DATE), false),
-            FieldTransform.createRemoveFieldTransform(List.of("id"), schema1.get(PROPERTIES).get("id"), false)))))
-        .toList();
-
-    Assertions.assertThat(diff).containsAll(expectedDiff);
+    //configuredCatalog is for a different stream, so no diff should be found
+    Assertions.assertThat(diff).hasSize(0);
   }
 
   @Test
