@@ -83,8 +83,9 @@ definitions:
       errors:
         description: Key-Value pairs of problems for properties of this record
         type: array
-        items: "#/definitions/AirbyteRecordMessageMetaErrors"
-  AirbyteRecordMessageMetaErrors:
+        items:
+          "$ref": "#/definitions/AirbyteRecordMessageMetaErrors"
+  AirbyteRecordMessageMetaPropertyErrors:
     type: object
     additionalProperties: true
     required:
