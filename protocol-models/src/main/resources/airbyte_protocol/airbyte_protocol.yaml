@@ -85,7 +85,7 @@ definitions:
         type: array
         items:
           "$ref": "#/definitions/AirbyteRecordMessageMetaErrors"
-  AirbyteRecordMessageMetaPropertyErrors:
+  AirbyteRecordMessageMetaErrors:
     type: object
     additionalProperties: true
     required:
