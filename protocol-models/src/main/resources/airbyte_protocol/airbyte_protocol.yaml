@@ -80,11 +80,11 @@ definitions:
     type: object
     additionalProperties: true
     properties:
-      property_errors:
+      errors:
         description: Key-Value pairs of problems for properties of this record
         type: array
-        items: "#/definitions/AirbyteRecordMessageMetaPropertyError"
-  AirbyteRecordMessageMetaPropertyError:
+        items: "#/definitions/AirbyteRecordMessageMetaErrors"
+  AirbyteRecordMessageMetaErrors:
     type: object
     additionalProperties: true
     required:
@@ -94,6 +94,8 @@ definitions:
       key:
         type: string
       message:
+        type: string
+      origin:
         type: string
   AirbyteStateMessage:
     type: object
