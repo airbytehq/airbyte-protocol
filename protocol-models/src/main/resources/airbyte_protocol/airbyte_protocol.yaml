@@ -73,6 +73,28 @@ definitions:
       emitted_at:
         description: "when the data was emitted from the source. epoch in millisecond."
         type: integer
+      meta:
+        description: Information about this record added mid-sync
+        "$ref": "#/definitions/AirbyteRecordMessageMeta"
+  AirbyteRecordMessageMeta:
+    type: object
+    additionalProperties: true
+    properties:
+      property_errors:
+        description: Key-Value pairs of problems for properties of this record
+        type: array
+        items: "#/definitions/AirbyteRecordMessageMetaPropertyError"
+  AirbyteRecordMessageMetaPropertyError:
+    type: object
+    additionalProperties: true
+    required:
+      - key
+      - message
+    properties:
+      key:
+        type: string
+      message:
+        type: string
   AirbyteStateMessage:
     type: object
     additionalProperties: true
