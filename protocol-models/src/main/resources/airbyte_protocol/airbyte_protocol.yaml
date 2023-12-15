@@ -81,7 +81,7 @@ definitions:
     additionalProperties: true
     properties:
       errors:
-        description: Key-Value pairs of problems for properties of this record
+        description: Lists of problems with the properties of this record, and where they originated
         type: array
         items:
           "$ref": "#/definitions/AirbyteRecordMessageMetaErrors"
@@ -89,10 +89,10 @@ definitions:
     type: object
     additionalProperties: true
     required:
-      - key
+      - property
       - message
     properties:
-      key:
+      property:
         type: string
       message:
         type: string
