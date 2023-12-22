@@ -98,12 +98,6 @@ definitions:
         type: string
       message:
         type: string
-      origin:
-        type: string
-        enum:
-          - SOURCE
-          - DESTINATION
-          - PLATFORM
 
   AirbyteStateMessage:
     type: object
