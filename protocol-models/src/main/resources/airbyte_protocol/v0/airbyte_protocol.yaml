@@ -352,7 +352,7 @@ definitions:
         items:
           "$ref": "#/definitions/StreamDescriptor"
       type:
-    "$ref": "#/definitions/AirbyteStateType" # (global or per-stream)
+        "$ref": "#/definitions/AirbyteStateType" # (global or per-stream)
       message:
         description: A user-friendly message that describes the problem. This message will be logged and displayed to the user
         type: string

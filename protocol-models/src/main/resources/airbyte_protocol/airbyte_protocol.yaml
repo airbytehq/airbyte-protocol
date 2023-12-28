@@ -335,7 +335,7 @@ definitions:
         description: "the config items from this connector's spec to update"
         type: object
         additionalProperties: true
-    AirbyteControlSyncWorkflowCorrectionMessage:
+  AirbyteControlSyncWorkflowCorrectionMessage:
     type: object
     additionalProperties: true
     required:
@@ -352,7 +352,7 @@ definitions:
         items:
           "$ref": "#/definitions/StreamDescriptor"
       type:
-    "$ref": "#/definitions/AirbyteStateType" # (global or per-stream)
+        "$ref": "#/definitions/AirbyteStateType" # (global or per-stream)
       message:
         description: A user-friendly message that describes the problem. This message will be logged and displayed to the user
         type: string
