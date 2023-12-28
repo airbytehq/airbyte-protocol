@@ -315,12 +315,16 @@ definitions:
         type: string
         enum:
           - CONNECTOR_CONFIG
+          - SYNC_WORKFLOW_CORRECTION
       emitted_at:
         description: "the time in ms that the message was emitted"
         type: number
       connectorConfig:
         description: "connector config orchestrator message: the updated config for the platform to store for this connector"
         "$ref": "#/definitions/AirbyteControlConnectorConfigMessage"
+      syncWorkflowCorrection:
+        description: "connector config orchestrator message: a sync workflow correction is needed"
+        "$ref": "#/definitions/AirbyteControlSyncWorkflowCorrectionMessage"
   AirbyteControlConnectorConfigMessage:
     type: object
     additionalProperties: true
@@ -331,6 +335,27 @@ definitions:
         description: "the config items from this connector's spec to update"
         type: object
         additionalProperties: true
+  AirbyteControlSyncWorkflowCorrectionMessage:
+    type: object
+    additionalProperties: true
+    required:
+      - correctionType
+      - type
+      - message
+    properties:
+      correctionType:
+        enum:
+          - FULL_RESYNC_STARTED
+          # in future we can have WAIT_NEXT_ATTEMPT, for when the source hits the global rate limit, for example
+      streams:
+        type: array
+        items:
+          "$ref": "#/definitions/StreamDescriptor"
+      type:
+    "$ref": "#/definitions/AirbyteStateType" # (global or per-stream)
+      message:
+        description: A user-friendly message that describes the problem. This message will be logged and displayed to the user
+        type: string
   AirbyteConnectionStatus:
     type: object
     description: Airbyte connection status
