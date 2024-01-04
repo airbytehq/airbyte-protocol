@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.3](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.2...v0.5.3) (2024-01-04)
+
+
+### Bug Fixes
+
+* Add py.typed to python distribution ([#57](https://github.com/airbytehq/airbyte-protocol/issues/57)) ([212095d](https://github.com/airbytehq/airbyte-protocol/commit/212095d554c8fef0b2389129173de11cf032e670))
+
 ## [0.5.2](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.1...v0.5.2) (2023-12-26)
 
 
