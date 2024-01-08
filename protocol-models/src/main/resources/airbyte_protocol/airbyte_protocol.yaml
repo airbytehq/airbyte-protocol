@@ -89,10 +89,10 @@ definitions:
     type: object
     additionalProperties: true
     required:
-      - property
+      - field
       - message
     properties:
-      property:
+      field:
         type: string
       message:
         type: string
