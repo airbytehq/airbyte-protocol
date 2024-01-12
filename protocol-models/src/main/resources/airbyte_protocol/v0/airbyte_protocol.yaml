@@ -85,9 +85,9 @@ definitions:
         description: Lists of problems with the properties of this record, and where they originated
         type: array
         items:
-          "$ref": "#/definitions/AirbyteRecordMessageMetaChanges"
+          "$ref": "#/definitions/AirbyteRecordMessageMetaChange"
 
-  AirbyteRecordMessageMetaChanges:
+  AirbyteRecordMessageMetaChange:
     type: object
     additionalProperties: true
     required:
@@ -95,11 +95,14 @@ definitions:
     properties:
       field:
         type: string
+        description: The field that had the change occur (required)
       change:
         type: string
+        description: The type of change that occurred
         enum:
           - NULLED
       reason:
+        description: Human-readable explanation of why the change occurred
         type: string
 
   AirbyteStateMessage:
