@@ -81,7 +81,7 @@ definitions:
     additionalProperties: true
     properties:
       changes:
-        description: Lists of problems with the properties of this record, and where they originated
+        description: Lists of changes to the content of this record which occurred during syncing
         type: array
         items:
           "$ref": "#/definitions/AirbyteRecordMessageMetaChange"
