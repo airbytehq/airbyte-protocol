@@ -80,23 +80,25 @@ definitions:
     type: object
     additionalProperties: true
     properties:
-      errors:
+      changes:
         description: Lists of problems with the properties of this record, and where they originated
         type: array
         items:
-          "$ref": "#/definitions/AirbyteRecordMessageMetaErrors"
-  AirbyteRecordMessageMetaErrors:
+          "$ref": "#/definitions/AirbyteRecordMessageMetaChanges"
+  AirbyteRecordMessageMetaChanges:
     type: object
     additionalProperties: true
     required:
       - field
-      - message
     properties:
       field:
         type: string
-      message:
+      change:
         type: string
-  AirbyteStateMessage:
+        enum:
+          - NULLED
+      reason:
+        type: string
     type: object
     additionalProperties: true
     properties:
