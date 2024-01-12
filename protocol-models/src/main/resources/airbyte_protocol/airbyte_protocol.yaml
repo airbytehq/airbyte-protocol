@@ -102,6 +102,7 @@ definitions:
       reason:
         description: Human-readable explanation of why the change occurred
         type: string
+  AirbyteStateMessage:
     type: object
     additionalProperties: true
     properties:
