@@ -90,6 +90,7 @@ definitions:
     additionalProperties: true
     required:
       - field
+      - reason
     properties:
       field:
         type: string
@@ -100,6 +101,13 @@ definitions:
         enum:
           - NULLED
       reason:
+        type: string
+        description: The reason that the change occurred
+        enum:
+          - SOURCE_LIMITATION
+          - DESTINATION_LIMITATION
+          - PLATFORM_LIMITATION
+      message:
         description: Human-readable explanation of why the change occurred
         type: string
   AirbyteStateMessage:
