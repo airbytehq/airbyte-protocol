@@ -91,6 +91,7 @@ definitions:
     required:
       - field
       - reason
+      - change
     properties:
       field:
         type: string
