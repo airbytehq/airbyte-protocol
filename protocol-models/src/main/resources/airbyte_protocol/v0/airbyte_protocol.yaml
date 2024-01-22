@@ -103,6 +103,7 @@ definitions:
         description: The type of change that occurred
         enum:
           - NULLED
+          - TRUNCATED
       reason:
         type: string
         description: The reason that the change occurred
