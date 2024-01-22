@@ -105,12 +105,20 @@ definitions:
         type: string
         description: The reason that the change occurred
         enum:
-          - SOURCE_LIMITATION
-          - DESTINATION_LIMITATION
-          - PLATFORM_LIMITATION
-      message:
-        description: Human-readable explanation of why the change occurred
-        type: string
+          # The record, in aggregate, was too large to be processed
+          - SOURCE_RECORD_SIZE_LIMITATION
+          - DESTINATION_RECORD_SIZE_LIMITATION
+          - PLATFORM_RECORD_SIZE_LIMITATION
+          # A single field, was too large to be processed
+          - SOURCE_FIELD_SIZE_LIMITATION
+          - DESTINATION_FIELD_SIZE_LIMITATION
+          - PLATFORM_FIELD_SIZE_LIMITATION
+          # The field could not be read or written
+          - SOURCE_SERIALIZATION_ERROR
+          - DESTINATION_SERIALIZATION_ERROR
+          - PLATFORM_SERIALIZATION_ERROR
+          # Errors producing the field
+          - SOURCE_RETRIEVAL_ERROR
   AirbyteStateMessage:
     type: object
     additionalProperties: true
