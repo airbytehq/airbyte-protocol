@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.3...v0.6.0) (2024-01-24)
+
+
+### Features
+
+* `AirbyteRecordMessageMeta` for per-record lineage and changes ([#56](https://github.com/airbytehq/airbyte-protocol/issues/56)) ([45461e1](https://github.com/airbytehq/airbyte-protocol/commit/45461e133e001a533c6fb01a7aa26e94dc0f13d2))
+
 ## [0.5.3](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.2...v0.5.3) (2024-01-04)
 
 
