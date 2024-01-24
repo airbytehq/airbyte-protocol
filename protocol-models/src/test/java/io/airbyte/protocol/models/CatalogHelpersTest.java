@@ -278,7 +278,7 @@ class CatalogHelpersTest {
 
     final Set<StreamTransform> diff = CatalogHelpers.getCatalogDiff(catalog1, catalog2, configuredAirbyteCatalog);
 
-    //configuredCatalog is for a different stream, so no diff should be found
+    // configuredCatalog is for a different stream, so no diff should be found
     Assertions.assertThat(diff).hasSize(0);
   }
 
@@ -305,4 +305,5 @@ class CatalogHelpersTest {
 
     Assertions.assertThat(actualDiff).containsExactlyInAnyOrderElementsOf(expectedDiff);
   }
+
 }
