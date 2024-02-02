@@ -50,7 +50,7 @@ runs:
         TWINE_PASSWORD: ${{ inputs.twine_password }}
         TWINE_USERNAME: ${{ inputs.twine_username }}
 
-    # github runners already come with NPM and node
+    # js/ts: github runners already come with NPM and node
     - name: Generate Typescript Protocol Classes
       shell: bash
       run: protocol-models/bin/generate-typescript-classes-docker.sh
