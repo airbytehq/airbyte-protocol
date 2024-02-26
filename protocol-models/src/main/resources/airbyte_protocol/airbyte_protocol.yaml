@@ -120,6 +120,8 @@ definitions:
           - PLATFORM_SERIALIZATION_ERROR
           # Errors producing the field
           - SOURCE_RETRIEVAL_ERROR
+          # Errors casting to appropriate type
+          - DESTINATION_TYPECAST_ERROR
   AirbyteStateMessage:
     type: object
     additionalProperties: true
