@@ -456,6 +456,22 @@ definitions:
         type: array
         items:
           "$ref": "#/definitions/ConfiguredAirbyteStream"
+      sync_metadata:
+        "$ref": "#/definitions/SyncMetadata"
+  SyncMetadata:
+    type: object
+    additionalProperties: true
+    description: Information about the sync which is currently running
+    required:
+      - job_id
+      - attempt_number
+    properties:
+      job_id:
+        description: Optional job Id which represent the job id in which the catalog is use
+        type: integer
+      attempt_number:
+        description: Optional attempt number which represent the attempt number of the current job id
+        type: integer
   ConfiguredAirbyteStream:
     type: object
     additionalProperties: true
