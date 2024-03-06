@@ -463,14 +463,14 @@ definitions:
     additionalProperties: true
     description: Information about the sync which is currently running
     required:
-      - job_id
+      - sync_id
       - attempt_number
     properties:
-      job_id:
-        description: Optional job Id which represent the job id in which the catalog is use
+      sync_id:
+        description: Incremental id representing the synchronization number
         type: integer
       attempt_number:
-        description: Optional attempt number which represent the attempt number of the current job id
+        description: Incremental number representing the attempt number within the same sync_id
         type: integer
   ConfiguredAirbyteStream:
     type: object
