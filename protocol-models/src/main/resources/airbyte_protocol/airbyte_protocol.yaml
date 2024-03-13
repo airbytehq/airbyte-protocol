@@ -272,6 +272,7 @@ definitions:
         enum:
           - system_error
           - config_error
+          - transient_error
       stream_descriptor:
         description: "The stream associated with the error, if known (optional)"
         "$ref": "#/definitions/StreamDescriptor"
