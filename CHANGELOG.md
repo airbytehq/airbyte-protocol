@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.6.0...v0.7.0) (2024-03-06)
+
+
+### Features
+
+* Add DESTINATION_TYPECAST_ERROR to reason enum value ([#65](https://github.com/airbytehq/airbyte-protocol/issues/65)) ([86f03e9](https://github.com/airbytehq/airbyte-protocol/commit/86f03e9259c5e03b767a28400080ad63e91e1b29))
+
 ## [0.6.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.3...v0.6.0) (2024-01-24)
 
 
