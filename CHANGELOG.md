@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.7.0...v0.8.0) (2024-03-19)
+
+
+### Features
+
+* add transient_error as new failure type ([#69](https://github.com/airbytehq/airbyte-protocol/issues/69)) ([8fada32](https://github.com/airbytehq/airbyte-protocol/commit/8fada32aedb559731c62f0e35443e4e6dfd3d600))
+
 ## [0.7.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.6.0...v0.7.0) (2024-03-06)
 
 
