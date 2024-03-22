@@ -497,6 +497,20 @@ definitions:
           type: array
           items:
             type: string
+  StreamMetadata:
+    type: object
+    additionalProperties: true
+    description: Information about the stream
+    required:
+      - generation_id
+      - minimum_generation
+    properties:
+      generation_id:
+        description: Incremental id representing the current generation of a stream
+        type: integer
+      minimum_generation:
+        description: The minimum generation id wanted in the stream. All data with a lower generation will be removed from the destination
+        type: integer
   SyncMode:
     type: string
     enum:
