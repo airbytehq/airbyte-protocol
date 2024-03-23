@@ -73,3 +73,14 @@ jobs:
 
       - name: Test npm publish
         run: cd protocol-models/typescript && npm publish --dry-run
+
+      # schemastore
+      - name: Generate schemastore files
+        shell: bash
+        run: protocol-models/bin/generate-schemastore-docker.sh
+
+      - name: commit new schemastore files
+        run: |
+          git add jsonschema/*
+          git commit -m "update schemastore files"
+          git push
