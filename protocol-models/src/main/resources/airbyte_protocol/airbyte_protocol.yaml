@@ -484,6 +484,15 @@ definitions:
           type: array
           items:
             type: string
+      generation_id:
+        description: Monotically increasing numeric id representing the current generation of a stream. This id can be shared across syncs
+        type: integer
+      minimum_generation_id:
+        description: The minimum generation id which is needed in a stream. If it is present, the destination will try to delete the data that are part of a generation lower than this property. If it is absent, the destination won't try to delete data
+        type: integer
+      sync_id:
+        description: Monotically increasing numeric id representing the current sync id. This is aimed to be unique per sync.
+        type: integer
   SyncMode:
     type: string
     enum:
