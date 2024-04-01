@@ -464,7 +464,7 @@ definitions:
       - stream
       - sync_mode
       - destination_sync_mode
-      - current_generation_id
+      - generation_id
       - sync_id
     properties:
       stream:
