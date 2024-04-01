@@ -457,18 +457,6 @@ definitions:
         type: array
         items:
           "$ref": "#/definitions/ConfiguredAirbyteStream"
-      sync_metadata:
-        "$ref": "#/definitions/SyncMetadata"
-  SyncMetadata:
-    type: object
-    additionalProperties: true
-    description: Information about the sync which is currently running
-    required:
-      - job_id
-    properties:
-      job_id:
-        description: Incremental id representing the job Id
-        type: integer
   ConfiguredAirbyteStream:
     type: object
     additionalProperties: true
@@ -497,19 +485,22 @@ definitions:
           type: array
           items:
             type: string
-  StreamMetadata:
+  StreamConfig:
     type: object
     additionalProperties: true
     description: Information about the stream
     required:
-      - generation_id
-      - minimum_generation
+      - current_generation_id
+      - sync_id
     properties:
       generation_id:
-        description: Incremental id representing the current generation of a stream
+        description: Monotically increasing numeric id representing the current generation of a stream. This id can be shared across syncs
         type: integer
-      minimum_generation:
-        description: The minimum generation id wanted in the stream. All data with a lower generation will be removed from the destination
+      minimum_generation_id:
+        description: The minimum generation id which is needed in a stream. If it is present, the destination will try to delete the data that are part of a generation lower than this property. If it is absent, the destination won't try to delete data
+        type: integer
+      sync_id:
+        description: Monotically increasing numeric id representing the current sync id. This is aimed to be unique per sync.
         type: integer
   SyncMode:
     type: string
