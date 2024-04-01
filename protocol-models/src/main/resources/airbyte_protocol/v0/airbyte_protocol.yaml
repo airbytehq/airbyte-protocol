@@ -464,6 +464,8 @@ definitions:
       - stream
       - sync_mode
       - destination_sync_mode
+      - current_generation_id
+      - sync_id
     properties:
       stream:
         "$ref": "#/definitions/AirbyteStream"
@@ -485,14 +487,6 @@ definitions:
           type: array
           items:
             type: string
-  StreamConfig:
-    type: object
-    additionalProperties: true
-    description: Information about the stream
-    required:
-      - current_generation_id
-      - sync_id
-    properties:
       generation_id:
         description: Monotically increasing numeric id representing the current generation of a stream. This id can be shared across syncs
         type: integer
