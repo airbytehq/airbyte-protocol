@@ -463,6 +463,8 @@ definitions:
       - stream
       - sync_mode
       - destination_sync_mode
+      - generation_id
+      - sync_id
     properties:
       stream:
         "$ref": "#/definitions/AirbyteStream"
