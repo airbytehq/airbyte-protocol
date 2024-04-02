@@ -486,25 +486,25 @@ definitions:
             type: string
       generation_id:
         description: 
-        "Monotically increasing numeric id representing the current generation of a stream. This id can be shared across syncs.
+          "Monotically increasing numeric id representing the current generation of a stream. This id can be shared across syncs.
 
-        If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
-        "
+          If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
+          "
         type: integer
       minimum_generation_id:
         description: 
-        "The minimum generation id which is needed in a stream. If it is present, the destination will try to delete the data that are part of a generation lower than this property.
-        If the minimum generation is equals to 0, no data deletion is expected from the destiantion
-        
-        If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
-        "
+          "The minimum generation id which is needed in a stream. If it is present, the destination will try to delete the data that are part of a generation lower than this property.
+          If the minimum generation is equals to 0, no data deletion is expected from the destiantion
+
+          If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
+          "
         type: integer
       sync_id:
         description: 
-        "Monotically increasing numeric id representing the current sync id. This is aimed to be unique per sync.
-        
-        If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
-        "
+          "Monotically increasing numeric id representing the current sync id. This is aimed to be unique per sync.
+
+          If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
+          "
         type: integer
   SyncMode:
     type: string
