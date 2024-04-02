@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.8.0...v0.9.0) (2024-04-02)
+
+
+### Features
+
+* Proposal for refreshes needed metadata ([#67](https://github.com/airbytehq/airbyte-protocol/issues/67)) ([7e8a487](https://github.com/airbytehq/airbyte-protocol/commit/7e8a487603af231e29e3031ca631a9f54a7c366a))
+
 ## [0.8.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.7.0...v0.8.0) (2024-03-19)
 
 
