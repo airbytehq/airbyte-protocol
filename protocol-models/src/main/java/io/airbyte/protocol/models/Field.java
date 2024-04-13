@@ -4,6 +4,11 @@
 
 package io.airbyte.protocol.models;
 
+import io.airbyte.protocol.protos.AirbyteCatalog;
+import io.airbyte.protocol.protos.AirbyteMessage;
+import io.airbyte.protocol.protos.AirbyteStreamState;
+import io.airbyte.protocol.protos.StreamDescriptor;
+
 import java.util.List;
 
 public class Field extends CommonField<JsonSchemaType> {
@@ -31,4 +36,11 @@ public class Field extends CommonField<JsonSchemaType> {
     return subFields;
   }
 
+  public static void main(String[] args) {
+    System.out.println("poop");
+
+    System.out.println(AirbyteStreamState.getDefaultInstance().isInitialized());
+    System.out.println(AirbyteStreamState.newBuilder().setStreamDescriptor(StreamDescriptor.newBuilder().setName("Test").build()));
+    System.out.println(AirbyteMessage.newBuilder().build());
+  }
 }
