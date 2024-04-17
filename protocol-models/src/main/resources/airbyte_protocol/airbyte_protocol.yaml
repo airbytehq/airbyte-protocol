@@ -362,6 +362,7 @@ definitions:
     required:
       - name
       - json_schema
+      - is_resumable
       - supported_sync_modes
     properties:
       name:
@@ -395,6 +396,9 @@ definitions:
       namespace:
         description: Optional Source-defined namespace. Currently only used by JDBC destinations to determine what schema to write to. Airbyte streams from the same sources should have the same namespace.
         type: string
+      is_resumable:
+        description: If the stream is resumable or not. Used by the Platform in Full Refresh to determine if a Full Refresh stream should actually be treated as incremental within a job.
+        type: boolean
   ConfiguredAirbyteCatalog:
     type: object
     additionalProperties: true
