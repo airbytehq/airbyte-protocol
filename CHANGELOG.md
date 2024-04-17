@@ -1,5 +1,47 @@
 # Changelog
 
+## [0.9.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.8.0...v0.9.0) (2024-04-02)
+
+
+### Features
+
+* Proposal for refreshes needed metadata ([#67](https://github.com/airbytehq/airbyte-protocol/issues/67)) ([7e8a487](https://github.com/airbytehq/airbyte-protocol/commit/7e8a487603af231e29e3031ca631a9f54a7c366a))
+
+## [0.8.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.7.0...v0.8.0) (2024-03-19)
+
+
+### Features
+
+* add transient_error as new failure type ([#69](https://github.com/airbytehq/airbyte-protocol/issues/69)) ([8fada32](https://github.com/airbytehq/airbyte-protocol/commit/8fada32aedb559731c62f0e35443e4e6dfd3d600))
+
+## [0.7.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.6.0...v0.7.0) (2024-03-06)
+
+
+### Features
+
+* Add DESTINATION_TYPECAST_ERROR to reason enum value ([#65](https://github.com/airbytehq/airbyte-protocol/issues/65)) ([86f03e9](https://github.com/airbytehq/airbyte-protocol/commit/86f03e9259c5e03b767a28400080ad63e91e1b29))
+
+## [0.6.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.3...v0.6.0) (2024-01-24)
+
+
+### Features
+
+* `AirbyteRecordMessageMeta` for per-record lineage and changes ([#56](https://github.com/airbytehq/airbyte-protocol/issues/56)) ([45461e1](https://github.com/airbytehq/airbyte-protocol/commit/45461e133e001a533c6fb01a7aa26e94dc0f13d2))
+
+## [0.5.3](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.2...v0.5.3) (2024-01-04)
+
+
+### Bug Fixes
+
+* Add py.typed to python distribution ([#57](https://github.com/airbytehq/airbyte-protocol/issues/57)) ([212095d](https://github.com/airbytehq/airbyte-protocol/commit/212095d554c8fef0b2389129173de11cf032e670))
+
+## [0.5.2](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.1...v0.5.2) (2023-12-26)
+
+
+### Bug Fixes
+
+* Removed unused V1. ([#58](https://github.com/airbytehq/airbyte-protocol/issues/58)) ([24be395](https://github.com/airbytehq/airbyte-protocol/commit/24be3958a2685def17c07992fbe87f6ac9867af7))
+
 ## [0.5.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.5.0...v0.5.1) (2023-12-08)
 
 

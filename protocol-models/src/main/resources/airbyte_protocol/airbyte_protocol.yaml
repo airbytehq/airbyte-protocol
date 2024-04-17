@@ -73,6 +73,55 @@ definitions:
       emitted_at:
         description: "when the data was emitted from the source. epoch in millisecond."
         type: integer
+      meta:
+        description: Information about this record added mid-sync
+        "$ref": "#/definitions/AirbyteRecordMessageMeta"
+  AirbyteRecordMessageMeta:
+    type: object
+    additionalProperties: true
+    properties:
+      changes:
+        description: Lists of changes to the content of this record which occurred during syncing
+        type: array
+        items:
+          "$ref": "#/definitions/AirbyteRecordMessageMetaChange"
+  AirbyteRecordMessageMetaChange:
+    type: object
+    additionalProperties: true
+    required:
+      - field
+      - reason
+      - change
+    properties:
+      field:
+        type: string
+        description: The field that had the change occur (required)
+      change:
+        type: string
+        description: The type of change that occurred
+        enum:
+          - NULLED
+          - TRUNCATED
+      reason:
+        type: string
+        description: The reason that the change occurred
+        enum:
+          # The record, in aggregate, was too large to be processed
+          - SOURCE_RECORD_SIZE_LIMITATION
+          - DESTINATION_RECORD_SIZE_LIMITATION
+          - PLATFORM_RECORD_SIZE_LIMITATION
+          # A single field, was too large to be processed
+          - SOURCE_FIELD_SIZE_LIMITATION
+          - DESTINATION_FIELD_SIZE_LIMITATION
+          - PLATFORM_FIELD_SIZE_LIMITATION
+          # The field could not be read or written
+          - SOURCE_SERIALIZATION_ERROR
+          - DESTINATION_SERIALIZATION_ERROR
+          - PLATFORM_SERIALIZATION_ERROR
+          # Errors producing the field
+          - SOURCE_RETRIEVAL_ERROR
+          # Errors casting to appropriate type
+          - DESTINATION_TYPECAST_ERROR
   AirbyteStateMessage:
     type: object
     additionalProperties: true
@@ -147,7 +196,7 @@ definitions:
     additionalProperties: true
     properties:
       recordCount:
-        description: "the number of records which were emitted for this state message, for this stream or global"
+        description: "the number of records which were emitted for this state message, for this stream or global. While the value should always be a round number, it is defined as a double to account for integer overflows, and the value should always have a decimal point for proper serialization."
         type: number
   AirbyteLogMessage:
     type: object
@@ -223,6 +272,7 @@ definitions:
         enum:
           - system_error
           - config_error
+          - transient_error
       stream_descriptor:
         description: "The stream associated with the error, if known (optional)"
         "$ref": "#/definitions/StreamDescriptor"
@@ -437,6 +487,28 @@ definitions:
           type: array
           items:
             type: string
+      generation_id:
+        description: 
+          "Monotically increasing numeric id representing the current generation of a stream. This id can be shared across syncs.
+
+          If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
+          "
+        type: integer
+      minimum_generation_id:
+        description: 
+          "The minimum generation id which is needed in a stream. If it is present, the destination will try to delete the data that are part of a generation lower than this property.
+          If the minimum generation is equals to 0, no data deletion is expected from the destiantion
+
+          If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
+          "
+        type: integer
+      sync_id:
+        description: 
+          "Monotically increasing numeric id representing the current sync id. This is aimed to be unique per sync.
+
+          If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
+          "
+        type: integer
   SyncMode:
     type: string
     enum:

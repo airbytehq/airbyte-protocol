@@ -56,6 +56,7 @@ setup(
         "Tracker": "https://github.com/airbytehq/airbyte-protocol/issues",
     },
     packages=['airbyte_protocol.models'],
+    package_data={"airbyte_protocol": ["py.typed"]},
     setup_requires=['python-dotenv'],
     install_requires=[
         "pydantic>=1.9.2,<2.0.0",
