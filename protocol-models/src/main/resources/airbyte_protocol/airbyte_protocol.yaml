@@ -362,7 +362,6 @@ definitions:
     required:
       - name
       - json_schema
-      - is_resumable
       - supported_sync_modes
     properties:
       name:
