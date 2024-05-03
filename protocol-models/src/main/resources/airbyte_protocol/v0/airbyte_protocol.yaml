@@ -330,10 +330,9 @@ definitions:
       status:
         description: "The current status of the stream"
         "$ref": "#/definitions/AirbyteStreamStatus"
-      metadata:
-        description: "Any metadata associated with the stream status"
-        type: object
-        existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      valid_till:
+        description: "Optional time in ms that the status is going to be valid till"
+        type: number
   AirbyteAnalyticsTraceMessage:
     type: object
     additionalProperties: true
