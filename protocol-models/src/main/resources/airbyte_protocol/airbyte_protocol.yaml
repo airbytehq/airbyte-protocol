@@ -329,7 +329,7 @@ definitions:
       status:
         description: "The current status of the stream"
         "$ref": "#/definitions/AirbyteStreamStatus"
-      valid_till:
+      valid_til:
         description: "Optional time in ms that the status is going to be valid till"
         type: number
   AirbyteAnalyticsTraceMessage:
