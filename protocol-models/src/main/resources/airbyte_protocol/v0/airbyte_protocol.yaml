@@ -316,6 +316,7 @@ definitions:
       - RUNNING # Stream has read its first byte/message
       - COMPLETE # Stream has completed executing without interruption or error
       - INCOMPLETE # Stream has stopped due to an interruption or error
+      - RATE_LIMITED # Stream has stopped due to the source API hitting RATE limit
   AirbyteStreamStatusTraceMessage:
     type: object
     additionalProperties: true
@@ -329,6 +330,10 @@ definitions:
       status:
         description: "The current status of the stream"
         "$ref": "#/definitions/AirbyteStreamStatus"
+      metadata:
+        description: "Any metadata associated with the stream status"
+        type: object
+        existingJavaType: com.fasterxml.jackson.databind.JsonNode
   AirbyteAnalyticsTraceMessage:
     type: object
     additionalProperties: true
