@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
+#
+# This script uses datamodel-codegen to generate Python classes from the OpenAPI schema files in the
+# protocol-models directory.
+#
+# Docs are here: https://koxudaxi.github.io/datamodel-code-generator
+#
+# The tool can generate classes for different Python libraries.
+# We use pydantic.BaseModel (v1).
 
 set -e
 
@@ -14,7 +22,7 @@ YAML_DIR=protocol-models/src/main/resources/airbyte_protocol
 OUTPUT_DIR=protocol-models/python/airbyte_protocol/models
 
 python -m pip install --upgrade pip
-pip install datamodel_code_generator==0.11.19
+pip install datamodel_code_generator==0.25.6
 
 rm -rf "$ROOT_DIR/$OUTPUT_DIR"/*.py
 mkdir -p "$ROOT_DIR/$OUTPUT_DIR"
@@ -30,5 +38,10 @@ for f in "$ROOT_DIR/$YAML_DIR"/*.yaml; do
     --input "$ROOT_DIR/$YAML_DIR/$filename_wo_ext.yaml" \
     --output "$ROOT_DIR/$OUTPUT_DIR/$filename_wo_ext.py" \
     --use-title-as-name \
-    --disable-timestamp
+    --disable-timestamp \
+    --input-file-type jsonschema \
+    --output-model-type pydantic.BaseModel \
+    --base-class "..BaseModel_v1" \
+    --custom-file-header-path "protocol-models/python/generation-file-header.py" \
+    --target-python-version 3.7
 done
