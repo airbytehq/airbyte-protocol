@@ -328,17 +328,4 @@ public class CatalogHelpers {
     return field.getType().equals(JsonSchemaType.OBJECT) && field.getSubFields() != null
         && !field.getSubFields().isEmpty();
   }
-
-  public static StreamDescriptor extractStreamDescriptor(final AirbyteStream airbyteStream) {
-    return new StreamDescriptor().withName(airbyteStream.getName())
-        .withNamespace(airbyteStream.getNamespace());
-  }
-
-  private static Map<StreamDescriptor, AirbyteStream> streamDescriptorToMap(
-                                                                            final AirbyteCatalog catalog) {
-    return catalog.getStreams()
-        .stream()
-        .collect(Collectors.toMap(CatalogHelpers::extractStreamDescriptor, s -> s));
-  }
-
 }
