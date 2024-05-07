@@ -6,6 +6,9 @@ Declares the Airbyte Protocol.
 * `airbyte_protocol.yaml` - declares the Airbyte Protocol (in JSONSchema)
 * `io.airbyte.protocol.models` - this package contains various java helpers for working with the protocol.
 
+## Contributing
+
+For more information on how to contribute to this repository, please see the [contributing guide](./CONTRIBUTING.md).
 
 ## Pull Requests Titles Must Conform to Conventional Commits Convention
 We are leveraging the [Release Please Action](https://github.com/marketplace/actions/release-please-action) to manage our version bumping and releasing.
