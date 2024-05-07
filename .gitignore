@@ -14,6 +14,9 @@ data
 **/gmon.out
 static_checker_reports/
 
+# Don't commit auto-generated Python code files:
+/protocol-models/python/airbyte_protocol/models
+
 # Python
 *.egg-info
 __pycache__
