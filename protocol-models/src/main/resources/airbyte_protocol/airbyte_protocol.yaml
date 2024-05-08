@@ -315,7 +315,30 @@ definitions:
       - RUNNING # Stream has read its first byte/message
       - COMPLETE # Stream has completed executing without interruption or error
       - INCOMPLETE # Stream has stopped due to an interruption or error
-      - RATE_LIMITED # Stream has stopped due to the source API hitting RATE limit
+  AirbyteStreamStatusReasonType:
+    type: string
+    description: >
+      Type of reason
+    enum:
+      - RATE_LIMITED
+  AirbyteStreamStatusRateLimitedReason:
+    type: object
+    description: Rate Limited Information
+    properties:
+      quota_reset:
+        description: "Optional time in ms representing when the API quota is going to be reset"
+        type: number
+  AirbyteStreamStatusReason:
+    type: object
+    required:
+      - type
+    description: >
+      The reason associated with the status of the stream.
+    properties:
+      type:
+        "$ref": "#/definitions/AirbyteStreamStatusReasonType"
+      rate_limited:
+        "$ref": "#/definitions/AirbyteStreamStatusRateLimitedReason"
   AirbyteStreamStatusTraceMessage:
     type: object
     additionalProperties: true
@@ -329,9 +352,11 @@ definitions:
       status:
         description: "The current status of the stream"
         "$ref": "#/definitions/AirbyteStreamStatus"
-      valid_til:
-        description: "Optional time in ms that the status is going to be valid till"
-        type: number
+      reasons:
+        description: "The reasons associated with the status of the stream"
+        type: array
+        items:
+          "$ref": "#/definitions/AirbyteStreamStatusReason"
   AirbyteAnalyticsTraceMessage:
     type: object
     additionalProperties: true
