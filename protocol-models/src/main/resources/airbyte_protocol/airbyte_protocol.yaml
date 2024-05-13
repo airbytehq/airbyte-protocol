@@ -239,6 +239,7 @@ definitions:
           - ANALYTICS
       emitted_at:
         description: "the time in ms that the message was emitted"
+        # TODO : This should have been an integer instead of a number, need to fix this
         type: number
       error:
         description: "error trace message: the error object"

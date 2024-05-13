@@ -239,6 +239,7 @@ definitions:
           - STREAM_STATUS
           - ANALYTICS
       emitted_at:
+        # TODO : This should have been an integer instead of a number, need to fix this
         description: "the time in ms that the message was emitted"
         type: number
       error:
