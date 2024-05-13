@@ -327,7 +327,7 @@ definitions:
     properties:
       quota_reset:
         description: "Optional time in ms representing when the API quota is going to be reset"
-        type: number
+        type: integer
   AirbyteStreamStatusReason:
     type: object
     required:
@@ -396,6 +396,7 @@ definitions:
           - CONNECTOR_CONFIG
       emitted_at:
         description: "the time in ms that the message was emitted"
+        # TODO : This should have been an integer instead of a number, need to fix this
         type: number
       connectorConfig:
         description: "connector config orchestrator message: the updated config for the platform to store for this connector"
