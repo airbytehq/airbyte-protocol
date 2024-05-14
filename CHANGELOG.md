@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.9.0...v0.10.0) (2024-05-14)
+
+
+### Features
+
+* Introduce is_resumable. ([#73](https://github.com/airbytehq/airbyte-protocol/issues/73)) ([0ed3e7a](https://github.com/airbytehq/airbyte-protocol/commit/0ed3e7ae815604ee6af39926277264fe036b7081))
+
 ## [0.9.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.8.0...v0.9.0) (2024-04-02)
 
 
