@@ -428,7 +428,10 @@ definitions:
         items:
           "$ref": "#/definitions/SyncMode"
       source_defined_cursor:
-        description: If the source defines the cursor field, then any other cursor field inputs will be ignored. If it does not, either the user_provided one is used, or the default one is used as a backup.
+        description: |-
+          If the source defines the cursor field, then any other cursor field inputs will be ignored. If it does not,
+          either the user_provided one is used, or the default one is used as a backup. This field must be set if
+          is_resumable is set to true, including resumable full refresh synthetic cursors.
         type: boolean
       default_cursor_field:
         description: Path to the field that will be used to determine if a record is new or modified since the last sync. If not provided by the source, the end user will have to specify the comparable themselves.
@@ -445,6 +448,11 @@ definitions:
       namespace:
         description: Optional Source-defined namespace. Currently only used by JDBC destinations to determine what schema to write to. Airbyte streams from the same sources should have the same namespace.
         type: string
+      is_resumable:
+        description: |-
+          If the stream is resumable or not. Should be set to true if the stream supports incremental. Defaults to false.
+          Primarily used by the Platform in Full Refresh to determine if a Full Refresh stream should actually be treated as incremental within a job.
+        type: boolean
   ConfiguredAirbyteCatalog:
     type: object
     additionalProperties: true
