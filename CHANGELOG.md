@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.10.0...v0.11.0) (2024-05-16)
+
+
+### Features
+
+* add reasons to AirbyteStreamStatusTraceMessage ([#74](https://github.com/airbytehq/airbyte-protocol/issues/74)) ([fe0ada2](https://github.com/airbytehq/airbyte-protocol/commit/fe0ada2f4758b83a83829299436e8afa19a3d090))
+
 ## [0.10.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.9.0...v0.10.0) (2024-05-14)
 
 
