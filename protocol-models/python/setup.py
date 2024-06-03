@@ -58,6 +58,5 @@ setup(
     packages=['airbyte_protocol.models'],
     package_data={"airbyte_protocol": ["py.typed"]},
     setup_requires=['python-dotenv'],
-    install_requires=[],
     python_requires=">=3.8",
 )
