@@ -55,6 +55,10 @@ jobs:
       - name: Generate Python Protocol Classes
         run: protocol-models/bin/generate-python-classes-docker.sh
 
+      # python - dataclasses
+      - name: Generate Python Dataclass Protocol Classes
+        run: protocol-models/bin/generate-python-dataclasses-docker.sh
+
       - name: Publish Python Package to test.pypi.org
         uses: mariamrf/py-package-publish-action@v1.1.0
         with:
