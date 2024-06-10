@@ -13,7 +13,7 @@ from setuptools import setup
 
 
 # The directory containing this file
-HERE = pathlib.Path(__file__).parent.parent.parent
+HERE = pathlib.Path(__file__).parent.parent.parent.parent
 
 
 
