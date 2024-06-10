@@ -53,7 +53,7 @@ jobs:
 
       # python
       - name: Generate Python Protocol Classes
-        run: protocol-models/bin/generate-python-classes-docker.sh
+        run: protocol-models/bin/generate-python-pydantic-docker.sh
 
       # python - dataclasses
       - name: Generate Python Dataclass Protocol Classes
