@@ -11,7 +11,7 @@ ROOT_DIR=${ROOT_DIR:-$(git rev-parse --show-toplevel)}
 
 
 YAML_DIR=protocol-models/src/main/resources/airbyte_protocol
-OUTPUT_DIR=protocol-models/python/airbyte_protocol_dataclasses/airbyte_protocol_dataclasses/models
+OUTPUT_DIR=protocol-models/python/airbyte_protocol_dataclasses/airbyte_protocol/models
 
 python -m pip install --upgrade pip
 pip install -U datamodel_code_generator
