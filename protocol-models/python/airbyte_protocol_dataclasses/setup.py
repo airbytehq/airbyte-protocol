@@ -1,14 +1,14 @@
 #
 # Copyright (c) 2023 Airbyte, Inc., all rights reserved.
 #
-# import pip
-# pip.main(['install', 'python-dotenv'])
+import pip
+pip.main(['install', 'python-dotenv'])
 
 import os
 import pathlib
 
 from setuptools import setup
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 
 
@@ -22,7 +22,7 @@ print(sorted(HERE.iterdir()))
 # The text of the README file
 README = (HERE / "readme.md").read_text()
 
-# load_dotenv(HERE / ".env")
+load_dotenv(HERE / ".env")
 
 VERSION = os.getenv("VERSION") # use version declared in top level .env file
 
