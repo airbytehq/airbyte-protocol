@@ -27,7 +27,7 @@ README = (HERE / "readme.md").read_text()
 VERSION = os.getenv("VERSION") # use version declared in top level .env file
 
 setup(
-    name='airbyte_protocol_models',
+    name='airbyte_protocol_models_dc',
     version=VERSION,
     description="Declares the Airbyte Protocol.",
     long_description=README,
