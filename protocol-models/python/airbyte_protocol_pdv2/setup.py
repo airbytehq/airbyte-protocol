@@ -27,7 +27,7 @@ load_dotenv(HERE / ".env")
 VERSION = os.getenv("VERSION") # use version declared in top level .env file
 
 setup(
-    name='airbyte_protocol_models_dc',
+    name='airbyte_protocol_models_pdv2',
     version=VERSION,
     description="Declares the Airbyte Protocol.",
     long_description=README,
@@ -58,5 +58,8 @@ setup(
     packages=['airbyte_protocol.models'],
     package_data={"airbyte_protocol": ["py.typed"]},
     setup_requires=['python-dotenv'],
+    install_requires=[
+        "pydantic>=2.7.2,<3.0.0",
+    ],
     python_requires=">=3.8",
 )
