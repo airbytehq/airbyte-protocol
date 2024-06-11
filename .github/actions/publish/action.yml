@@ -50,7 +50,7 @@ runs:
         TWINE_PASSWORD: ${{ inputs.twine_password }}
         TWINE_USERNAME: ${{ inputs.twine_username }}
 
-    - name: Publish Dataclass Python Package
+    - name: Publish Pydantic-v2 Python Package
       uses: mariamrf/py-package-publish-action@v1.1.0
       with:
           # specify the same version as in ~/.python-version

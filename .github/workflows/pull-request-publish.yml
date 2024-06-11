@@ -67,9 +67,9 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TEST_TWINE_USERNAME }}
           TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
 
-      # python - dataclasses
-      - name: Generate Python Dataclass Protocol Classes
-        run: protocol-models/bin/generate-python-dataclasses-docker.sh
+      # python - pydantic v2
+      - name: Generate Python Pydantic V2 Protocol Classes
+        run: protocol-models/bin/generate-python-pydantic-v2-docker.sh
 
       - name: Publish Python Package to test.pypi.org
         uses: mariamrf/py-package-publish-action@v1.1.0
