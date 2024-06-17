@@ -11,10 +11,10 @@ ROOT_DIR=${ROOT_DIR:-$(git rev-parse --show-toplevel)}
 
 
 YAML_DIR=protocol-models/src/main/resources/airbyte_protocol
-OUTPUT_DIR=protocol-models/python/airbyte_protocol/models
+OUTPUT_DIR=protocol-models/python/airbyte_protocol_pdv2/airbyte_protocol/models
 
 python -m pip install --upgrade pip
-pip install datamodel_code_generator==0.11.19
+pip install -U datamodel_code_generator
 
 rm -rf "$ROOT_DIR/$OUTPUT_DIR"/*.py
 mkdir -p "$ROOT_DIR/$OUTPUT_DIR"
@@ -29,6 +29,8 @@ for f in "$ROOT_DIR/$YAML_DIR"/*.yaml; do
   datamodel-codegen \
     --input "$ROOT_DIR/$YAML_DIR/$filename_wo_ext.yaml" \
     --output "$ROOT_DIR/$OUTPUT_DIR/$filename_wo_ext.py" \
+    --output-model-type pydantic_v2.BaseModel \
+    --target-python-version 3.10 \
     --use-title-as-name \
     --disable-timestamp
 done

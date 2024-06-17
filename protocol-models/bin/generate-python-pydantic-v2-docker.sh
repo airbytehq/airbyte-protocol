@@ -10,4 +10,4 @@ ROOT_DIR_NAME=${ROOT_DIR##*/}
 docker run --rm \
   --volume "${ROOT_DIR}:/${ROOT_DIR_NAME}" \
   --workdir "/${ROOT_DIR_NAME}" \
-  python:3.8 "/${ROOT_DIR_NAME}/protocol-models/bin/generate-python-classes.sh"
+  python:3.8 "/${ROOT_DIR_NAME}/protocol-models/bin/generate-python-pydantic-v2.sh"
