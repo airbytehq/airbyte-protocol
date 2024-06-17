@@ -372,7 +372,8 @@ subprojects { subproj ->
 }
 
 task('generate') {
-    dependsOn subprojects.collect { it.getTasksByName('generatePythonProtocolClassFiles', true) }
+    dependsOn subprojects.collect { it.getTasksByName('generatePythonPydanticV1ProtocolClassFiles', true) }
+    dependsOn subprojects.collect { it.getTasksByName('generatePythonPydanticV2ProtocolClassFiles', true) }
     dependsOn subprojects.collect { it.getTasksByName('generateTypescriptProtocolClassFiles', true) }
     dependsOn subprojects.collect { it.getTasksByName('generateJsonSchema2Pojo', true) }
 }
