@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.11.0...v0.12.0) (2024-06-17)
+
+
+### Features
+
+* publish new pydantic v2 version of python protocol, [`airbyte-protocol-models-pdv2`](https://pypi.org/project/airbyte-protocol-models/) to pypi, temporarily alongside pydantic v1 version ([#81](https://github.com/airbytehq/airbyte-protocol/issues/81)) ([9334f94](https://github.com/airbytehq/airbyte-protocol/commit/9334f94629805d1f6b3b99d5030a37d9e22bebcc))
+
 ## [0.11.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.10.0...v0.11.0) (2024-05-16)
 
 
