@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.2](https://github.com/airbytehq/airbyte-protocol/compare/v0.12.1...v0.12.2) (2024-06-18)
+
+
+### Bug Fixes
+
+* fix publishing of airbyte-protocol-models-pdv2 ([#85](https://github.com/airbytehq/airbyte-protocol/issues/85)) ([55dd53a](https://github.com/airbytehq/airbyte-protocol/commit/55dd53aae29429cfecd6f1112f9951446efddbd0))
+
 ## [0.12.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.12.0...v0.12.1) (2024-06-18)
 
 
