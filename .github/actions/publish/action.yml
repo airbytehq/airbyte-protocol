@@ -34,10 +34,15 @@ runs:
       shell: bash
       run: ./gradlew publish
 
-    # python
+    # python - pydantic v1
     - name: Generate Python Protocol Classes
       shell: bash
-      run: protocol-models/bin/generate-python-classes-docker.sh
+      run: protocol-models/bin/generate-python-pydantic.sh
+
+    # python - pydantic v2
+    - name: Generate Python Protocol Classes
+      shell: bash
+      run: protocol-models/bin/generate-python-pydantic-v2.sh
 
     - name: Publish Python Package
       uses: mariamrf/py-package-publish-action@v1.1.0

@@ -25,12 +25,20 @@ jsonSchema2Pojo {
 
 Task publishArtifactsTask = getPublishArtifactsTask("$rootProject.ext.version", project)
 
-task generatePythonProtocolClassFiles(type: Exec) {
+task generatePythonPydanticV1ClassFiles(type: Exec) {
     inputs.dir 'src/main/resources/airbyte_protocol'
     inputs.dir 'bin'
-    outputs.dir 'python/airbyte_protocol/models'
+    outputs.dir 'python/airbyte_protocol/airbyte_protocol/models'
 
-    commandLine 'bin/generate-python-classes-docker.sh'
+    commandLine 'bin/generate-python-pydantic-docker.sh'
+}
+
+task generatePythonPydanticV2ProtocolClassFiles(type: Exec) {
+    inputs.dir 'src/main/resources/airbyte_protocol'
+    inputs.dir 'bin'
+    outputs.dir 'python/airbyte_protocol_pdv2/airbyte_protocol/models'
+
+    commandLine 'bin/generate-python-pydantic-v2-docker.sh'
 }
 
 task generateTypescriptProtocolClassFiles(type: Exec) {
