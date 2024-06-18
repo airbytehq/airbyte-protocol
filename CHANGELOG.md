@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.12.0...v0.12.1) (2024-06-18)
+
+
+### Bug Fixes
+
+* fix publish for python classes calling wrong docker script ([#83](https://github.com/airbytehq/airbyte-protocol/issues/83)) ([2a92e61](https://github.com/airbytehq/airbyte-protocol/commit/2a92e616c00d7ecd1e0c06ef09453c02034c21a5))
+
 ## [0.12.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.11.0...v0.12.0) (2024-06-17)
 
 
