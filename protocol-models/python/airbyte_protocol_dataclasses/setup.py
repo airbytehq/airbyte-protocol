@@ -56,6 +56,7 @@ setup(
         "Tracker": "https://github.com/airbytehq/airbyte-protocol/issues",
     },
     # TODO: name package as *-dataclasses so we can install/import both versions in CDK
+    #  should we rename airbyte_protocol?
     packages=['airbyte_protocol.models'],
     package_data={"airbyte_protocol": ["py.typed"]},
     setup_requires=['python-dotenv'],
