@@ -66,6 +66,17 @@ runs:
         TWINE_PASSWORD: ${{ inputs.twine_password }}
         TWINE_USERNAME: ${{ inputs.twine_username }}
 
+    - name: Publish DataClasses Python Package
+      uses: mariamrf/py-package-publish-action@v1.1.0
+      with:
+        # specify the same version as in ~/.python-version
+        python_version: "3.9.11"
+        pip_version: "21.1"
+        subdir: "protocol-models/python/airbyte_protocol_dataclasses"
+      env:
+        TWINE_PASSWORD: ${{ inputs.twine_password }}
+        TWINE_USERNAME: ${{ inputs.twine_username }}
+
     # github runners already come with NPM and node
     - name: Generate Typescript Protocol Classes
       shell: bash
