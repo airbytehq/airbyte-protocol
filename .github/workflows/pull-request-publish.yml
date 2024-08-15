@@ -83,6 +83,10 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TEST_TWINE_USERNAME }}
           TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
 
+      # python - dataclasses
+      - name: Generate Python DataClasses Protocol Classes
+        run: protocol-models/bin/generate-python-dataclasses-docker.sh
+
       - name: Publish Python Package to test.pypi.org
         uses: mariamrf/py-package-publish-action@v1.1.0
         with:
@@ -94,6 +98,7 @@ jobs:
           TWINE_PASSWORD: ${{ secrets.TEST_TWINE_PASSWORD }}
           TWINE_USERNAME: ${{ secrets.TEST_TWINE_USERNAME }}
           TWINE_REPOSITORY_URL: "https://test.pypi.org/legacy/"
+
       # node
       - name: Generate Typescript Protocol Classes
         run: protocol-models/bin/generate-typescript-classes-docker.sh

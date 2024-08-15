@@ -44,6 +44,11 @@ runs:
       shell: bash
       run: protocol-models/bin/generate-python-pydantic-v2.sh
 
+    # python - dataclasses
+    - name: Generate Python DataClasses Protocol Classes
+      shell: bash
+      run: protocol-models/bin/generate-python-dataclasses.sh
+
     - name: Publish Python Package
       uses: mariamrf/py-package-publish-action@v1.1.0
       with:
