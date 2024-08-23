@@ -5,7 +5,7 @@
 
 ### Features
 
-* add version with dataclasses ([#91](https://github.com/airbytehq/airbyte-protocol/issues/91)) ([5aa44db](https://github.com/airbytehq/airbyte-protocol/commit/5aa44dbacca1200621008356cec0280e42c39a9a))
+* publish new dataclasses version of python protocol, `airbyte_protocol_models_dataclasses` to pypi ([#91](https://github.com/airbytehq/airbyte-protocol/issues/91)) ([5aa44db](https://github.com/airbytehq/airbyte-protocol/commit/5aa44dbacca1200621008356cec0280e42c39a9a))
 
 ## [0.12.2](https://github.com/airbytehq/airbyte-protocol/compare/v0.12.1...v0.12.2) (2024-06-18)
 
