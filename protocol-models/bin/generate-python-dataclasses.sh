@@ -30,7 +30,7 @@ for f in "$ROOT_DIR/$YAML_DIR"/*.yaml; do
     --input "$ROOT_DIR/$YAML_DIR/$filename_wo_ext.yaml" \
     --output "$ROOT_DIR/$OUTPUT_DIR/$filename_wo_ext.py" \
     --output-model-type dataclasses.dataclass \
-    --target-python-version 3.10 \
+    --target-python-version 3.8 \
     --use-title-as-name \
     --disable-timestamp
 done
