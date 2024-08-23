@@ -44,6 +44,11 @@ runs:
       shell: bash
       run: protocol-models/bin/generate-python-pydantic-v2.sh
 
+    # python - dataclasses
+    - name: Generate Python DataClasses Protocol Classes
+      shell: bash
+      run: protocol-models/bin/generate-python-dataclasses.sh
+
     - name: Publish Python Package
       uses: mariamrf/py-package-publish-action@v1.1.0
       with:
@@ -62,6 +67,17 @@ runs:
         python_version: "3.9.11"
         pip_version: "21.1"
         subdir: "protocol-models/python/airbyte_protocol_pdv2"
+      env:
+        TWINE_PASSWORD: ${{ inputs.twine_password }}
+        TWINE_USERNAME: ${{ inputs.twine_username }}
+
+    - name: Publish DataClasses Python Package
+      uses: mariamrf/py-package-publish-action@v1.1.0
+      with:
+        # specify the same version as in ~/.python-version
+        python_version: "3.9.11"
+        pip_version: "21.1"
+        subdir: "protocol-models/python/airbyte_protocol_dataclasses"
       env:
         TWINE_PASSWORD: ${{ inputs.twine_password }}
         TWINE_USERNAME: ${{ inputs.twine_username }}
