@@ -484,6 +484,21 @@ definitions:
           If the stream is resumable or not. Should be set to true if the stream supports incremental. Defaults to false.
           Primarily used by the Platform in Full Refresh to determine if a Full Refresh stream should actually be treated as incremental within a job.
         type: boolean
+      document_mapping:
+        description: Describes how to map fields to documents. 
+        title:
+          type: string
+          description: The name of the field to use as title for the document.
+        content:
+          type: array
+          description: The name of the fields to use as content in the document.
+          items:
+            type: string
+        metadata:
+          type: array
+          description: The name of the fields to use as metadata in the document.
+          items:
+            type: string
   ConfiguredAirbyteCatalog:
     type: object
     additionalProperties: true
