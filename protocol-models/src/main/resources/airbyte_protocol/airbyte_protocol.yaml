@@ -655,6 +655,11 @@ definitions:
             }
         type: object
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      oauth_connector_input_specification:
+        description: |-
+          TODO: OAuth specific blob. Pertains to the fields defined by the connector relating to the OAuth flow.
+        type: object
+        existingJavaType: com.fasterxml.jackson.databind.JsonNode
       complete_oauth_output_specification:
         description: |-
           OAuth specific blob. This is a Json Schema used to validate Json configurations produced by the OAuth flows as they are
