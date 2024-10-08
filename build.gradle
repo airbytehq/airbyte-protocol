@@ -14,7 +14,7 @@ buildscript {
 plugins {
     id 'base'
     id 'pmd'
-    id 'com.diffplug.spotless' version '6.12.0'
+    id 'com.diffplug.spotless' version '6.21.0'
     id 'com.github.hierynomus.license' version '0.16.1'
     id 'com.github.spotbugs' version '5.0.13'
     // The distribution plugin has been added to address the an issue with the copyGeneratedTar
@@ -200,7 +200,7 @@ subprojects { subproj ->
     }
 
     jacoco {
-        toolVersion = "0.8.8"
+        toolVersion = "0.8.12"
     }
 
     jacocoTestReport {
@@ -243,7 +243,7 @@ subprojects { subproj ->
         excludeFilter = rootProject.file('spotbugs-exclude-filter-file.xml')
         reportLevel = 'high'
         showProgress = false
-        toolVersion = '4.7.3'
+        toolVersion = '4.8.2'
     }
 
     test {
