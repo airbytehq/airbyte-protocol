@@ -3,7 +3,7 @@
 "$id": https://github.com/airbytehq/airbyte/blob/master/airbyte-protocol/models/src/main/resources/airbyte_protocol/v1/airbyte_protocol.yaml
 title: AirbyteProtocol
 type: object
-description: AirbyteProtocol structs dummy change
+description: AirbyteProtocol structs
 version: 1.0.0
 properties:
   airbyte_message:
