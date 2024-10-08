@@ -243,7 +243,7 @@ subprojects { subproj ->
         excludeFilter = rootProject.file('spotbugs-exclude-filter-file.xml')
         reportLevel = 'high'
         showProgress = false
-        toolVersion = '4.7.3'
+        toolVersion = '4.8.2'
     }
 
     test {
