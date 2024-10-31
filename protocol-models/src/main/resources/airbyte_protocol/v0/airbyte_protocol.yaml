@@ -712,8 +712,127 @@ definitions:
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
       oauth_connector_input_specification:
         description: |-
-          TODO: OAuth specific blob. Pertains to the fields defined by the connector relating to the OAuth flow.
+          OAuth specific blob. Pertains to the fields defined by the connector relating to the OAuth flow.
         type: object
+        additionalProperties: false
+        required: 
+          - consent_url
+          - scope
+          - access_token_url
+          - extract_output
+        properties:
+          consent_url: 
+            type: string
+            description: |-
+              The OAuth Specific string URL string template to initiate the authentication.
+              The placeholders are replaced during the processing to provide neccessary values.
+
+              Examples:
+                {
+                  "consent_url": "https://domain.host.com/oauth2/authorize?{client_id_key}={{client_id_key}}&{redirect_uri_key}={urlEncoder:{{redirect_uri_key}}}&{scope_key}={urlEncoder:{{scope_key}}}&{state_key}={{state_key}}&subdomain={subdomain}"
+                }
+          scope: 
+            type: string
+            description: |-
+              The OAuth Specific string of the scopes needed to be grant for authenticated user.
+
+              Examples:
+                {
+                  "scope": "user:read user:read_orders workspaces:read"
+                }
+          access_token_url: 
+            type: string
+            description: |-
+              The OAuth Specific URL templated string to obtain the `access_token`, `refresh_token` etc.
+              The placeholders are replaced during the processing to provide neccessary values.
+
+              Examples:
+                {
+                  "access_token_url": https://auth.host.com/oauth2/token?{client_id_key}={{client_id_key}}&{client_secret_key}={{client_secret_key}}&{auth_code_key}={{auth_code_key}}&{redirect_uri_key}={urlEncoder:{{redirect_uri_key}}}
+                }
+          access_token_headers:
+            type: object
+            additionalProperties: true
+            description: |-
+              The OAuth Specific optional headers to inject while exchanging the `auth_code` to `access_token` during `completeOAuthFlow` step.
+
+              Examples:
+                In this example the header value will be encoded with the base64 hash from `client_id` and `client_secret`,
+                to provide neccessary header to complete auth flow and obtain the `access_token`.
+
+                {
+                  "access_token_headers": {
+                      "Authorization": "Basic {base64Encoder:{client_id}:{client_secret}}"
+                  }
+                }
+          extract_output:
+            type: array
+            items:
+              type: string
+            description: |-
+              The OAuth Specific list of strings to indicate which keys should be extracted and returned back to the input config.
+
+              Examples:
+                In this example, once the OAuthFlow has been completed successfully, 
+                the `access_token`, `refresh_token` and other fields like `other_field` will be checked and extracted from the OAuthOutput.
+
+                {
+                  "extract_output": ["access_token", "refresh_token", "other_field"]
+                }
+          client_id_key:
+            type: string
+            description: |-
+              The OAuth Specific optional override to provide the custom `client_id` key name, if required by data-provider.
+
+              Examples:
+                {
+                  "client_id_key": "my_custom_client_id_key_name"
+                }
+          client_secret_key:
+            type: string
+            description: |-
+              The OAuth Specific optional override to provide the custom `client_secret` key name, if required by data-provider.
+
+              Examples:
+                {
+                  "client_secret_key": "my_custom_client_secret_key_name"
+                }
+          scope_key:
+            type: string
+            description: |-
+              The OAuth Specific optional override to provide the custom `scope` key name, if required by data-provider.
+
+              Examples:
+                {
+                  "scope_key": "my_custom_scope_key_key_name"
+                }
+          state_key:
+            type: string
+            description: |-
+              The OAuth Specific optional override to provide the custom `state` key name, if required by data-provider.
+
+              Examples:
+                {
+                  "state_key": "my_custom_state_key_key_name"
+                }
+          auth_code_key:
+            type: string
+            description: |-
+              The OAuth Specific optional override to provide the custom `code` key name to something like `auth_code` or `custom_auth_code`, if required by data-provider.
+
+              Examples:
+                {
+                  "auth_code_key": "my_custom_auth_code_key_name"
+                }
+          redirect_uri_key:
+            type: string
+            description: |-
+              The OAuth Specific optional override to provide the custom `redirect_uri` key name to something like `callback_uri`, if required by data-provider.
+
+              Examples:
+                {
+                  "redirect_uri_key": "my_custom_redirect_uri_key_name"
+                }
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
       complete_oauth_output_specification:
         description: |-
