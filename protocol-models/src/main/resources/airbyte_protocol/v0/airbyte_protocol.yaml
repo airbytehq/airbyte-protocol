@@ -779,6 +779,24 @@ definitions:
                 {
                   "extract_output": ["access_token", "refresh_token", "other_field"]
                 }
+          state:
+            type: object
+            additionalProperties: true
+            description: |-
+              The OAuth Specific object to provide the criteria of how the `state` query param should be constructed,
+              including length and complexity.
+
+              TODO: review and edit this property, once the state generation logic is finilized.
+
+              Examples:
+                {
+                  "state": {
+                    "min_length": 7,
+                    "max_length": 128,
+                    "min_special": 3,
+                    "excluded": ["$", "\\", "."]
+                  }
+                }
           client_id_key:
             type: string
             description: |-
