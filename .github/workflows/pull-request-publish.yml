@@ -10,8 +10,6 @@ on:
     types:
       - opened
       - synchronize
-    paths:
-      - "protocol-models/**"
 
 jobs:
   pull-request-publish:
