@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.13.1...v0.14.0) (2024-11-06)
+
+
+### Features
+
+* add connector `DeclarativeOAuthFlow` input to protocol ([#96](https://github.com/airbytehq/airbyte-protocol/issues/96)) ([32c58c8](https://github.com/airbytehq/airbyte-protocol/commit/32c58c8aa7408a7f91703fbf6aa2badfccf84182))
+
 ## [0.13.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.13.0...v0.13.1) (2024-10-15)
 
 
