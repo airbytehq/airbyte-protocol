@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.13.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.13.0...v0.13.1) (2024-10-15)
+
+
+### Bug Fixes
+
+* fix build issues with plugin versions not compatible with java 21 ([#99](https://github.com/airbytehq/airbyte-protocol/issues/99)) ([226ac3b](https://github.com/airbytehq/airbyte-protocol/commit/226ac3b5a3c0c15014c6ceb190a1f4ed957eac76))
+* upgrade from java 17 to 21 and from gradle 7.6 to 8.10 ([#97](https://github.com/airbytehq/airbyte-protocol/issues/97)) ([6164fc0](https://github.com/airbytehq/airbyte-protocol/commit/6164fc07a51cdfe53fb40f20ab7b13ef0d5d62d6))
+
 ## [0.13.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.12.2...v0.13.0) (2024-08-23)
 
 
