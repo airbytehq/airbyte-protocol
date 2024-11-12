@@ -122,6 +122,31 @@ definitions:
           - SOURCE_RETRIEVAL_ERROR
           # Errors casting to appropriate type
           - DESTINATION_TYPECAST_ERROR
+  AirbyteFileTransferRecordMessage:
+    type: object
+    additionalProperties: true
+    required:
+      - stream
+      - file
+      - emitted_at
+    properties:
+      namespace:
+        description: "namespace the data is associated with"
+        type: string
+      stream:
+        description: "stream the data is associated with"
+        type: string
+      file:
+        description: "transfer file data"
+        type: object
+        existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      data:
+        description: "record data"
+        type: object
+        existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      emitted_at:
+        description: "when the data was emitted from the source. epoch in millisecond."
+        type: integer
   AirbyteStateMessage:
     type: object
     additionalProperties: true
