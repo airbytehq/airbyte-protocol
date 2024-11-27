@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.0...v0.14.1) (2024-11-27)
+
+
+### Bug Fixes
+
+* (DeclarativeOAuthFlow) - add `access_token_params` property to match the actual spec properties ([#103](https://github.com/airbytehq/airbyte-protocol/issues/103)) ([b47f0ca](https://github.com/airbytehq/airbyte-protocol/commit/b47f0ca0c14137a29cd7e8b716925970a824f6e1))
+
 ## [0.14.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.13.1...v0.14.0) (2024-11-06)
 
 
