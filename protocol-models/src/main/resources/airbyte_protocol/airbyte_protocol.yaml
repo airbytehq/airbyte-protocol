@@ -659,10 +659,9 @@ definitions:
         description: |-
           OAuth specific blob. Pertains to the fields defined by the connector relating to the OAuth flow.
         type: object
-        additionalProperties: false
+        additionalProperties: true
         required: 
           - consent_url
-          - scope
           - access_token_url
           - extract_output
         properties:
@@ -708,6 +707,20 @@ definitions:
                 {
                   "access_token_headers": {
                       "Authorization": "Basic {base64Encoder:{client_id}:{client_secret}}"
+                  }
+                }
+          access_token_params:
+            type: object
+            additionalProperties: true
+            description: |-
+              The OAuth Specific optional query parameters to inject while exchanging the `auth_code` to `access_token` during `completeOAuthFlow` step.
+              When this property is provided, the query params are encoded as `Json string` and passed to the outgoing API request.
+
+              Examples:
+                {
+                  "access_token_params": {
+                      "my_query_param": "param_value",
+                      "{client_id_key}": {{client_id_key}}
                   }
                 }
           extract_output:
