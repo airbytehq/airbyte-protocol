@@ -739,22 +739,23 @@ definitions:
                 }
           state:
             type: object
-            additionalProperties: true
             description: |-
               The OAuth Specific object to provide the criteria of how the `state` query param should be constructed,
               including length and complexity.
 
-              TODO: review and edit this property, once the state generation logic is finilized.
-
               Examples:
                 {
                   "state": {
-                    "min_length": 7,
-                    "max_length": 128,
-                    "min_special": 3,
-                    "excluded": ["$", "\\", "."]
+                    "min": 7,
+                    "max": 128,
                   }
                 }
+            additionalProperties: true
+            properties:
+              min:
+                type: integer
+              max:
+                type: integer
           client_id_key:
             type: string
             description: |-
