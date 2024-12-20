@@ -164,7 +164,9 @@ definitions:
       stream_descriptor:
         "$ref": "#/definitions/StreamDescriptor"
       stream_state:
-        "$ref": "#/definitions/AirbyteStateBlob"
+        anyOf:
+          - type: null
+          - "$ref": "#/definitions/AirbyteStateBlob"
   AirbyteGlobalState:
     type: object
     additionalProperties: true

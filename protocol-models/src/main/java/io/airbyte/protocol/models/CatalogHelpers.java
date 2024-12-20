@@ -324,5 +324,4 @@ public class CatalogHelpers {
     return field.getType().equals(JsonSchemaType.OBJECT) && field.getSubFields() != null
         && !field.getSubFields().isEmpty();
   }
-
 }
