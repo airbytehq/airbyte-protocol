@@ -163,7 +163,9 @@ definitions:
       stream_descriptor:
         "$ref": "#/definitions/StreamDescriptor"
       stream_state:
-        "$ref": "#/definitions/AirbyteStateBlob"
+        anyOf:
+          - "$ref": "#/definitions/AirbyteStateBlob"
+          - type: null
   AirbyteGlobalState:
     type: object
     additionalProperties: true
@@ -524,14 +526,14 @@ definitions:
           items:
             type: string
       generation_id:
-        description: 
+        description:
           "Monotically increasing numeric id representing the current generation of a stream. This id can be shared across syncs.
 
           If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
           "
         type: integer
       minimum_generation_id:
-        description: 
+        description:
           "The minimum generation id which is needed in a stream. If it is present, the destination will try to delete the data that are part of a generation lower than this property.
           If the minimum generation is equals to 0, no data deletion is expected from the destiantion
 
@@ -539,7 +541,7 @@ definitions:
           "
         type: integer
       sync_id:
-        description: 
+        description:
           "Monotically increasing numeric id representing the current sync id. This is aimed to be unique per sync.
 
           If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
@@ -660,12 +662,12 @@ definitions:
           OAuth specific blob. Pertains to the fields defined by the connector relating to the OAuth flow.
         type: object
         additionalProperties: true
-        required: 
+        required:
           - consent_url
           - access_token_url
           - extract_output
         properties:
-          consent_url: 
+          consent_url:
             type: string
             description: |-
               The OAuth Specific string URL string template to initiate the authentication.
@@ -675,7 +677,7 @@ definitions:
                 {
                   "consent_url": "https://domain.host.com/oauth2/authorize?{client_id_key}={{client_id_key}}&{redirect_uri_key}={urlEncoder:{{redirect_uri_key}}}&{scope_key}={urlEncoder:{{scope_key}}}&{state_key}={{state_key}}&subdomain={subdomain}"
                 }
-          scope: 
+          scope:
             type: string
             description: |-
               The OAuth Specific string of the scopes needed to be grant for authenticated user.
@@ -684,7 +686,7 @@ definitions:
                 {
                   "scope": "user:read user:read_orders workspaces:read"
                 }
-          access_token_url: 
+          access_token_url:
             type: string
             description: |-
               The OAuth Specific URL templated string to obtain the `access_token`, `refresh_token` etc.
