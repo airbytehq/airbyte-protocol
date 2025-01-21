@@ -746,7 +746,7 @@ definitions:
 
               Examples:
                 {
-                  "access_token_url": https://auth.host.com/oauth2/token?{{ client_id_key }}={{ client_id_value }}&{{ client_secret_key }}={{ client_secret_value }}&{{ auth_code_key }}={{ auth_code_value }}&{{ redirect_uri_key }}={{ {{redirect_uri_key}} | urlEncoder }}
+                  "access_token_url": "https://auth.host.com/oauth2/token?{{ client_id_key }}={{ client_id_value }}&{{ client_secret_key }}={{ client_secret_value }}&{{ auth_code_key }}={{ auth_code_value }}&{{ redirect_uri_key }}={{ {{redirect_uri_key}} | urlEncoder }}"
                 }
           access_token_headers:
             type: object
@@ -774,7 +774,7 @@ definitions:
                 {
                   "access_token_params": {
                       "my_query_param": "param_value",
-                      "{{ client_id_key }}": {{ client_id_value }}
+                      "{{ client_id_key }}": "{{ client_id_value }}"
                   }
                 }
           extract_output:
