@@ -864,6 +864,15 @@ definitions:
                 {
                   "redirect_uri_key": "my_custom_redirect_uri_key_name"
                 }
+          token_expiry_key:
+            type: string
+            description: |-
+              The OAuth Specific optional override to provide the custom key name to something like `expires_at`, if required by data-provider.
+
+              Examples:
+                {
+                  "token_expiry_key": "expires_at"
+                }
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
       complete_oauth_output_specification:
         description: |-
