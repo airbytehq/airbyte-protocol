@@ -27,6 +27,7 @@ for f in "$ROOT_DIR/$YAML_DIR"/*.yaml; do
   echo "from .$filename_wo_ext import *" >> "$ROOT_DIR/$OUTPUT_DIR"/__init__.py
 
   datamodel-codegen \
+    --input-file-type jsonschema \
     --input "$ROOT_DIR/$YAML_DIR/$filename_wo_ext.yaml" \
     --output "$ROOT_DIR/$OUTPUT_DIR/$filename_wo_ext.py" \
     --output-model-type dataclasses.dataclass \
