@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.2](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.1...v0.14.2) (2025-01-23)
+
+
+### Bug Fixes
+
+* (DeclarativeOAuthFlow) - make the `extract_output` Optional; correct the descriptions ([#106](https://github.com/airbytehq/airbyte-protocol/issues/106)) ([94b0198](https://github.com/airbytehq/airbyte-protocol/commit/94b019840a573ad4e525409238b553b505d31041))
+
 ## [0.14.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.0...v0.14.1) (2024-11-27)
 
 
