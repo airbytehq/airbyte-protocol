@@ -663,7 +663,6 @@ definitions:
         required: 
           - consent_url
           - access_token_url
-          - extract_output
         properties:
           consent_url: 
             type: string
@@ -673,7 +672,7 @@ definitions:
 
               Examples:
                 {
-                  "consent_url": "https://domain.host.com/oauth2/authorize?{client_id_key}={{client_id_key}}&{redirect_uri_key}={urlEncoder:{{redirect_uri_key}}}&{scope_key}={urlEncoder:{{scope_key}}}&{state_key}={{state_key}}&subdomain={subdomain}"
+                  "consent_url": "https://domain.host.com/oauth2/authorize?{{ client_id_key }}={{ client_id_value }}&{{ redirect_uri_key }}={{ {{redirect_uri_value}} | urlEncoder }}&{{ scope_key }}={{ {{scope_key}} | urlEncoder }}&{{ state_key }}={{ state_value }}&subdomain={{ subdomain }}"
                 }
           scope: 
             type: string
@@ -692,7 +691,7 @@ definitions:
 
               Examples:
                 {
-                  "access_token_url": https://auth.host.com/oauth2/token?{client_id_key}={{client_id_key}}&{client_secret_key}={{client_secret_key}}&{auth_code_key}={{auth_code_key}}&{redirect_uri_key}={urlEncoder:{{redirect_uri_key}}}
+                  "access_token_url": "https://auth.host.com/oauth2/token?{{ client_id_key }}={{ client_id_value }}&{{ client_secret_key }}={{ client_secret_value }}&{{ auth_code_key }}={{ auth_code_value }}&{{ redirect_uri_key }}={{ {{redirect_uri_key}} | urlEncoder }}"
                 }
           access_token_headers:
             type: object
@@ -706,7 +705,7 @@ definitions:
 
                 {
                   "access_token_headers": {
-                      "Authorization": "Basic {base64Encoder:{client_id}:{client_secret}}"
+                      "Authorization": "Basic {{ {{ client_id_value }}:{{ client_secret_value }} | base64Encoder }}"
                   }
                 }
           access_token_params:
@@ -720,7 +719,7 @@ definitions:
                 {
                   "access_token_params": {
                       "my_query_param": "param_value",
-                      "{client_id_key}": {{client_id_key}}
+                      "{{ client_id_key }}": "{{ client_id_value }}"
                   }
                 }
           extract_output:
@@ -810,6 +809,15 @@ definitions:
                 {
                   "redirect_uri_key": "my_custom_redirect_uri_key_name"
                 }
+          token_expiry_key:
+            type: string
+            description: |-
+              The OAuth Specific optional override to provide the custom key name to something like `expires_at`, if required by data-provider.
+
+              Examples:
+                {
+                  "token_expiry_key": "expires_at"
+                }
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
       complete_oauth_output_specification:
         description: |-
@@ -819,11 +827,23 @@ definitions:
           For each field, a special annotation `path_in_connector_config` can be specified to determine where to merge it,
 
           Examples:
+              With a `refresh_token` in the `oauth response`:
 
               complete_oauth_output_specification={
                 refresh_token: {
                   type: string,
-                  path_in_connector_config: ['credentials', 'refresh_token']
+                  path_in_connector_config: ['credentials', 'refresh_token'],
+                  path_in_oauth_response: ['refresh_token']
+                }
+              }
+              
+              With a nested `refresh_token` under the `data` object, in the `oauth response`:
+              
+              complete_oauth_output_specification={
+                refresh_token: {
+                  type: string,
+                  path_in_connector_config: ['credentials', 'refresh_token'],
+                  path_in_oauth_response: ['data', 'refresh_token']
                 }
               }
         type: object
