@@ -37,3 +37,5 @@ To release:
 ## Release Errors
 
 If there is a publishing error on merge to master, the [manual publishing workflow](https://github.com/airbytehq/airbyte-protocol/actions/workflows/manual-publish.yml) is an escape hatch for manually republishing artifacts for a specific version.
+
+test change! do not merge!
