@@ -2,6 +2,7 @@ import org.jsonschema2pojo.SourceType
 
 plugins {
     id("io.airbyte.gradle.jvm.lib")
+    id("io.airbyte.gradle.publish")
     id("com.github.eirnym.js2p")
 }
 
