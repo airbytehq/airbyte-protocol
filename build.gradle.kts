@@ -43,5 +43,6 @@ rootProject.file(".env").inputStream().use {
 allprojects {
     apply(plugin = "base")
 
+    group = "io.airbyte.${rootProject.name}"
     version = System.getenv("VERSION") ?: env["VERSION"].toString()
 }
