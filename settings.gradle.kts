@@ -33,9 +33,9 @@ buildCache {
         isEnabled = false
     }
     remote<com.github.burrunan.s3cache.AwsS3BuildCache> {
-        region = "us-west-2"
-        bucket = "ab-ci-cache"
-        prefix = "platform-ci-cache/"
+        region = "us-east-2"
+        bucket = "airbyte-buildcache"
+        prefix = "cache/"
         isPush = isCiServer
         isEnabled = System.getenv().containsKey("S3_BUILD_CACHE_ACCESS_KEY_ID")
     }
