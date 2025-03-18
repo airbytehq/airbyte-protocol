@@ -1,0 +1,17 @@
+[versions]
+fasterxml_version = "2.18.3"
+slf4j = "2.0.17"
+
+[libraries]
+commons-lang3 = { module = "org.apache.commons:commons-lang3", version = "3.11" }
+fasterxml = { module = "com.fasterxml.jackson:jackson-bom", version.ref = "fasterxml_version" }
+guava = { module = "com.google.guava:guava", version = "33.4.0-jre" }
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "fasterxml_version" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "fasterxml_version" }
+jackson-dataformat = { module = "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml", version.ref = "fasterxml_version" }
+jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "fasterxml_version" }
+slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+validation-api = { module = "javax.validation:validation-api", version = "1.1.0.Final" }
+
+[bundles]
+jackson = ["jackson-databind", "jackson-annotations", "jackson-dataformat", "jackson-datatype"]

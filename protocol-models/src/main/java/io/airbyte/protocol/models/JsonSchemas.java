@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
 package io.airbyte.protocol.models;
@@ -31,16 +31,17 @@ import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // todo (cgardens) - we need the ability to identify jsonschemas that Airbyte considers invalid for
 // a connector (e.g. "not" keyword).
-@Slf4j
 @SuppressWarnings("PMD.SwitchStmtsShouldHaveDefault")
 public class JsonSchemas {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(JsonSchemas.class);
 
   private static final String JSON_SCHEMA_ENUM_KEY = "enum";
   private static final String JSON_SCHEMA_TYPE_KEY = "type";
@@ -69,13 +70,13 @@ public class JsonSchemas {
       try (final Stream<Path> resources = listResources(klass, resourceDir)) {
         filenames = resources.map(p -> p.getFileName().toString())
             .filter(p -> p.endsWith(".yaml"))
-            .collect(Collectors.toList());
+            .toList();
       }
 
       final Path configRoot = Files.createTempDirectory("schemas");
       for (final String filename : filenames) {
-        final var resource = Resources.getResource(String.format("%s/%s", resourceDir, filename));
-        final var resourceContents = Resources.toString(resource, StandardCharsets.UTF_8);
+        final URL resource = Resources.getResource(String.format("%s/%s", resourceDir, filename));
+        final String resourceContents = Resources.toString(resource, StandardCharsets.UTF_8);
 
         Files.writeString(configRoot.resolve(filename), resourceContents, StandardCharsets.UTF_8);
       }
@@ -123,7 +124,7 @@ public class JsonSchemas {
    *        returned by the final collection.
    * @param <T> - type of objects being collected
    * @return - collection of all items that were collected during the traversal. Returns values in
-   *         preoorder traversal order.
+   *         preorder traversal order.
    */
   public static <T> List<T> traverseJsonSchemaWithFilteredCollector(final JsonNode jsonSchema,
                                                                     final BiFunction<JsonNode, List<FieldNameOrList>, Optional<T>> mapper) {
@@ -135,8 +136,8 @@ public class JsonSchemas {
 
   /**
    * Recursive, depth-first implementation of { @link JsonSchemas#traverseJsonSchema(final JsonNode
-   * jsonNode, final BiConsumer<JsonNode, List<String>> consumer) }. Takes path as argument so that
-   * the path can be passed to the consumer.
+   * jsonNode, final BiConsumer&lt;JsonNode, List&lt;String&gt;&gt; consumer) }. Takes path as
+   * argument so that the path can be passed to the consumer.
    *
    * @param jsonSchemaNode - jsonschema object to traverse.
    * @param consumer - consumer to be called at each node. it accepts the current node and the path to
@@ -148,7 +149,7 @@ public class JsonSchemas {
                                                  final BiConsumer<JsonNode, List<FieldNameOrList>> consumer) {
     final boolean isTraversable = jsonSchemaNode.isObject();
     if (!isTraversable) {
-      log.warn("json schema nodes should always be object nodes. path: {} actual: {}",
+      LOGGER.warn("json schema nodes should always be object nodes. path: {} actual: {}",
           path, jsonSchemaNode);
       return;
     }
@@ -167,7 +168,7 @@ public class JsonSchemas {
             // hit every node.
             traverseJsonSchemaInternal(jsonSchemaNode.get(JSON_SCHEMA_ITEMS_KEY), newPath, consumer);
           } else {
-            log.warn("The array is missing an items field. The traversal is silently stopped. Current schema: " + jsonSchemaNode);
+            LOGGER.warn("The array is missing an items field. The traversal is silently stopped. Current schema: {}", jsonSchemaNode);
           }
         }
         case OBJECT_TYPE -> {
@@ -185,8 +186,11 @@ public class JsonSchemas {
               traverseJsonSchemaInternal(arrayItem, path, consumer);
             }
           } else {
-            log.warn("The object is a properties key or a combo keyword. The traversal is silently stopped. Current schema: " + jsonSchemaNode);
+            LOGGER.warn("The object is a properties key or a combo keyword. The traversal is silently stopped. Current schema: {}", jsonSchemaNode);
           }
+        }
+        default -> {
+          LOGGER.warn("Unknown node type detected: {}", nodeType);
         }
       }
     }
@@ -235,7 +239,7 @@ public class JsonSchemas {
   public static List<String> getType(final JsonNode jsonSchema) {
     if (jsonSchema.has(JSON_SCHEMA_TYPE_KEY)) {
       if (jsonSchema.get(JSON_SCHEMA_TYPE_KEY).isArray()) {
-        final var iter = jsonSchema.get(JSON_SCHEMA_TYPE_KEY).iterator();
+        final Iterator<JsonNode> iter = jsonSchema.get(JSON_SCHEMA_TYPE_KEY).iterator();
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iter, Spliterator.ORDERED), false)
             .map(JsonNode::asText)
             .toList();
@@ -327,10 +331,9 @@ public class JsonSchemas {
       if (this == o) {
         return true;
       }
-      if (!(o instanceof FieldNameOrList)) {
+      if (!(o instanceof FieldNameOrList that)) {
         return false;
       }
-      final FieldNameOrList that = (FieldNameOrList) o;
       return isList == that.isList && Objects.equals(fieldName, that.fieldName);
     }
 
@@ -341,10 +344,10 @@ public class JsonSchemas {
 
     @Override
     public String toString() {
-      return "FieldNameOrList{" +
-          "fieldName='" + fieldName + '\'' +
-          ", isList=" + isList +
-          '}';
+      return "FieldNameOrList{"
+          + "fieldName='" + fieldName
+          + "', isList=" + isList
+          + "}";
     }
 
   }

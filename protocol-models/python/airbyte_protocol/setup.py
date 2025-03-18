@@ -47,7 +47,6 @@ setup(
         "License :: OSI Approved :: MIT License",
         # Python Version Support
         "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.8",
     ],
     keywords="airbyte airbyte-protocol",
     project_urls={
@@ -61,5 +60,5 @@ setup(
     install_requires=[
         "pydantic>=1.9.2,<2.0.0",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.9",
 )

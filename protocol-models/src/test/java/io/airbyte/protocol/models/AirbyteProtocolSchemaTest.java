@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
 package io.airbyte.protocol.models;
@@ -37,13 +37,14 @@ class AirbyteProtocolSchemaTest {
 
   @Test
   void testVersionedObjectsAccessibility() {
-    final var message = new io.airbyte.protocol.models.AirbyteMessage()
+    final io.airbyte.protocol.models.AirbyteMessage message = new io.airbyte.protocol.models.AirbyteMessage()
         .withType(Type.SPEC);
-    final var messageV0 = new io.airbyte.protocol.models.v0.AirbyteMessage()
+    final io.airbyte.protocol.models.v0.AirbyteMessage messageV0 = new io.airbyte.protocol.models.v0.AirbyteMessage()
         .withType(io.airbyte.protocol.models.v0.AirbyteMessage.Type.SPEC);
 
     // This only works as long as the default version and v0 are equal
-    final var deserializedMessage = Jsons.deserialize(Jsons.serialize(message), io.airbyte.protocol.models.v0.AirbyteMessage.class);
+    final io.airbyte.protocol.models.v0.AirbyteMessage deserializedMessage =
+        Jsons.deserialize(Jsons.serialize(message), io.airbyte.protocol.models.v0.AirbyteMessage.class);
     assertEquals(messageV0, deserializedMessage);
   }
 
