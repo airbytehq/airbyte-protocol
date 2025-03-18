@@ -24,8 +24,6 @@ gradleEnterprise {
     }
 }
 
-val isCiServer = System.getenv().containsKey("CI")
-
 buildCache {
     local {
         // Local build cache is dangerous as it might produce inconsistent results
@@ -36,7 +34,7 @@ buildCache {
         region = "us-east-2"
         bucket = "airbyte-buildcache"
         prefix = "cache/"
-        isPush = isCiServer
+        isPush = System.getenv().containsKey("CI")
         isEnabled = System.getenv().containsKey("S3_BUILD_CACHE_ACCESS_KEY_ID")
     }
 }
