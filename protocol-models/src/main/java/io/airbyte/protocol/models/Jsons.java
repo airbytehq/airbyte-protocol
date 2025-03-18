@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
 package io.airbyte.protocol.models;
@@ -25,7 +25,7 @@ public class Jsons {
   private static final ObjectMapper OBJECT_MAPPER;
 
   static {
-    final var result = new ObjectMapper().registerModule(new JavaTimeModule());
+    final ObjectMapper result = new ObjectMapper().registerModule(new JavaTimeModule());
     result.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     result.configure(Feature.WRITE_BIGDECIMAL_AS_PLAIN, true);
     OBJECT_MAPPER = result;

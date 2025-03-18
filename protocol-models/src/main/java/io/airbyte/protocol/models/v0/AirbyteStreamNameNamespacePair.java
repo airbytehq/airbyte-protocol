@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
 package io.airbyte.protocol.models.v0;
@@ -15,8 +15,8 @@ import java.util.Set;
  */
 public class AirbyteStreamNameNamespacePair implements Comparable<AirbyteStreamNameNamespacePair> {
 
-  final private String name;
-  final private String namespace;
+  private final String name;
+  private final String namespace;
 
   public AirbyteStreamNameNamespacePair(final String name, final String namespace) {
     this.name = name;
@@ -94,10 +94,10 @@ public class AirbyteStreamNameNamespacePair implements Comparable<AirbyteStreamN
   }
 
   public static Set<AirbyteStreamNameNamespacePair> fromConfiguredCatalog(final ConfiguredAirbyteCatalog catalog) {
-    final var pairs = new HashSet<AirbyteStreamNameNamespacePair>();
+    final Set<AirbyteStreamNameNamespacePair> pairs = new HashSet<AirbyteStreamNameNamespacePair>();
 
     for (final ConfiguredAirbyteStream stream : catalog.getStreams()) {
-      final var pair = fromAirbyteStream(stream.getStream());
+      final AirbyteStreamNameNamespacePair pair = fromAirbyteStream(stream.getStream());
       pairs.add(pair);
     }
 

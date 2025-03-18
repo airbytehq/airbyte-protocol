@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
 package io.airbyte.protocol.models;
@@ -44,8 +44,8 @@ public class CommonField<T> {
     }
 
     final CommonField<T> field = (CommonField<T>) o;
-    return name.equals(field.name) &&
-        type.equals(field.type) && Objects.equals(properties, field.properties);
+    return name.equals(field.name)
+        && type.equals(field.type) && Objects.equals(properties, field.properties);
   }
 
   @Override

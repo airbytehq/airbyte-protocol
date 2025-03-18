@@ -1,14 +1,14 @@
 /*
- * Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
 package io.airbyte.protocol.models;
 
 import static io.airbyte.protocol.models.JsonSchemaPrimitiveUtil.PRIMITIVE_TO_REFERENCE_BIMAP;
 
-import com.google.common.collect.ImmutableMap;
 import io.airbyte.protocol.models.JsonSchemaPrimitiveUtil.JsonSchemaPrimitive;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -109,51 +109,50 @@ public class JsonSchemaType {
 
   public static class Builder {
 
-    private final ImmutableMap.Builder<String, Object> typeMapBuilder;
+    private final Map<String, Object> typeMap = new HashMap<>();
 
     private Builder(final JsonSchemaPrimitive type) {
-      typeMapBuilder = ImmutableMap.builder();
       if (JsonSchemaPrimitiveUtil.isV0Schema(type)) {
         if (type.equals(JsonSchemaPrimitive.JSONB)) {
           buildJsonbSchema();
         } else {
-          typeMapBuilder.put(TYPE, type.name().toLowerCase());
+          typeMap.put(TYPE, type.name().toLowerCase());
         }
       } else {
-        typeMapBuilder.put(REF, PRIMITIVE_TO_REFERENCE_BIMAP.get(type));
+        typeMap.put(REF, PRIMITIVE_TO_REFERENCE_BIMAP.get(type));
       }
     }
 
     private void buildJsonbSchema() {
       final List<JsonSchemaPrimitive> schemaPrimitives = List.of(JsonSchemaPrimitive.ARRAY, JsonSchemaPrimitive.OBJECT, JsonSchemaPrimitive.NUMBER,
           JsonSchemaPrimitive.STRING, JsonSchemaPrimitive.BOOLEAN);
-      final List<ImmutableMap<Object, Object>> typeList = new ArrayList<>();
-      schemaPrimitives.forEach(x -> typeList.add(ImmutableMap.builder().put(TYPE, x.name().toLowerCase()).build()));
-      typeMapBuilder.put(TYPE, JsonSchemaPrimitive.OBJECT.name().toLowerCase());
-      typeMapBuilder.put(ONE_OF, typeList);
+      final List<Map<Object, Object>> typeList = new ArrayList<>();
+      schemaPrimitives.forEach(x -> typeList.add(Map.of(TYPE, x.name().toLowerCase())));
+      typeMap.put(TYPE, JsonSchemaPrimitive.OBJECT.name().toLowerCase());
+      typeMap.put(ONE_OF, typeList);
     }
 
     public Builder withFormat(final String value) {
-      typeMapBuilder.put(FORMAT, value);
+      typeMap.put(FORMAT, value);
       return this;
     }
 
     public Builder withContentEncoding(final String value) {
-      typeMapBuilder.put(CONTENT_ENCODING, value);
+      typeMap.put(CONTENT_ENCODING, value);
       return this;
     }
 
     public Builder withLegacyAirbyteTypeProperty(final String value) {
-      typeMapBuilder.put(LEGACY_AIRBYTE_TYPE_PROPERTY, value);
+      typeMap.put(LEGACY_AIRBYTE_TYPE_PROPERTY, value);
       return this;
     }
 
     public JsonSchemaType build() {
-      return new JsonSchemaType(typeMapBuilder.build());
+      return new JsonSchemaType(typeMap);
     }
 
     public Builder withItems(final JsonSchemaType items) {
-      typeMapBuilder.put(ITEMS, items.getJsonSchemaTypeMap());
+      typeMap.put(ITEMS, items.getJsonSchemaTypeMap());
       return this;
     }
 

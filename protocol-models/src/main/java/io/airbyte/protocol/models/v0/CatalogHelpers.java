@@ -1,13 +1,11 @@
 /*
- * Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
 package io.airbyte.protocol.models.v0;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import io.airbyte.protocol.models.Field;
 import io.airbyte.protocol.models.JsonSchemaType;
 import io.airbyte.protocol.models.JsonSchemas;
@@ -35,7 +33,7 @@ public class CatalogHelpers {
   public static AirbyteCatalog createAirbyteCatalog(final String streamName,
                                                     final Field... fields) {
     return new AirbyteCatalog().withStreams(
-        Lists.newArrayList(createAirbyteStream(streamName, fields)));
+        List.of(createAirbyteStream(streamName, fields)));
   }
 
   public static AirbyteStream createAirbyteStream(final String streamName, final Field... fields) {
@@ -54,21 +52,21 @@ public class CatalogHelpers {
                                                   final List<Field> fields) {
     return new AirbyteStream().withName(streamName).withNamespace(namespace)
         .withJsonSchema(fieldsToJsonSchema(fields))
-        .withSupportedSyncModes(Lists.newArrayList(SyncMode.FULL_REFRESH));
+        .withSupportedSyncModes(List.of(SyncMode.FULL_REFRESH));
   }
 
   public static ConfiguredAirbyteCatalog createConfiguredAirbyteCatalog(final String streamName,
                                                                         final String namespace,
                                                                         final Field... fields) {
     return new ConfiguredAirbyteCatalog().withStreams(
-        Lists.newArrayList(createConfiguredAirbyteStream(streamName, namespace, fields)));
+        List.of(createConfiguredAirbyteStream(streamName, namespace, fields)));
   }
 
   public static ConfiguredAirbyteCatalog createConfiguredAirbyteCatalog(final String streamName,
                                                                         final String namespace,
                                                                         final List<Field> fields) {
     return new ConfiguredAirbyteCatalog().withStreams(
-        Lists.newArrayList(createConfiguredAirbyteStream(streamName, namespace, fields)));
+        List.of(createConfiguredAirbyteStream(streamName, namespace, fields)));
   }
 
   public static ConfiguredAirbyteStream createConfiguredAirbyteStream(final String streamName,
@@ -83,7 +81,7 @@ public class CatalogHelpers {
     return new ConfiguredAirbyteStream()
         .withStream(new AirbyteStream().withName(streamName).withNamespace(namespace)
             .withJsonSchema(fieldsToJsonSchema(fields))
-            .withSupportedSyncModes(Lists.newArrayList(SyncMode.FULL_REFRESH)))
+            .withSupportedSyncModes(List.of(SyncMode.FULL_REFRESH)))
         .withSyncMode(SyncMode.FULL_REFRESH).withDestinationSyncMode(DestinationSyncMode.OVERWRITE);
   }
 
@@ -104,7 +102,7 @@ public class CatalogHelpers {
   }
 
   /**
-   * Extracts {@link StreamDescriptor} for a given {@link AirbyteStream}
+   * Extracts {@link StreamDescriptor} for a given {@link AirbyteStream}.
    *
    * @param airbyteStream stream
    * @return stream descriptor
@@ -114,7 +112,7 @@ public class CatalogHelpers {
   }
 
   /**
-   * Extracts {@link StreamDescriptor} for a given {@link ConfiguredAirbyteStream}
+   * Extracts {@link StreamDescriptor} for a given {@link ConfiguredAirbyteStream}.
    *
    * @param airbyteStream stream
    * @return stream descriptor
@@ -125,7 +123,7 @@ public class CatalogHelpers {
   }
 
   /**
-   * Extracts {@link StreamDescriptor}s for each stream in a given {@link ConfiguredAirbyteCatalog}
+   * Extracts {@link StreamDescriptor}s for each stream in a given {@link ConfiguredAirbyteCatalog}.
    *
    * @param configuredCatalog catalog
    * @return list of stream descriptors
@@ -136,8 +134,21 @@ public class CatalogHelpers {
   }
 
   /**
+   * Extracts {@link StreamDescriptor}s for each stream in a given {@link AirbyteCatalog}.
+   *
+   * @param catalog catalog
+   * @return list of stream descriptors
+   */
+  public static List<StreamDescriptor> extractStreamDescriptors(final AirbyteCatalog catalog) {
+    return catalog.getStreams()
+        .stream()
+        .map(CatalogHelpers::extractDescriptor)
+        .toList();
+  }
+
+  /**
    * Extracts {@link StreamDescriptor}s for each stream with an incremental {@link SyncMode} in a
-   * given {@link ConfiguredAirbyteCatalog}
+   * given {@link ConfiguredAirbyteCatalog}.
    *
    * @param configuredCatalog catalog
    * @return list of stream descriptors
@@ -148,19 +159,6 @@ public class CatalogHelpers {
         .stream()
         .filter(configuredStream -> configuredStream.getSyncMode() == SyncMode.INCREMENTAL)
         .map(configuredStream -> extractDescriptor(configuredStream.getStream()))
-        .toList();
-  }
-
-  /**
-   * Extracts {@link StreamDescriptor}s for each stream in a given {@link AirbyteCatalog}
-   *
-   * @param catalog catalog
-   * @return list of stream descriptors
-   */
-  public static List<StreamDescriptor> extractStreamDescriptors(final AirbyteCatalog catalog) {
-    return catalog.getStreams()
-        .stream()
-        .map(CatalogHelpers::extractDescriptor)
         .toList();
   }
 
@@ -200,20 +198,20 @@ public class CatalogHelpers {
    * @return JsonSchema representation of the fields.
    */
   public static JsonNode fieldsToJsonSchema(final List<Field> fields) {
-    return Jsons.jsonNode(ImmutableMap.builder()
-        .put("type", "object")
-        .put("properties", fields
-            .stream()
-            .collect(Collectors.toMap(
-                Field::getName,
-                field -> {
-                  if (isObjectWithSubFields(field)) {
-                    return fieldsToJsonSchema(field.getSubFields());
-                  } else {
-                    return field.getType().getJsonSchemaTypeMap();
-                  }
-                })))
-        .build());
+    return Jsons.jsonNode(
+        Map.of(
+            "type", "object",
+            "properties", fields
+                .stream()
+                .collect(Collectors.toMap(
+                    Field::getName,
+                    field -> {
+                      if (isObjectWithSubFields(field)) {
+                        return fieldsToJsonSchema(field.getSubFields());
+                      } else {
+                        return field.getType().getJsonSchemaTypeMap();
+                      }
+                    }))));
   }
 
   /**
@@ -231,8 +229,10 @@ public class CatalogHelpers {
   }
 
   /**
+   * Returns all field names from the provided JSON schema.
+   *
    * @param jsonSchema - a JSONSchema node
-   * @return a set of all keys for all objects within the node
+   * @return a set of all keys for all objects within the node.
    */
   @VisibleForTesting
   protected static Set<String> getAllFieldNames(final JsonNode jsonSchema) {
@@ -246,6 +246,9 @@ public class CatalogHelpers {
   }
 
   /**
+   * Returns the last element in the provided list.
+   *
+   * @param list A list of field names.
    * @return returns empty optional if the list is empty or if the last element in the list is null.
    */
   private static Optional<String> last(final List<String> list) {
@@ -328,4 +331,5 @@ public class CatalogHelpers {
     return field.getType().equals(JsonSchemaType.OBJECT) && field.getSubFields() != null
         && !field.getSubFields().isEmpty();
   }
+
 }

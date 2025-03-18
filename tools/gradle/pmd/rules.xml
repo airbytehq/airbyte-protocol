@@ -76,8 +76,6 @@
         <exclude name="CognitiveComplexity"/>
         <exclude name="CollapsibleIfStatements"/>
         <exclude name="CyclomaticComplexity"/>
-        <exclude name="ExcessiveClassLength"/>
-        <exclude name="ExcessiveMethodLength"/>
         <exclude name="ExcessiveParameterList"/>
         <exclude name="FinalFieldCouldBeStatic"/>
         <exclude name="MutableStaticState"/>
@@ -97,8 +95,6 @@
     <rule ref="category/java/errorprone.xml">
         <!-- exclude permanently -->
         <exclude name="AvoidFieldNameMatchingMethodName"/>
-        <exclude name="BeanMembersShouldSerialize"/>
-        <exclude name="DataflowAnomalyAnalysis"/>
         <exclude name="TestClassWithoutTestCases"/>
         <exclude name="UseLocaleWithCaseConversions"/>
         <!-- to be applied eventually -->

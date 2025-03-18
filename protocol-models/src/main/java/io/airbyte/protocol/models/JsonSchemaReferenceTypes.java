@@ -1,18 +1,16 @@
 /*
- * Copyright (c) 2022 Airbyte, Inc., all rights reserved.
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
 package io.airbyte.protocol.models;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import java.util.Map;
 import java.util.Set;
 
 public class JsonSchemaReferenceTypes {
 
-  public static final Set<String> PRIMITIVE_JSON_TYPES = ImmutableSet.of(
+  public static final Set<String> PRIMITIVE_JSON_TYPES = Set.of(
       "string",
       "number",
       "integer",
@@ -42,7 +40,7 @@ public class JsonSchemaReferenceTypes {
    * This is primarily useful for migrating from protocol v0 to v1. It provides a mapping from the old
    * style {airbyte_type: foo} to new style {$ref: WellKnownTypes#/definitions/Foo}.
    */
-  public static final Map<String, String> LEGACY_AIRBYTE_PROPERY_TO_REFERENCE = ImmutableMap.of(
+  public static final Map<String, String> LEGACY_AIRBYTE_PROPERY_TO_REFERENCE = Map.of(
       "timestamp_with_timezone", TIMESTAMP_WITH_TIMEZONE_REFERENCE,
       "timestamp_without_timezone", TIMESTAMP_WITHOUT_TIMEZONE_REFERENCE,
       "time_with_timezone", TIME_WITH_TIMEZONE_REFERENCE,
@@ -54,7 +52,7 @@ public class JsonSchemaReferenceTypes {
       "boolean", BOOLEAN_REFERENCE,
       "date", DATE_REFERENCE);
 
-  public static final Map<String, ObjectNode> REFERENCE_TYPE_TO_OLD_TYPE = ImmutableMap.of(
+  public static final Map<String, ObjectNode> REFERENCE_TYPE_TO_OLD_TYPE = Map.of(
       TIMESTAMP_WITH_TIMEZONE_REFERENCE,
       (ObjectNode) Jsons.deserialize(
           """
