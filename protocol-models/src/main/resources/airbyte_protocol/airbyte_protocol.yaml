@@ -451,6 +451,17 @@ definitions:
       json_schema:
         description: Stream schema using Json Schema specs.
         type: object
+        patternProperties:
+          "^.*$":
+            type: object
+            properties:
+              _ab_document_mapping:
+                type: string
+                enum:
+                 - title
+                 - content
+                 - metadata
+            additionalProperties: true
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
       supported_sync_modes:
         description: List of sync modes supported by this stream.
