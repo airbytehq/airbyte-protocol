@@ -76,9 +76,9 @@ definitions:
       meta:
         description: Information about this record added mid-sync
         "$ref": "#/definitions/AirbyteRecordMessageMeta"
-      fileData:
-        description: Information about any assoicated files moved with along with the record data.
-        "$ref": "#/definitions/AirbyteRecordMessageFileData"
+      fileReference:
+        description: A reference to assoicated file to be moved with along with the record data.
+        "$ref": "#/definitions/AirbyteRecordMessageFileReference"
   AirbyteRecordMessageMeta:
     type: object
     additionalProperties: true
@@ -125,7 +125,7 @@ definitions:
           - SOURCE_RETRIEVAL_ERROR
           # Errors casting to appropriate type
           - DESTINATION_TYPECAST_ERROR
-  AirbyteRecordMessageFileData:
+  AirbyteRecordMessageFileReference:
     type: object
     additionalProperties: true
     properties:
