@@ -129,10 +129,14 @@ definitions:
     type: object
     additionalProperties: true
     properties:
-      local_path:
+      file_url:
         type: string
         description: |-
-          The path to the referenced file on the local shared volume.
+          The absolute path to the referenced file.
+      file_relative_path:
+        type: string
+        description: |-
+          The relative path to the referenced file in source.
       file_size_bytes:
         type: integer
         description: |-
