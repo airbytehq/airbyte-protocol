@@ -47,7 +47,9 @@ jobs:
           CLOUDREPO_USER: ${{ secrets.CLOUDREPO_USER }}
           CLOUDREPO_PASSWORD: ${{ secrets.CLOUDREPO_PASSWORD }}
           # will use the version in .env
-        run: ./gradlew publish
+        run: |
+          cat .env
+          ./gradlew publish
 
       # python
       - name: Generate Python Protocol Classes
