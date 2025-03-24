@@ -49,6 +49,7 @@ jobs:
           # will use the version in .env
         run: |
           cat .env
+          echo VERSION: $VERSION
           ./gradlew publish
 
       # python
