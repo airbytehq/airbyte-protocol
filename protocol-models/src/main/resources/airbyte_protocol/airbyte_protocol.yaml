@@ -76,7 +76,7 @@ definitions:
       meta:
         description: Information about this record added mid-sync
         "$ref": "#/definitions/AirbyteRecordMessageMeta"
-      fileReference:
+      file_reference:
         description: A reference to assoicated file to be moved with along with the record data.
         "$ref": "#/definitions/AirbyteRecordMessageFileReference"
   AirbyteRecordMessageMeta:
