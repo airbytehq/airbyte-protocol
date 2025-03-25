@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
+ */
+
 import org.jsonschema2pojo.SourceType
 
 plugins {
@@ -33,6 +37,9 @@ jsonSchema2Pojo {
     includeSetters = true
     serializable = true
 }
+
+project.logger.lifecycle("Group = $group")
+project.logger.lifecycle("Group = ${project.group}")
 
 tasks.register<Exec>("generatePythonPydanticV1ClassFiles") {
     inputs.dir("${sourceSets["main"].output.resourcesDir}/airbyte_protocol")

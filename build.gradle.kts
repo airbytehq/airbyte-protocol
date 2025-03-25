@@ -1,4 +1,6 @@
-import java.util.Properties
+/*
+ * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
+ */
 
 // The buildscript block defines dependencies in order for .gradle file evaluation.
 // This is separate from application dependencies.
@@ -35,14 +37,7 @@ repositories {
     }
 }
 
-val env = Properties()
-rootProject.file(".env").inputStream().use {
-    env.load(it)
-}
-
 allprojects {
     apply(plugin = "base")
-
     group = "io.airbyte.${rootProject.name}"
-    version = System.getenv("VERSION") ?: env["VERSION"].toString()
 }
