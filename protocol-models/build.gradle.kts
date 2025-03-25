@@ -38,9 +38,6 @@ jsonSchema2Pojo {
     serializable = true
 }
 
-project.logger.lifecycle("Group = $group")
-project.logger.lifecycle("Group = ${project.group}")
-
 tasks.register<Exec>("generatePythonPydanticV1ClassFiles") {
     inputs.dir("${sourceSets["main"].output.resourcesDir}/airbyte_protocol")
     inputs.dir("bin")
