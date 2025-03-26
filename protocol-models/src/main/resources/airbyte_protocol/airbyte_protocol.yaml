@@ -503,10 +503,17 @@ definitions:
           If the stream is resumable or not. Should be set to true if the stream supports incremental. Defaults to false.
           Primarily used by the Platform in Full Refresh to determine if a Full Refresh stream should actually be treated as incremental within a job.
         type: boolean
+<<<<<<< Updated upstream
       is_file_based:
         type: boolean
         description: |-
           This stream represents a series of discrete files and their metadata.
+=======
+      supports_file_transfer:
+        description: |-
+          If the stream supports file transfer.
+        type: boolean
+>>>>>>> Stashed changes
   ConfiguredAirbyteCatalog:
     type: object
     additionalProperties: true
