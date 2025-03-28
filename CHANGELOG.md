@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.14.3](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.2...v0.14.3) (2025-03-28)
+
+
+### Bug Fixes
+
+* equalise V0 and V1. ([#118](https://github.com/airbytehq/airbyte-protocol/issues/118)) ([577b40a](https://github.com/airbytehq/airbyte-protocol/commit/577b40a694fcceda0259eacaf9075b755b703d7e))
+* use .env file with Gradle ([#112](https://github.com/airbytehq/airbyte-protocol/issues/112)) ([d759d02](https://github.com/airbytehq/airbyte-protocol/commit/d759d0225c2b1f486c6be57bdd1fcb84403b990a))
+
 ## [0.14.2](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.1...v0.14.2) (2025-01-23)
 
 
