@@ -122,8 +122,7 @@ definitions:
           - PLATFORM_SERIALIZATION_ERROR
           # Errors producing the field
           - SOURCE_RETRIEVAL_ERROR
-          # Errors casting to appropriate type
-          - DESTINATION_TYPECAST_ERROR
+
   AirbyteStateMessage:
     type: object
     additionalProperties: true
@@ -198,7 +197,7 @@ definitions:
     additionalProperties: true
     properties:
       recordCount:
-        description: "the number of records which were emitted for this state message, for this stream or global. While the value should always be a round number, it is defined as a double to account for integer overflows, and the value should always have a decimal point for proper serialization."
+        description: "the number of records which were emitted for this state message, for this stream or global"
         type: number
   AirbyteLogMessage:
     type: object
