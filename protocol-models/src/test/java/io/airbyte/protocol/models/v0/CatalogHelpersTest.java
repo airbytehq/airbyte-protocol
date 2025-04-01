@@ -2,7 +2,7 @@
  * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
-package io.airbyte.protocol.models;
+package io.airbyte.protocol.models.v0;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -11,7 +11,9 @@ import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
 
-import io.airbyte.protocol.models.v0.Field;
+import io.airbyte.protocol.models.JsonSchemaType;
+import io.airbyte.protocol.models.Jsons;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
@@ -55,7 +57,7 @@ class CatalogHelpersTest {
                 Field.of("data", JsonSchemaType.STRING),
                 Field.of("intData", JsonSchemaType.NUMBER))))));
 
-    assertEquals(Jsons.deserialize(expected), actual);
+    Assertions.assertEquals(Jsons.deserialize(expected), actual);
   }
 
   @Test
