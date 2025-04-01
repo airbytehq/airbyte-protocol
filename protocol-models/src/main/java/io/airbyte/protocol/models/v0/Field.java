@@ -5,7 +5,6 @@
 package io.airbyte.protocol.models.v0;
 
 import io.airbyte.protocol.models.JsonSchemaType;
-
 import java.util.List;
 
 public class Field extends CommonField<JsonSchemaType> {
