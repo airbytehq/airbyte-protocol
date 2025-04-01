@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
+
+import io.airbyte.protocol.models.v0.Field;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
