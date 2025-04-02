@@ -503,10 +503,10 @@ definitions:
           If the stream is resumable or not. Should be set to true if the stream supports incremental. Defaults to false.
           Primarily used by the Platform in Full Refresh to determine if a Full Refresh stream should actually be treated as incremental within a job.
         type: boolean
-      has_file_attachments:
+      is_file_based:
         type: boolean
         description: |-
-          This stream references file attachments that can be optionally moved.
+          This stream describes a stream of files and their metadata.
   ConfiguredAirbyteCatalog:
     type: object
     additionalProperties: true
@@ -568,10 +568,10 @@ definitions:
           If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
           "
         type: integer
-      include_file_attachments:
+      include_files:
         type: boolean
         description: |-
-          If the stream has_file_attachments, determines whether to include the associated files in the sync.
+          If the stream is_file_based, determines whether to include the associated files in the sync.
   SyncMode:
     type: string
     enum:
