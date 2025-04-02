@@ -14,6 +14,6 @@ jobs:
         with:
           cloudrepo_user: ${{ secrets.CLOUDREPO_USER }}
           cloudrepo_password: ${{ secrets.CLOUDREPO_PASSWORD }}
-          twine_password: ${{ secrets.TWINE_PASSWORD }}
-          twine_username: ${{ secrets.TWINE_USERNAME }}
+          twine_password: ${{ secrets.PYPI_UPLOAD_TOKEN }}
+          twine_username: ${{ secrets.PYPI_UPLOAD_USER }}
           npm_token: ${{ secrets.NPM_TOKEN }}
