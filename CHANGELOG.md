@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.4](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.3...v0.14.4) (2025-04-03)
+
+
+### Bug Fixes
+
+* remove V1 models. Move clearly schema defined objects into V0 package. ([#120](https://github.com/airbytehq/airbyte-protocol/issues/120)) ([c73ef4e](https://github.com/airbytehq/airbyte-protocol/commit/c73ef4e04a2c9b31610dd103e9ef5aa45e6d5b49))
+
 ## [0.14.3](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.2...v0.14.3) (2025-03-28)
 
 
