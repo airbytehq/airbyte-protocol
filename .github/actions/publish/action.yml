@@ -87,17 +87,3 @@ runs:
       env:
         TWINE_PASSWORD: ${{ inputs.twine_password }}
         TWINE_USERNAME: ${{ inputs.twine_username }}
-
-    # github runners already come with NPM and node
-    - name: Generate Typescript Protocol Classes
-      shell: bash
-      run: protocol-models/bin/generate-typescript-classes-docker.sh
-
-    - name: npm publish
-      shell: bash
-      working-directory: protocol-models/typescript
-      run: |
-        npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-        npm publish
-      env:
-        NPM_TOKEN: ${{ inputs.npm_token }}
