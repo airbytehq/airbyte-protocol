@@ -133,7 +133,7 @@ definitions:
         type: string
         description: |-
           The absolute path to the referenced file in the staging area.
-      file_relative_path:
+      source_file_relative_path:
         type: string
         description: |-
           The relative path to the referenced file in source.
