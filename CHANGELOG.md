@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.5](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.4...v0.14.5) (2025-04-04)
+
+
+### Bug Fixes
+
+* "fix: remove V1 models" ([#125](https://github.com/airbytehq/airbyte-protocol/issues/125)) ([9cbdde0](https://github.com/airbytehq/airbyte-protocol/commit/9cbdde05d686bbc3b5e4d1fb4146b105fbdade72))
+
 ## [0.14.4](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.3...v0.14.4) (2025-04-03)
 
 
