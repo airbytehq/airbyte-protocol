@@ -122,6 +122,25 @@ definitions:
           - SOURCE_RETRIEVAL_ERROR
           # Errors casting to appropriate type
           - DESTINATION_TYPECAST_ERROR
+  AirbyteFileTransferMessage:
+    type: object
+    additionalProperties: true
+    required:
+      - stream
+      - file
+      - emitted_at
+    properties:
+      namespace:
+        description: "namespace the data is associated with"
+        type: string
+      stream:
+        description: "stream the data is associated with"
+        type: string
+      file:
+        "$ref": "#/definitions/AirbyteFileType"
+      emitted_at:
+        description: "when the data was emitted from the source. epoch in millisecond."
+        type: integer
   AirbyteStateMessage:
     type: object
     additionalProperties: true
@@ -176,6 +195,30 @@ definitions:
         type: array
         items:
           "$ref": "#/definitions/AirbyteStreamState"
+  AirbyteFileType:
+    type: object
+    additionalProperties: true
+    required:
+      - file_url
+      - file_relative_path
+      - modified
+      - bytes
+    properties:
+      file_url:
+        description: "local path to file"
+        type: string
+      file_relative_path:
+        description: "relative path to file"
+        type: string
+      source_file_url:
+        description: "source file path"
+        type: string
+      modified:
+        description: "file modified date. epoch in millisecond"
+        type: string
+      bytes:
+        description: "file size in bytes"
+        type: integer
   StreamDescriptor:
     type: object
     additionalProperties: true
