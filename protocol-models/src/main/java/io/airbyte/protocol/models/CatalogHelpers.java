@@ -2,14 +2,10 @@
  * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
-package io.airbyte.protocol.models.v0;
+package io.airbyte.protocol.models;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.annotations.VisibleForTesting;
-import io.airbyte.protocol.models.Field;
-import io.airbyte.protocol.models.JsonSchemaType;
-import io.airbyte.protocol.models.JsonSchemas;
-import io.airbyte.protocol.models.Jsons;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -105,7 +101,7 @@ public class CatalogHelpers {
    * Extracts {@link StreamDescriptor} for a given {@link AirbyteStream}.
    *
    * @param airbyteStream stream
-   * @return stream descriptor
+   * @return stream descriptor.
    */
   public static StreamDescriptor extractDescriptor(final ConfiguredAirbyteStream airbyteStream) {
     return extractDescriptor(airbyteStream.getStream());
@@ -115,7 +111,7 @@ public class CatalogHelpers {
    * Extracts {@link StreamDescriptor} for a given {@link ConfiguredAirbyteStream}.
    *
    * @param airbyteStream stream
-   * @return stream descriptor
+   * @return stream descriptor.
    */
   public static StreamDescriptor extractDescriptor(final AirbyteStream airbyteStream) {
     return new StreamDescriptor().withName(airbyteStream.getName())
@@ -126,7 +122,7 @@ public class CatalogHelpers {
    * Extracts {@link StreamDescriptor}s for each stream in a given {@link ConfiguredAirbyteCatalog}.
    *
    * @param configuredCatalog catalog
-   * @return list of stream descriptors
+   * @return list of stream descriptors.
    */
   public static List<StreamDescriptor> extractStreamDescriptors(
                                                                 final ConfiguredAirbyteCatalog configuredCatalog) {
@@ -137,7 +133,7 @@ public class CatalogHelpers {
    * Extracts {@link StreamDescriptor}s for each stream in a given {@link AirbyteCatalog}.
    *
    * @param catalog catalog
-   * @return list of stream descriptors
+   * @return list of stream descriptors.
    */
   public static List<StreamDescriptor> extractStreamDescriptors(final AirbyteCatalog catalog) {
     return catalog.getStreams()
@@ -151,7 +147,7 @@ public class CatalogHelpers {
    * given {@link ConfiguredAirbyteCatalog}.
    *
    * @param configuredCatalog catalog
-   * @return list of stream descriptors
+   * @return list of stream descriptors.
    */
   public static List<StreamDescriptor> extractIncrementalStreamDescriptors(
                                                                            final ConfiguredAirbyteCatalog configuredCatalog) {
@@ -229,10 +225,10 @@ public class CatalogHelpers {
   }
 
   /**
-   * Returns all field names from the provided JSON schema.
+   * Returns the set of field names in the JSON schema.
    *
    * @param jsonSchema - a JSONSchema node
-   * @return a set of all keys for all objects within the node.
+   * @return a set of all keys for all objects within the node
    */
   @VisibleForTesting
   protected static Set<String> getAllFieldNames(final JsonNode jsonSchema) {

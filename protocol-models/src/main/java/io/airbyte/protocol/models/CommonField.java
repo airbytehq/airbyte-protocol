@@ -2,7 +2,7 @@
  * Copyright (c) 2020-2025 Airbyte, Inc., all rights reserved.
  */
 
-package io.airbyte.protocol.models.v0;
+package io.airbyte.protocol.models;
 
 import java.util.List;
 import java.util.Objects;
