@@ -574,7 +574,7 @@ definitions:
       include_files:
         type: boolean
         description: |-
-          If the stream is_file_based, determines whether to include the associated files in the sync.
+          If the stream is_file_based, determines whether to include the associated files in the sync. Otherwise, this property will be ignored.
   SyncMode:
     type: string
     enum:
