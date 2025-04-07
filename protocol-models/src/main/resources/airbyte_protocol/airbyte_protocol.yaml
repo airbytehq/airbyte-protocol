@@ -76,6 +76,9 @@ definitions:
       meta:
         description: Information about this record added mid-sync
         "$ref": "#/definitions/AirbyteRecordMessageMeta"
+      file_reference:
+        description: An internal facing reference to the file described by the record if applicable.
+        "$ref": "#/definitions/AirbyteRecordMessageFileReference"
   AirbyteRecordMessageMeta:
     type: object
     additionalProperties: true
@@ -122,6 +125,22 @@ definitions:
           - SOURCE_RETRIEVAL_ERROR
           # Errors casting to appropriate type
           - DESTINATION_TYPECAST_ERROR
+  AirbyteRecordMessageFileReference:
+    type: object
+    additionalProperties: true
+    properties:
+      staging_file_url:
+        type: string
+        description: |-
+          The absolute path to the referenced file in the staging area.
+      source_file_relative_path:
+        type: string
+        description: |-
+          The relative path to the referenced file in source.
+      file_size_bytes:
+        type: integer
+        description: |-
+          The size of the referenced file in bytes.
   AirbyteStateMessage:
     type: object
     additionalProperties: true
@@ -484,6 +503,10 @@ definitions:
           If the stream is resumable or not. Should be set to true if the stream supports incremental. Defaults to false.
           Primarily used by the Platform in Full Refresh to determine if a Full Refresh stream should actually be treated as incremental within a job.
         type: boolean
+      is_file_based:
+        type: boolean
+        description: |-
+          This stream describes a stream of files and their metadata.
   ConfiguredAirbyteCatalog:
     type: object
     additionalProperties: true
@@ -545,6 +568,10 @@ definitions:
           If this is null, it means that the platform is not supporting the refresh and it is expected that no extra id will be added to the records and no data from previous generation will be cleanup.
           "
         type: integer
+      include_files:
+        type: boolean
+        description: |-
+          If the stream is_file_based, determines whether to include the associated files in the sync. Otherwise, this property will be ignored.
   SyncMode:
     type: string
     enum:
