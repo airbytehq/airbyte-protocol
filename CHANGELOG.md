@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.5...v0.15.0) (2025-04-07)
+
+
+### Features
+
+* add support for file+metadata streams ([#119](https://github.com/airbytehq/airbyte-protocol/issues/119)) ([b4b396a](https://github.com/airbytehq/airbyte-protocol/commit/b4b396a288015fa105d62c35a935fff825ac42c1))
+
 ## [0.14.5](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.4...v0.14.5) (2025-04-04)
 
 
