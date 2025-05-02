@@ -584,6 +584,10 @@ definitions:
       - overwrite
       #- upsert_dedup # TODO chris: SCD Type 1 can be implemented later
       - append_dedup # SCD Type 1 & 2
+      - insert
+      - update
+      - upsert
+      - soft_delete
   # Deprecated
   OAuth2Specification:
     type: object
