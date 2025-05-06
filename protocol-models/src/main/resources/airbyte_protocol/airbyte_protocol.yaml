@@ -591,13 +591,25 @@ definitions:
   DiscoveredDestination:
     type: object
     additionalProperties: true
+    description: Discovered destination
+    required:
+      - objects
+    properties:
+      objects:
+        description: An array of objects that are available in the destination.
+        type: array
+        items:
+          "$ref": "#/definitions/DiscoveredDestinationObject"
+  DiscoveredDestinationObject:
+    type: object
+    additionalProperties: true
     description: Return value for a discover command on a catalog. This should indicate which operations are supported for which objects.
     required:
-      - stream_name
+      - object_name
       - operations
     properties:
-      stream_name:
-        description: The name of the stream
+      object_name:
+        description: The name of the object
         type: string
       operations:
         description: The operations supported for this stream
