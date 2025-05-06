@@ -622,6 +622,7 @@ definitions:
     description: An operation supported on a destination object including fields that are involved in this operation.
     required:
       - mode
+      - available_fields
       - mandatory_fields
       - record_matchers
     properties:
@@ -642,14 +643,12 @@ definitions:
         items:
           "$ref": "#/definitions/DestinationObjectProperty"
       record_matchers:
-        description: If an object can be matched in the destination, this is the list of keys that can be used in order to match the object.
+        description: If an object can be matched in the destination, this is the list of keys that can be used in order to match the object. Those matchers can be composite keys.
         type: array
         items:
           type: array
           items:
-            type: array
-            items:
-              type: string
+            "$ref": "#/definitions/DestinationObjectProperty"
   DestinationObjectProperty:
     type: object
     additionalProperties: true
