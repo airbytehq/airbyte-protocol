@@ -588,6 +588,56 @@ definitions:
       - update
       - upsert
       - soft_delete
+  DiscoveredDestination:
+    type: object
+    additionalProperties: true
+    description: Return value for a discover command on a catalog. This should indicate which operations are supported for which objects.
+    required:
+      - stream_name
+      - operations
+    properties:
+      stream_name:
+        description: The name of the stream
+        type: string
+      operations:
+        description: The operations supported for this stream
+        type: array
+        items:
+          "$ref": "#/definitions/DestinationOperation"
+  DestinationOperation:
+    type: object
+    additionalProperties: true
+    description: An operation supported on a destination object including fields that are involved in this operation.
+    required:
+      - mode
+      - mandatory_fields
+      - record_matcher
+    properties:
+      additional_fields:
+        description: Whether the operation allows fields that are not defined as part of the mandatory or available fields.
+        type: boolean
+        default: false
+      available_fields:
+        description: A list of fields that are available to be modified even though they are not mandatory.
+        type: array
+        items:
+          type: string
+      mode:
+        "$ref": "#/definitions/DestinationSyncMode"
+      mandatory_fields:
+        description: A list of fields that need to be provided in order to perform the operation.
+        type: array
+        items:
+          type: string
+      record_matchers:
+        description: If an object can be matched in the destination, this is the list of keys that can be used in order to match the object.
+        type: array
+        items:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
   # Deprecated
   OAuth2Specification:
     type: object
