@@ -611,7 +611,7 @@ definitions:
     required:
       - mode
       - mandatory_fields
-      - record_matcher
+      - record_matchers
     properties:
       additional_fields:
         description: Whether the operation allows fields that are not defined as part of the mandatory or available fields.
