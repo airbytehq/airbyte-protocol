@@ -633,14 +633,14 @@ definitions:
         description: A list of fields that are available to be modified even though they are not mandatory.
         type: array
         items:
-          type: string
+          "$ref": "#/definitions/DestinationObjectProperty"
       mode:
         "$ref": "#/definitions/DestinationSyncMode"
       mandatory_fields:
         description: A list of fields that need to be provided in order to perform the operation.
         type: array
         items:
-          type: string
+          "$ref": "#/definitions/DestinationObjectProperty"
       record_matchers:
         description: If an object can be matched in the destination, this is the list of keys that can be used in order to match the object.
         type: array
@@ -648,6 +648,24 @@ definitions:
           type: array
           items:
             type: array
+            items:
+              type: string
+  DestinationObjectProperty:
+    type: object
+    additionalProperties: true
+    description: Describe a property in the destination object.
+    required:
+      - name
+      - type
+    properties:
+      name:
+        type: string
+        description: Name of the property in the destination object
+      type:
+        description: Type of the property in the destination object
+        oneOf:
+          - type: string
+          - type: array
             items:
               type: string
   # Deprecated
