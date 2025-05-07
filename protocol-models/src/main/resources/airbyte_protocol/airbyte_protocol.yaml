@@ -539,6 +539,8 @@ definitions:
       destination_sync_mode:
         "$ref": "#/definitions/DestinationSyncMode"
         default: append
+      destination_object_name:
+        type: string
       primary_key:
         description: Paths to the fields that will be used as primary key. This field is REQUIRED if `destination_sync_mode` is `*_dedup`. Otherwise it is ignored.
         type: array
@@ -584,6 +586,48 @@ definitions:
       - overwrite
       #- upsert_dedup # TODO chris: SCD Type 1 can be implemented later
       - append_dedup # SCD Type 1 & 2
+      - insert
+      - update
+      - upsert
+      - soft_delete
+  DestinationCatalog:
+    type: object
+    additionalProperties: true
+    description: Catalog for a destination
+    required:
+      - operations
+    properties:
+      operations:
+        description: An array of operations that can be performed on destination objects.
+        type: array
+        items:
+          "$ref": "#/definitions/DestinationOperation"
+  DestinationOperation:
+    type: object
+    additionalProperties: true
+    description: A possible operation on a destination object.
+    required:
+      - object_name
+      - operation
+      - json_schema
+    properties:
+      object_name:
+        description: The name of the destination object.
+        type: string
+      operation:
+        description: The operation to be performed on the destination object.
+        "$ref": "#/definitions/DestinationSyncMode"
+      json_schema:
+        description: Stream schema using Json Schema specs.
+        type: object
+        existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      record_matchers:
+        description: Keys on which we can map to the destination object. Those keys can be composite.
+        type: array
+        items:
+          type: array
+          items:
+            type: string
   # Deprecated
   OAuth2Specification:
     type: object
