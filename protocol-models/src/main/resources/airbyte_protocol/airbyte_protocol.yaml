@@ -609,13 +609,13 @@ definitions:
     description: A possible operation on a destination object.
     required:
       - object_name
-      - operation
+      - sync_mode
       - json_schema
     properties:
       object_name:
         description: The name of the destination object.
         type: string
-      syncMode:
+      sync_mode:
         description: The sync mode to be performed on the destination object.
         "$ref": "#/definitions/DestinationSyncMode"
       json_schema:
