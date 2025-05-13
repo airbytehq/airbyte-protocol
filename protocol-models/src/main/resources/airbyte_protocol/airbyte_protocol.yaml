@@ -588,11 +588,8 @@ definitions:
     enum:
       - append
       - overwrite
-      #- upsert_dedup # TODO chris: SCD Type 1 can be implemented later
-      - append_dedup # SCD Type 1 & 2
-      - insert
+      - append_dedup
       - update
-      - upsert
       - soft_delete
   DestinationCatalog:
     type: object
@@ -725,7 +722,7 @@ definitions:
         properties:
           auth_type:
             type: string
-            enum: [ "oauth2.0" ] # Future auth types should be added here
+            enum: ["oauth2.0"] # Future auth types should be added here
           oauth2Specification:
             description: If the connector supports OAuth, this field should be non-null.
             "$ref": "#/definitions/OAuth2Specification"
