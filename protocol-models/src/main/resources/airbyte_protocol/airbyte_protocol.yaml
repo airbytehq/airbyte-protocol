@@ -615,15 +615,15 @@ definitions:
       object_name:
         description: The name of the destination object.
         type: string
-      operation:
-        description: The operation to be performed on the destination object.
+      syncMode:
+        description: The sync mode to be performed on the destination object.
         "$ref": "#/definitions/DestinationSyncMode"
       json_schema:
         description: Stream schema using Json Schema specs.
         type: object
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
       record_matchers:
-        description: Keys on which we can map to the destination object. Those keys can be composite.
+        description: A list of keys that can be used to match a record in the destination object. The inner array of strings represents a nested object path.
         type: array
         items:
           type: array
