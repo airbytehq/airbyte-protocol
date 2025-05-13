@@ -622,7 +622,7 @@ definitions:
         description: Stream schema using Json Schema specs.
         type: object
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
-      record_matchers:
+      matching_keys:
         description: A list of keys that can be used to match a record in the destination object. The inner array of strings represents a nested object path.
         type: array
         items:
