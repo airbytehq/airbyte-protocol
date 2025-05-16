@@ -465,11 +465,15 @@ definitions:
     required:
       - name
       - json_schema
-      - supported_sync_modes
     properties:
       name:
         type: string
         description: Stream's name.
+      destination_object:
+        description: |-
+          The destination object name. This is the name of the table or file that will be created in the destination.
+          This field is optional and should only be used for destination catalogs.
+        type: string
       json_schema:
         description: Stream schema using Json Schema specs.
         type: object
@@ -480,6 +484,10 @@ definitions:
         minItems: 1
         items:
           "$ref": "#/definitions/SyncMode"
+      destination_sync_mode:
+        description: |-
+          For destination streams, the sync mode that the destination should use when writing to this object.
+        "$ref": "#/definitions/DestinationSyncMode"
       source_defined_cursor:
         description: |-
           If the source defines the cursor field, then any other cursor field inputs will be ignored. If it does not,
@@ -493,6 +501,14 @@ definitions:
           type: string
       source_defined_primary_key:
         description: If the source defines the primary key, paths to the fields that will be used as a primary key. If not provided by the source, the end user will have to specify the primary key themselves.
+        type: array
+        items:
+          type: array
+          items:
+            type: string
+      matching_keys:
+        description: |-
+          Paths to the fields that can be used as a matching key in the destination.
         type: array
         items:
           type: array
