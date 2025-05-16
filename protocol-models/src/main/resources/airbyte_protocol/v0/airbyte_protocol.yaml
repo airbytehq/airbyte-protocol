@@ -469,10 +469,8 @@ definitions:
       name:
         type: string
         description: Stream's name.
-      destination_object:
-        description: |-
-          The destination object name. This is the name of the table or file that will be created in the destination.
-          This field is optional and should only be used for destination catalogs.
+      destination_object_name:
+        description: The name of the destination object.
         type: string
       json_schema:
         description: Stream schema using Json Schema specs.
@@ -485,8 +483,7 @@ definitions:
         items:
           "$ref": "#/definitions/SyncMode"
       destination_sync_mode:
-        description: |-
-          For destination streams, the sync mode that the destination should use when writing to this object.
+        description: The sync mode to be performed on the destination object.
         "$ref": "#/definitions/DestinationSyncMode"
       source_defined_cursor:
         description: |-
@@ -507,8 +504,7 @@ definitions:
           items:
             type: string
       matching_keys:
-        description: |-
-          Paths to the fields that can be used as a matching key in the destination.
+        description: A list of keys that can be used to match a record in the destination object. The inner array of strings represents a nested object path.
         type: array
         items:
           type: array
