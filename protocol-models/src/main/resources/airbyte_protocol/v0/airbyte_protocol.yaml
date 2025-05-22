@@ -594,6 +594,44 @@ definitions:
       - append_dedup
       - update
       - soft_delete
+  DestinationCatalog:
+    type: object
+    additionalProperties: true
+    description: Catalog for a destination
+    required:
+      - operations
+    properties:
+      operations:
+        description: An array of operations that can be performed on destination objects.
+        type: array
+        items:
+          "$ref": "#/definitions/DestinationOperation"
+  DestinationOperation:
+    type: object
+    additionalProperties: true
+    description: A possible operation on a destination object.
+    required:
+      - object_name
+      - sync_mode
+      - json_schema
+    properties:
+      object_name:
+        description: The name of the destination object.
+        type: string
+      sync_mode:
+        description: The sync mode to be performed on the destination object.
+        "$ref": "#/definitions/DestinationSyncMode"
+      json_schema:
+        description: Stream schema using Json Schema specs.
+        type: object
+        existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      matching_keys:
+        description: A list of keys that can be used to match a record in the destination object. The inner array of strings represents a nested object path.
+        type: array
+        items:
+          type: array
+          items:
+            type: string
   OAuth2Specification:
     type: object
     additionalProperties: true
@@ -983,41 +1021,3 @@ definitions:
                 }
         type: object
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
-  DestinationCatalog:
-    type: object
-    additionalProperties: true
-    description: Catalog for a destination
-    required:
-      - operations
-    properties:
-      operations:
-        description: An array of operations that can be performed on destination objects.
-        type: array
-        items:
-          "$ref": "#/definitions/DestinationOperation"
-  DestinationOperation:
-    type: object
-    additionalProperties: true
-    description: A possible operation on a destination object.
-    required:
-      - object_name
-      - sync_mode
-      - json_schema
-    properties:
-      object_name:
-        description: The name of the destination object.
-        type: string
-      sync_mode:
-        description: The sync mode to be performed on the destination object.
-        "$ref": "#/definitions/DestinationSyncMode"
-      json_schema:
-        description: Stream schema using Json Schema specs.
-        type: object
-        existingJavaType: com.fasterxml.jackson.databind.JsonNode
-      matching_keys:
-        description: A list of keys that can be used to match a record in the destination object. The inner array of strings represents a nested object path.
-        type: array
-        items:
-          type: array
-          items:
-            type: string
