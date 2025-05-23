@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.15.0...v0.16.0) (2025-05-23)
+
+
+### Features
+
+* add destination_catalog message ([#130](https://github.com/airbytehq/airbyte-protocol/issues/130)) ([1ceab1e](https://github.com/airbytehq/airbyte-protocol/commit/1ceab1e07fc03660543c05c8aa86efee94c62850))
+
 ## [0.15.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.14.5...v0.15.0) (2025-04-07)
 
 
