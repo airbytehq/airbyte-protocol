@@ -29,6 +29,7 @@ definitions:
           - CATALOG
           - TRACE
           - CONTROL
+          - DESTINATION_CATALOG
       log:
         description: "log message: any kind of logging you want the platform to know about."
         "$ref": "#/definitions/AirbyteLogMessage"
@@ -52,6 +53,9 @@ definitions:
       control:
         description: "connector config message: a message to communicate an updated configuration from a connector that should be persisted"
         "$ref": "#/definitions/AirbyteControlMessage"
+      destination_catalog:
+        description: "destination catalog message: the catalog"
+        "$ref": "#/definitions/DestinationCatalog"
   AirbyteRecordMessage:
     type: object
     additionalProperties: true
@@ -539,6 +543,8 @@ definitions:
       destination_sync_mode:
         "$ref": "#/definitions/DestinationSyncMode"
         default: append
+      destination_object_name:
+        type: string
       primary_key:
         description: Paths to the fields that will be used as primary key. This field is REQUIRED if `destination_sync_mode` is `*_dedup`. Otherwise it is ignored.
         type: array
@@ -582,8 +588,47 @@ definitions:
     enum:
       - append
       - overwrite
-      #- upsert_dedup # TODO chris: SCD Type 1 can be implemented later
-      - append_dedup # SCD Type 1 & 2
+      - append_dedup
+      - update
+      - soft_delete
+  DestinationCatalog:
+    type: object
+    additionalProperties: true
+    description: Catalog for a destination
+    required:
+      - operations
+    properties:
+      operations:
+        description: An array of operations that can be performed on destination objects.
+        type: array
+        items:
+          "$ref": "#/definitions/DestinationOperation"
+  DestinationOperation:
+    type: object
+    additionalProperties: true
+    description: A possible operation on a destination object.
+    required:
+      - object_name
+      - sync_mode
+      - schema
+    properties:
+      object_name:
+        description: The name of the destination object.
+        type: string
+      sync_mode:
+        description: The sync mode to be performed on the destination object.
+        "$ref": "#/definitions/DestinationSyncMode"
+      schema:
+        description: Stream schema using Json Schema specs.
+        type: object
+        existingJavaType: com.fasterxml.jackson.databind.JsonNode
+      matching_keys:
+        description: A list of keys that can be used to match a record in the destination object. The inner array of strings represents a nested object path.
+        type: array
+        items:
+          type: array
+          items:
+            type: string
   # Deprecated
   OAuth2Specification:
     type: object
@@ -677,7 +722,7 @@ definitions:
         properties:
           auth_type:
             type: string
-            enum: [ "oauth2.0" ] # Future auth types should be added here
+            enum: ["oauth2.0"] # Future auth types should be added here
           oauth2Specification:
             description: If the connector supports OAuth, this field should be non-null.
             "$ref": "#/definitions/OAuth2Specification"
