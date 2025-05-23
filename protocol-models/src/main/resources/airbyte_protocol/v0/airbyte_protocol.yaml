@@ -613,7 +613,7 @@ definitions:
     required:
       - object_name
       - sync_mode
-      - json_schema
+      - schema
     properties:
       object_name:
         description: The name of the destination object.
