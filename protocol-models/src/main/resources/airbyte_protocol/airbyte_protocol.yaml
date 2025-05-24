@@ -751,6 +751,12 @@ definitions:
       protocol_version:
         description: "the Airbyte Protocol version supported by the connector. Protocol versioning uses SemVer. "
         type: string
+      spec_version:
+        type: integer
+        description: |-
+          The version of the spec - if there is a change that requires to migrate the config of an actor, this number should be incremented.
+          This allows the platform to track whether a persisted config object is up to date or not.
+          Specifying a version is optional, but if a version of the connector specifies it, all subsequent versions must specify it as well. The number must either be incremented or stay the same.
   OAuthConfigSpecification:
     type: object
     additionalProperties: true
