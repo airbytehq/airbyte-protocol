@@ -610,7 +610,7 @@ definitions:
     required:
       - object_name
       - sync_mode
-      - schema
+      - json_schema
     properties:
       object_name:
         description: The name of the destination object.
@@ -618,7 +618,7 @@ definitions:
       sync_mode:
         description: The sync mode to be performed on the destination object.
         "$ref": "#/definitions/DestinationSyncMode"
-      schema:
+      json_schema:
         description: Stream schema using Json Schema specs.
         type: object
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
