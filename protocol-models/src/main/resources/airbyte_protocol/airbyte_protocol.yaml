@@ -1,10 +1,10 @@
 ---
 "$schema": http://json-schema.org/draft-07/schema#
-"$id": https://github.com/airbytehq/airbyte/blob/master/airbyte-protocol/models/src/main/resources/airbyte_protocol/airbyte_protocol.yaml
+"$id": https://github.com/airbytehq/airbyte/blob/master/airbyte-protocol/models/src/main/resources/airbyte_protocol/v1/airbyte_protocol.yaml
 title: AirbyteProtocol
 type: object
 description: AirbyteProtocol structs
-version: 0.3.2
+version: 1.0.0
 properties:
   airbyte_message:
     "$ref": "#/definitions/AirbyteMessage"
@@ -83,7 +83,6 @@ definitions:
       file_reference:
         description: An internal facing reference to the file described by the record if applicable.
         "$ref": "#/definitions/AirbyteRecordMessageFileReference"
-
   AirbyteRecordMessageMeta:
     type: object
     additionalProperties: true
@@ -93,7 +92,6 @@ definitions:
         type: array
         items:
           "$ref": "#/definitions/AirbyteRecordMessageMetaChange"
-
   AirbyteRecordMessageMetaChange:
     type: object
     additionalProperties: true
@@ -147,7 +145,6 @@ definitions:
         type: integer
         description: |-
           The size of the referenced file in bytes.
-
   AirbyteStateMessage:
     type: object
     additionalProperties: true
@@ -264,8 +261,8 @@ definitions:
           - STREAM_STATUS
           - ANALYTICS
       emitted_at:
-        # TODO : This should have been an integer instead of a number, need to fix this
         description: "the time in ms that the message was emitted"
+        # TODO : This should have been an integer instead of a number, need to fix this
         type: number
       error:
         description: "error trace message: the error object"
@@ -632,6 +629,7 @@ definitions:
           type: array
           items:
             type: string
+  # Deprecated
   OAuth2Specification:
     type: object
     additionalProperties: true
