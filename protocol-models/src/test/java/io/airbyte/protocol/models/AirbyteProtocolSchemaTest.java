@@ -7,7 +7,7 @@ package io.airbyte.protocol.models;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import io.airbyte.protocol.models.AirbyteMessage.Type;
+import io.airbyte.protocol.models.v0.AirbyteMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -37,14 +37,14 @@ class AirbyteProtocolSchemaTest {
 
   @Test
   void testVersionedObjectsAccessibility() {
-    final io.airbyte.protocol.models.AirbyteMessage message = new io.airbyte.protocol.models.AirbyteMessage()
-        .withType(Type.SPEC);
-    final io.airbyte.protocol.models.v0.AirbyteMessage messageV0 = new io.airbyte.protocol.models.v0.AirbyteMessage()
-        .withType(io.airbyte.protocol.models.v0.AirbyteMessage.Type.SPEC);
+    final AirbyteMessage message = new AirbyteMessage()
+        .withType(AirbyteMessage.Type.SPEC);
+    final AirbyteMessage messageV0 = new AirbyteMessage()
+        .withType(AirbyteMessage.Type.SPEC);
 
     // This only works as long as the default version and v0 are equal
-    final io.airbyte.protocol.models.v0.AirbyteMessage deserializedMessage =
-        Jsons.deserialize(Jsons.serialize(message), io.airbyte.protocol.models.v0.AirbyteMessage.class);
+    final AirbyteMessage deserializedMessage =
+        Jsons.deserialize(Jsons.serialize(message), AirbyteMessage.class);
     assertEquals(messageV0, deserializedMessage);
   }
 
