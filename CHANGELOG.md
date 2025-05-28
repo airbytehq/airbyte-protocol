@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.16.0...v0.17.0) (2025-05-28)
+
+
+### Features
+
+* remove v1 models ([#133](https://github.com/airbytehq/airbyte-protocol/issues/133)) ([d888b19](https://github.com/airbytehq/airbyte-protocol/commit/d888b194787f984ddc6d6018fd45ae92c9ef97b4))
+
 ## [0.16.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.15.0...v0.16.0) (2025-05-26)
 
 
