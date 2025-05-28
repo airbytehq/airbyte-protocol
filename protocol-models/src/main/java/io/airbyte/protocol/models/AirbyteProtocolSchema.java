@@ -11,7 +11,7 @@ public enum AirbyteProtocolSchema {
 
   PROTOCOL("airbyte_protocol.yaml");
 
-  static final Path KNOWN_SCHEMAS_ROOT = JsonSchemas.prepareSchemas("airbyte_protocol", AirbyteProtocolSchema.class);
+  static final Path KNOWN_SCHEMAS_ROOT = JsonSchemas.prepareSchemas("airbyte_protocol/v0", AirbyteProtocolSchema.class);
 
   private final String schemaFilename;
 

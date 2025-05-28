@@ -6,7 +6,6 @@ package io.airbyte.protocol.models.v0;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.annotations.VisibleForTesting;
-import io.airbyte.protocol.models.Field;
 import io.airbyte.protocol.models.JsonSchemaType;
 import io.airbyte.protocol.models.JsonSchemas;
 import io.airbyte.protocol.models.Jsons;
