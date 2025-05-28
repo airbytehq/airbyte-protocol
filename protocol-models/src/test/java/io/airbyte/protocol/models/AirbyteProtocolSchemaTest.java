@@ -7,11 +7,10 @@ package io.airbyte.protocol.models;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import io.airbyte.protocol.models.v0.AirbyteMessage;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-
-import io.airbyte.protocol.models.v0.AirbyteMessage;
 import org.junit.jupiter.api.Test;
 
 class AirbyteProtocolSchemaTest {

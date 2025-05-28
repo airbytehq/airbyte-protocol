@@ -8,11 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Sets;
-import java.util.List;
-import java.util.Set;
-
 import io.airbyte.protocol.models.JsonSchemaType;
 import io.airbyte.protocol.models.Jsons;
+import java.util.List;
+import java.util.Set;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
