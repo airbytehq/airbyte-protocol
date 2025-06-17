@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.17.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.17.0...v0.17.1) (2025-06-17)
+
+
+### Bug Fixes
+
+* python generation scripts ([#137](https://github.com/airbytehq/airbyte-protocol/issues/137)) ([772c73b](https://github.com/airbytehq/airbyte-protocol/commit/772c73be97321f1e44f6c1ee7c5e9694b24541dd))
+
 ## [0.17.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.16.0...v0.17.0) (2025-05-28)
 
 
