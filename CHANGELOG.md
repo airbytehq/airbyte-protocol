@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.0](https://github.com/airbytehq/airbyte-protocol/compare/v0.17.1...v0.18.0) (2025-06-25)
+
+
+### Features
+
+* add rejected record stats support ([#139](https://github.com/airbytehq/airbyte-protocol/issues/139)) ([8dc655f](https://github.com/airbytehq/airbyte-protocol/commit/8dc655f2816fca7de22dcd5ebfa1e41478110b32))
+
 ## [0.17.1](https://github.com/airbytehq/airbyte-protocol/compare/v0.17.0...v0.17.1) (2025-06-17)
 
 
