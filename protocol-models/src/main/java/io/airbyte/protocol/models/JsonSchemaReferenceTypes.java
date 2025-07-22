@@ -35,6 +35,7 @@ public class JsonSchemaReferenceTypes {
   public static final String TIMESTAMP_WITHOUT_TIMEZONE_REFERENCE = WELL_KNOWN_TYPES_FILENAME + "#/definitions/TimestampWithoutTimezone";
   public static final String TIME_WITH_TIMEZONE_REFERENCE = WELL_KNOWN_TYPES_FILENAME + "#/definitions/TimeWithTimezone";
   public static final String TIME_WITHOUT_TIMEZONE_REFERENCE = WELL_KNOWN_TYPES_FILENAME + "#/definitions/TimeWithoutTimezone";
+  public static final String GEOMETRY_REFERENCE = WELL_KNOWN_TYPES_FILENAME + "#/definitions/Geometry";
 
   /**
    * This is primarily useful for migrating from protocol v0 to v1. It provides a mapping from the old
@@ -50,7 +51,8 @@ public class JsonSchemaReferenceTypes {
       "string", STRING_REFERENCE,
       "number", NUMBER_REFERENCE,
       "boolean", BOOLEAN_REFERENCE,
-      "date", DATE_REFERENCE);
+      "date", DATE_REFERENCE,
+      "geometry", GEOMETRY_REFERENCE);
 
   public static final Map<String, ObjectNode> REFERENCE_TYPE_TO_OLD_TYPE = Map.of(
       TIMESTAMP_WITH_TIMEZONE_REFERENCE,
@@ -93,6 +95,10 @@ public class JsonSchemaReferenceTypes {
       BINARY_DATA_REFERENCE, (ObjectNode) Jsons.deserialize(
           """
           {"type": "string", "contentEncoding": "base64"}
+          """),
+      GEOMETRY_REFERENCE, (ObjectNode) Jsons.deserialize(
+          """
+          {"type": "object"}
           """));
 
 }
