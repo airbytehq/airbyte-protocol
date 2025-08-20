@@ -586,6 +586,11 @@ definitions:
         type: boolean
         description: |-
           If the stream is_file_based, determines whether to include the associated files in the sync. Otherwise, this property will be ignored.
+      mappers:
+        description: List of mappers to apply to this stream for data transformation
+        type: array
+        items:
+          "$ref": "#/definitions/ConfiguredStreamMapper"
   SyncMode:
     type: string
     enum:
@@ -1026,3 +1031,144 @@ definitions:
                 }
         type: object
         existingJavaType: com.fasterxml.jackson.databind.JsonNode
+  ConfiguredStreamMapper:
+    type: object
+    additionalProperties: true
+    required:
+      - type
+      - mapper_configuration
+    properties:
+      id:
+        description: Optional unique identifier for the mapper
+        type: string
+      type:
+        "$ref": "#/definitions/StreamMapperType"
+      mapper_configuration:
+        "$ref": "#/definitions/MapperConfiguration"
+  StreamMapperType:
+    type: string
+    description: The type of mapper to apply
+    enum:
+      - hashing
+      - field-renaming
+      - row-filtering
+      - encryption
+      - field-filtering
+  MapperConfiguration:
+    description: Configuration for a specific mapper type
+    oneOf:
+      - "$ref": "#/definitions/HashingMapperConfiguration"
+      - "$ref": "#/definitions/FieldRenamingMapperConfiguration"
+      - "$ref": "#/definitions/RowFilteringMapperConfiguration"
+      - "$ref": "#/definitions/EncryptionMapperConfiguration"
+      - "$ref": "#/definitions/FieldFilteringMapperConfiguration"
+  HashingMapperConfiguration:
+    type: object
+    additionalProperties: true
+    required:
+      - target_field
+      - method
+    properties:
+      target_field:
+        description: The field to hash
+        type: string
+      field_name_suffix:
+        description: Suffix to append to the hashed field name
+        type: string
+      method:
+        description: Hashing algorithm to use
+        type: string
+        enum:
+          - MD2
+          - MD5
+          - SHA-1
+          - SHA-256
+          - SHA-384
+          - SHA-512
+  FieldRenamingMapperConfiguration:
+    type: object
+    additionalProperties: true
+    required:
+      - original_field_name
+      - new_field_name
+    properties:
+      original_field_name:
+        description: The original field name to rename
+        type: string
+      new_field_name:
+        description: The new field name
+        type: string
+  RowFilteringMapperConfiguration:
+    type: object
+    additionalProperties: true
+    required:
+      - conditions
+    properties:
+      conditions:
+        "$ref": "#/definitions/FilterCondition"
+  FilterCondition:
+    type: object
+    additionalProperties: true
+    required:
+      - type
+    properties:
+      type:
+        type: string
+        enum:
+          - EQUAL
+          - NOT
+      field_name:
+        description: Field name for EQUAL conditions
+        type: string
+      comparison_value:
+        description: Value to compare against for EQUAL conditions
+        type: string
+      condition:
+        description: Nested condition for NOT conditions
+        "$ref": "#/definitions/FilterCondition"
+  EncryptionMapperConfiguration:
+    type: object
+    additionalProperties: true
+    required:
+      - algorithm
+      - target_field
+    properties:
+      algorithm:
+        type: string
+        enum:
+          - RSA
+          - AES
+      target_field:
+        description: The field to encrypt
+        type: string
+      field_name_suffix:
+        description: Suffix to append to the encrypted field name
+        type: string
+      public_key:
+        description: RSA public key in hex-encoded DER format (required for RSA)
+        type: string
+      key:
+        description: AES encryption key (required for AES)
+        type: string
+      mode:
+        description: AES encryption mode (required for AES)
+        type: string
+        enum:
+          - GCM
+          - CBC
+          - ECB
+      padding:
+        description: AES padding scheme (required for AES)
+        type: string
+        enum:
+          - NoPadding
+          - PKCS5Padding
+  FieldFilteringMapperConfiguration:
+    type: object
+    additionalProperties: true
+    required:
+      - target_field
+    properties:
+      target_field:
+        description: The field to filter out
+        type: string
