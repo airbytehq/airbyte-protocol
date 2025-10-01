@@ -229,6 +229,12 @@ definitions:
           the number of records which were rejected for this state message, for this stream or global. While the value should always be a
           round number, it is defined as a double to account for integer overflows, and the value should always have a decimal point for proper serialization.
         type: number
+      additionalStats:
+        description: >
+          additional stats for this state message. The values are defined as a double to account for integer overflows, and the values should always have a decimal point for proper serialization
+        type: object
+        additionalProperties:
+          type: number
   AirbyteLogMessage:
     type: object
     additionalProperties: true
