@@ -13,6 +13,7 @@ import static io.airbyte.protocol.models.JsonSchemaReferenceTypes.STRING_REFEREN
 import static io.airbyte.protocol.models.JsonSchemaReferenceTypes.TIMESTAMP_WITHOUT_TIMEZONE_REFERENCE;
 import static io.airbyte.protocol.models.JsonSchemaReferenceTypes.TIMESTAMP_WITH_TIMEZONE_REFERENCE;
 import static io.airbyte.protocol.models.JsonSchemaReferenceTypes.TIME_WITHOUT_TIMEZONE_REFERENCE;
+import static io.airbyte.protocol.models.JsonSchemaReferenceTypes.GEOMETRY_REFERENCE;
 import static io.airbyte.protocol.models.JsonSchemaReferenceTypes.TIME_WITH_TIMEZONE_REFERENCE;
 
 import java.util.Map;
@@ -39,7 +40,8 @@ public class JsonSchemaPrimitiveUtil {
     TIME_WITHOUT_TIMEZONE_V1,
     NUMBER_V1,
     INTEGER_V1,
-    BOOLEAN_V1;
+    BOOLEAN_V1,
+    GEOMETRY_V1;
   }
 
   public static final Set<JsonSchemaPrimitive> VO_JSON_SCHEMA_PRIMITIVE_SET =
@@ -67,6 +69,7 @@ public class JsonSchemaPrimitiveUtil {
           JsonSchemaPrimitive.TIME_WITHOUT_TIMEZONE_V1, TIME_WITHOUT_TIMEZONE_REFERENCE,
           JsonSchemaPrimitive.NUMBER_V1, NUMBER_REFERENCE,
           JsonSchemaPrimitive.INTEGER_V1, INTEGER_REFERENCE,
-          JsonSchemaPrimitive.BOOLEAN_V1, BOOLEAN_REFERENCE);
+          JsonSchemaPrimitive.BOOLEAN_V1, BOOLEAN_REFERENCE,
+          JsonSchemaPrimitive.GEOMETRY_V1, GEOMETRY_REFERENCE);
 
 }

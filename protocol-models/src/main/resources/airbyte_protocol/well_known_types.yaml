@@ -73,3 +73,17 @@ definitions:
   Boolean:
     type: boolean
     description: Note the direct usage of a primitive boolean rather than string. Unlike Numbers and Integers, we don't expect unusual values  here.
+  Geometry:
+    type: object
+    description: >
+      Spatial data represented as GeoJSON FeatureCollection.
+      Contains geographic information including geometries and their associated properties.
+      Assumes EPSG:4326 coordinate reference system.
+    properties:
+      type:
+        type: string
+        enum: [FeatureCollection]
+      features:
+        type: array
+        items:
+          type: object
